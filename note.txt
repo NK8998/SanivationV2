@@ -1,0 +1,2 @@
+style the rest of the components and use a color pallete that matches(where tf will i find one)
+remember to show error banners (toaster) and alerts user when offline.

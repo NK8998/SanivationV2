@@ -1,0 +1,8 @@
+.addplus{
+    padding: 10px;
+    background-color: red;
+}
+.removing-worker{
+    position: fixed;
+    z-index: 22;
+}

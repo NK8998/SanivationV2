@@ -1,0 +1,354 @@
+.side-nav{
+    min-width: 240px;
+    max-width: 240px;
+    padding: 20px 0px ;
+    height: calc(100vh - 40px);
+    max-height: calc(100vh - 40px);
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    
+}
+
+:root{
+
+    --regular-side-font-color:rgba(0, 0, 0, 0.808);
+    --special-side-svg-fill: rgb(235, 54, 63);
+    --regular-side-svg-fill: rgba(0, 0, 0, 0.603);
+}
+
+
+.side-nav::-webkit-scrollbar{
+    display: none;
+}
+
+.burger-and-title{
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+    padding: 0px 18px;
+
+}
+
+.burger-and-title p{
+    font-size: 18px;
+    color: rgb(235, 54, 63);
+    font-weight: 600;
+    font-family: Quicksand;
+}
+.burger{
+    cursor: pointer;
+    padding: 3px;
+    border-radius: 50%;
+    min-height: 30px;
+    min-width: 30px;
+    display: grid;
+    place-content: center;
+}
+.burger:hover{
+    background-color: rgba(202, 202, 202, 0.486);
+}
+
+.solo-top-button{
+    padding: 0px 10px;
+    width: calc(90% - 20px);
+    margin-top: 40px;
+    transition: all 150ms ease;
+   
+}
+
+.solo-top-button button{
+    cursor: pointer;
+    width: calc(100% - 20px);
+    padding: 7px 15px;
+    border-radius: 400px;
+    border: none;
+    background-color: white;
+    box-shadow: 0px 2px 5px 3px rgba(0, 0, 0, 0.103);
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 1.3em;
+    color: var(--regular-side-font-color);
+    
+}
+
+.solo-top-button button svg{
+    fill:var(--special-side-svg-fill) ;
+    transform: scale(1.1);
+}
+
+.solo-top-button .active{
+    box-shadow: 0px 2px 5px 3px rgb(250, 215, 218);
+}
+
+.button-group{
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    margin-top: 15px;
+    gap: 15px;
+}
+
+.button-group button,
+.settings-container button{
+    display: flex;
+    gap: 1.3em;
+    align-items: center;
+    width: 90%;
+    padding: 8px 25px;
+    border: none;
+    border-radius: 0px 40px 40px 0px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--regular-side-font-color);
+    cursor: pointer;
+    background-color: transparent;
+    transition: background-color 150ms ease;
+    
+}
+
+.button-group button:hover{
+    background-color: rgba(238, 165, 165, 0.233);
+}
+
+.button-group button svg,
+.settings-container button svg,
+.guide-icon svg{
+    fill: var(--regular-side-svg-fill);
+    min-height: 24px;
+   
+}
+
+.button-group .active{
+    background-color: rgba(238, 165, 165, 0.233);
+    color: rgb(107, 107, 107);
+    position: relative;
+    font-weight: 600;
+    font-size: 14px;
+}
+.button-group .active svg{
+    fill: rgb(245, 135, 135);
+   
+   
+}
+.button-group .active::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 10px;
+    background-color: rgb(245, 85, 85);
+    height: 100%;
+}
+
+.settings-container{
+    position: relative;
+
+}
+.toggle-config{
+    z-index: 2;
+    position: relative;
+}
+
+.settings-container button:hover{
+    background-color: rgb(220, 236, 250);
+}
+
+.display-picture{
+    min-height: 30px;
+    min-width: 30px;
+    border-radius: 50%;
+    background-color: rgb(167, 219, 243);
+}
+
+.settings-container .drawer{
+    position: fixed;
+    width: 200px;
+    padding: 0px 0px;
+    z-index: 1;
+    bottom: 0px;
+    opacity: 0;
+    transition: all 150ms ease;
+    height: 150px;
+    pointer-events: none;
+    overflow: hidden;
+    background-color: hsl(0, 0%, 95%);
+    border-radius: 10px;
+   
+    
+    
+}
+.settings-container .drawer.active{
+    bottom: 70px;
+    opacity: 1;
+    pointer-events: all;
+}
+
+.settings-container .toggle-config {
+    padding: 5px 25px;
+   
+}
+.settings-container .toggle-config.active{
+   background-color:rgb(220, 236, 250);
+   position: relative;
+}
+.settings-container .toggle-config.active::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 15px;
+    height: 100%;
+    background-color: rgb(141, 202, 255);
+}
+
+.guide-icon{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 10px  25px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--regular-side-font-color);
+}
+
+.guide-icon svg{
+    rotate: -90deg;
+    height: 24px;
+}
+
+
+.settings-container .drawer .guide{
+    font-size: 14px;
+}
+
+.drawer-lower{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0px 10px;
+}
+
+.drawer-lower button{
+    border-radius: 50px ;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.drawer-lower .first,
+.drawer-lower .second,
+.drawer-lower .third{
+    margin-left: -100px;
+   
+}
+
+.drawer-lower .first{
+    transition: margin-left 150ms linear 50ms;
+
+}
+.drawer-lower .second{
+    transition: margin-left 150ms linear 150ms;
+
+}
+.drawer-lower .third{
+    transition: margin-left 150ms linear 250ms;
+
+}
+
+.drawer-lower .first.animate,
+.drawer-lower .second.animate,
+.drawer-lower .third.animate{
+    margin-left: 0px;
+}
+
+.auto-bg-side{
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.233);
+    z-index: 5;
+    display: none;
+    pointer-events: none;
+    height: 100vh;
+    width: 100%;
+}
+
+
+
+
+@media(max-width:80em){
+    .side-nav{
+        position: fixed;
+        top: 0;
+        left: -240px;
+        background-color: hsl(0, 0%, 95%);
+        z-index: 6;
+        transition: left 150ms ease;
+        
+    }
+    .side-nav.open{
+        left: 0;
+    }
+    .auto-bg-side.open{
+        display: block;
+        pointer-events: all;
+    }
+}
+
+@media(min-width:80em){
+
+    .burger-and-title.min .min{
+        display: none;
+    }
+    .side-nav.min{
+        transition: all 100ms ease;
+        min-width: 70px;
+        max-width: 70px;
+    }
+    .toggle-config .min{
+        opacity: 0;
+        width: 0px;
+    }
+
+    .button-group .min{
+        padding: 8px 0px;
+        padding-left: 20px;
+        
+    }
+    .button-group .min p{
+        opacity: 0;
+        width: 0px;
+       
+    
+    
+    }
+
+    .solo-top-button .min{
+        padding: 7px 0px;
+        width: 90%;
+        display: grid;
+        place-items: center;
+        height: fit-content;
+        gap: 0;
+        margin-left: 2px;
+    }
+    .solo-top-button .min p{
+        width: 0px;
+        opacity: 0;
+        display: none;
+    }
+    
+    .burger-and-title.min{
+        padding: 0px 14px;
+    }
+    .toggle-config.min{
+        width: 80%;
+        padding: 5px 15px;
+    }
+    .toggle-config.min.active::before{
+        width: 8px;
+    }
+}

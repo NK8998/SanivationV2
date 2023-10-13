@@ -1,0 +1,22 @@
+.header{
+    
+    display: flex;
+    display: grid;
+    grid-template-columns:  23% 23% 18% 18% 18%;
+    color: rgba(167, 167, 167, 0.795);
+    font-weight: 400;
+    font-size: 13px;
+    min-width: 810px;
+    max-width: 1220px;
+    padding:  20px;
+    transform: translateY(15px);
+    padding-bottom: 0px;
+    padding-right: 0px;
+}
+.header p{
+    text-align: center;
+    background-color: white;
+}
+.header :first-child{
+    background-color: transparent;
+}

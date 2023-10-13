@@ -1,0 +1,150 @@
+import { useDispatch, useSelector } from "react-redux";
+import { getDate } from "../../utilites/get-date";
+import "./add-list.css"
+import DynamicFieldsList from "./dynamic-fields/dynamic-fields-list";
+import { nanoid } from "nanoid";
+import { toggleOpenLists } from "../../store/modals-slices/all-modals-controller";
+import { useState } from "react";
+import { db } from "../../authentication/config";
+import { collection, doc, setDoc } from "firebase/firestore";
+
+export default function AddList(){
+
+    const dispatch = useDispatch()
+
+    const userData = useSelector((state)=> state.auth.userData)
+  
+    const {uid, displayName, email} = userData
+
+    const [allFieldsIDs, setAllFieldsIDs] = useState([]);
+
+    const addFields = () => {
+      const uniqueID = nanoid(4);
+      setAllFieldsIDs((prevFields) => [...prevFields, uniqueID]);
+    };
+    
+    
+    const removeFields = (e) => {
+      const dataIndex = e.target.getAttribute('dataindex');
+      console.log(dataIndex);
+      setAllFieldsIDs((prevElements) =>
+        prevElements.filter((element) => element !== dataIndex)
+      );
+    };
+    
+    const dynamicFieldsToBeRendered = allFieldsIDs.map((uniqueID) => {
+      return (
+        <DynamicFieldsList
+          key={uniqueID}
+          dataindex={uniqueID}
+          removeFields={removeFields}
+        />
+      );
+    });
+
+    const handleSubmit = (e)=>{
+        e.preventDefault()
+        const listID = nanoid(6)
+        const formData = new FormData(e.target);
+        let formDataObject = { workers: [] };
+      
+        formData.forEach((value, key) => {
+          const uniqueID = nanoid(6)
+          const [field, dataIndex] = key.split('-'); // Split the name attribute to get field and dataIndex
+          if (field === "listName") {
+            formDataObject[field] = value;
+          } else if (field === "listworker") {
+            if (!formDataObject.workers[dataIndex]) {
+              formDataObject.workers[dataIndex] = {};
+            }
+            formDataObject.workers[dataIndex][field] = value;
+  
+            formDataObject.workers[dataIndex].createdAt = getDate();
+            formDataObject.workers[dataIndex].lastModified = getDate();
+            formDataObject.workers[dataIndex].ID = uniqueID;
+            formDataObject.workers[dataIndex].foodOrdered = []
+          }
+        });
+
+        formDataObject.workers = Object.values(formDataObject.workers);
+
+        formDataObject = {...formDataObject, listId:listID}
+
+        console.log(formDataObject)
+        uploadList(formDataObject)
+
+    }
+
+    const uploadList = async (formData)=>{
+  
+
+        const userDocRef = doc(db, 'users', uid); // Replace 'USER_ID' with the actual user's document ID
+      
+        // Add the user's document
+        const userInfo ={
+          name: displayName,
+          email: email,
+        }
+
+       
+        try {
+          await setDoc(userDocRef, userInfo); // Use setDoc to set the user's data
+          console.log('User document written with ID:', userDocRef.id);
+
+
+         const tableData ={
+            ...formData,
+            createdAt: getDate(),
+            lastModified: getDate(),
+          }
+    
+          const tableDocRef = doc(collection(userDocRef, 'lists'), formData.listName);
+          await setDoc(tableDocRef, tableData);
+
+          console.log('List document written with ID:', tableDocRef.id);
+        
+        } catch (error) {
+          console.error('Error adding documents:', error);
+        }
+
+  }
+
+
+
+    return(
+
+        <>
+        <div className="auto-bg-black" onClick={()=>{dispatch(toggleOpenLists())}}></div>
+        <div className="modal-container">
+            <div className="upper-modal">
+                <p>Create your lists to save time.</p>
+                <p>*Each list can be used to preload data.</p>
+            </div>
+            <form className="modal-form" onSubmit={handleSubmit}>
+                <div className="top">
+                    <p>Add list name</p>
+                    <input type="text" name="listName-input" placeholder="list name"/>
+
+                </div>
+                
+                <div className="dynamic-container">
+                    <p>Add as many fields as you wish</p>
+                    {dynamicFieldsToBeRendered}
+                </div>
+
+
+           
+
+            <div className="addplus" onClick={addFields}>add <p>Add field </p></div>
+
+            <div className="modal-bottom">
+                <button type="button"className="left-button" onClick={()=>{dispatch(toggleOpenLists())}}>Cancel</button>
+                <button type="submit"className="right-button">Save</button>
+            </div>
+            </form>
+
+        </div>
+        </>
+   
+    )
+}

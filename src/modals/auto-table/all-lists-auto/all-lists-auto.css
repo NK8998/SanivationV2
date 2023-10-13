@@ -1,0 +1,106 @@
+
+.modal-container-lists{
+    height: fit-content;
+    max-height: 400px;
+    overflow-y: scroll;
+    padding: 0px;
+    align-items: center;
+    background-color: white;
+    position: fixed;
+    width:100% ;
+    bottom: -400px;
+    z-index: -1;
+    pointer-events: none;
+    transition: bottom 150ms ease 100ms;
+    opacity: 0;
+    padding-bottom: 20px;
+    border-radius: 12px;
+    box-shadow:  0px -2px 10px 1px rgba(20, 19, 19, 0.11);
+    
+ 
+  
+}
+.close-me-container{
+    width: calc(100% - 40px);
+    position: sticky;
+    top: 0px;
+    background-color: white;
+    padding: 10px 20px;
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+.close-me{
+    width: 20%;
+    height: 10px;
+    background-color: white;
+    border-radius: 20000px;
+    cursor: pointer;
+    box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.24);
+    margin-top: 10px;
+  
+ 
+}
+.separatr-box{
+    margin-top: 10px;
+    width: 100%;
+    box-shadow:  0px 3px 10px 1px rgba(20, 19, 19, 0.11);
+}
+
+.modal-container-lists.open{
+    bottom: 110px;
+    pointer-events: all;
+    z-index: 21;
+    opacity: 1;
+
+}
+.modal-container-lists .title-p{
+    font-size: 13px;
+    padding-left: 15px;
+}
+
+.modal-container-lists::-webkit-scrollbar{
+    display: none;
+}
+
+.all-lists-container{
+    display: flex;
+    flex-direction: column;
+    gap: .8em;
+    margin-top: 10px;
+    align-items: center;
+
+}
+
+.modal-container-lists .list-option{
+    padding: 10px 0px;
+
+    width: calc(100% - 20px);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 2em;
+    box-shadow: 0px 0px 20px 2px rgba(0, 0, 0, 0.075);
+    justify-content: space-around;
+}
+.list-letter{
+    height: 40px;
+    width: 40px;
+    background-color: rgb(253, 244, 245);
+    display: grid;
+    place-items: center;
+    border-radius: 100%;
+    color: rgb(255, 179, 179);
+    font-weight: 700;
+}
+
+.list-option p{
+    white-space: nowrap;
+    font-size: 15px;
+    color: rgb(46, 46, 46);
+    font-weight: 500;
+}
+
+.list-option svg{
+    fill: grey;
+}

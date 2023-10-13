@@ -1,0 +1,36 @@
+.chosen-worker{
+    width: 100%;
+    display: flex;
+}
+
+.chosen-worker-start{
+    flex-grow: 1;
+    border-right: 1px solid rgba(204, 204, 204, 0.623);
+}
+.worker-end{
+    width: 300px;
+}
+.chosen-worker .left{
+    flex-grow: 1;
+    
+    display: flex;
+
+}
+.general{
+   flex-grow: 1;
+}
+
+.editable-top{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgba(204, 204, 204, 0.623);
+}
+
+.editable-field{
+    padding: 10px 20px;
+    box-shadow: 1px 1px 5px 5px rgba(0, 0, 0, 0.158) ;
+    border-radius: 50px;
+    margin-top: 10px;
+    width: 80%;
+}

@@ -1,0 +1,143 @@
+
+.food-picked-top,
+.food-picked-bottom,
+.picker-container{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: .5em;
+    font-size: 13px;
+}
+
+.bg-top-black{
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.055);
+    z-index: 29;
+    display: none;
+    pointer-events: none;
+}
+.bg-top-black.open{
+    display: block;
+    pointer-events: all;
+}
+
+.secondary-modal-container{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+   
+    max-width: 550px;
+    transform: translate(-50%, -50%);
+    z-index: 30;
+    display: none;
+    pointer-events: none;
+}
+.secondary-modal-container.open{
+    display: block;
+    pointer-events: all;
+}
+
+
+.top-section{
+    text-align: center;
+    background-color: rgb(35, 27, 148);
+}
+
+.top-section p{
+    font-weight: 700;
+    font-size: 28px;
+    padding-top: 10px;
+    color: white;
+}
+.flexy{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    align-items: center;
+}
+.flexy p{
+    font-size: 15px;
+    padding: 0px;
+    
+}
+.flexy button{
+    height: 30px;
+    width: 100px;
+    border: none;
+    border-radius: 8000px;
+    background-color: white;
+    cursor: pointer;
+    color: black;
+    font-weight: 600;
+    box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.404);
+    
+}
+.flexy .totalizer-active{
+    
+}
+
+
+
+.totalizer{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 35;
+    background-color: white;
+    height: 40vh;
+    width: 95%;
+    border-radius: 12px;
+    display: none;
+    pointer-events: none;
+
+
+}
+.totalizer.open{
+    display: block;
+    pointer-events: all;
+}
+.totalizer-bg{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.308);
+    z-index: 34;
+    top: 0;
+    display: none;
+    pointer-events: none;
+}
+.totalizer-bg.open{
+    display: block;
+    pointer-events: all;
+}
+.all-workers-container{
+    padding: 10px 5px;
+    height: fit-content;
+    max-height: 400px;
+    overflow-y: scroll;
+}
+.all-workers-container::-webkit-scrollbar{
+    display: none;
+}
+.worker-and-food-inner{
+    display: flex;
+    align-items: center;
+    gap: .5em;
+    cursor: pointer;
+    justify-content: space-between;
+}
+
+.worker-and-food-outer{
+    margin-top: 10px;
+    box-shadow: 0px 0px 10px 3px rgba(35, 27, 148, 0.253);
+    border-radius: 12px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+   
+}
+
