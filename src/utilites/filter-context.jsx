@@ -135,8 +135,8 @@ const FilteredContentProvider = ({children})=>{
                 
                     switch (sortBy) {
                       case 'name':
-                        valueA = (a.worker || a.listworker ||  '').toLowerCase();
-                        valueB = (b.worker || b.listworker || '').toLowerCase();
+                        valueA = a.tableName.toLowerCase();
+                        valueB = b.tableName.toLowerCase();
                         break;
                 
                       case 'created':
