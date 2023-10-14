@@ -9,9 +9,9 @@ export function RemoveWorkerModal({removeWorker, toggleRemovingWorker}){
     <div className="auto-bg-black removing" onClick={()=>{toggleRemovingWorker('')}}></div>
     <div className="removing-worker">
          <div className="upper-modal">
-          <p>Removing worker</p>
+          <p>Removing worker!!</p>
          </div>
-          <p>Are you sure you want to remove {chosenWorker}</p>
+          <p className="removing-line">Are you sure you want to remove <span>{chosenWorker}</span></p>
          <div className="modal-bottom">
                 <button className="left-button" onClick={()=>{toggleRemovingWorker('')}}>Cancel</button>
                 <button className="right-button" onClick={()=>{removeWorker(chosenWorker)}}>Remove</button>

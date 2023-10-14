@@ -7,6 +7,7 @@ import { toggleOpenLists } from "../../store/modals-slices/all-modals-controller
 import { useState } from "react";
 import { db } from "../../authentication/config";
 import { collection, doc, setDoc } from "firebase/firestore";
+import { AddPlusIcon } from "../../assets/icons";
 
 export default function AddList(){
 
@@ -116,7 +117,7 @@ export default function AddList(){
         <>
         <div className="auto-bg-black" onClick={()=>{dispatch(toggleOpenLists())}}></div>
         <div className="modal-container">
-            <div className="upper-modal">
+            <div className="top-section adding">
                 <p>Create your lists to save time.</p>
                 <p>*Each list can be used to preload data.</p>
             </div>
@@ -135,7 +136,7 @@ export default function AddList(){
 
            
 
-            <div className="addplus" onClick={addFields}>add <p>Add field </p></div>
+            <div className="addplus" onClick={addFields}><AddPlusIcon/> <p>add field </p></div>
 
             <div className="modal-bottom">
                 <button type="button"className="left-button" onClick={()=>{dispatch(toggleOpenLists())}}>Cancel</button>

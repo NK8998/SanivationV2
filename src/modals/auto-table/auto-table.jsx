@@ -7,7 +7,7 @@ import { generateTableThunk, toggleFoodPicker_, updateCurrentWorker } from "../.
 import { toggleOpenAutoTable } from "../../store/modals-slices/all-modals-controller"
 import FoodPicker from "./food-picker/food-picker"
 import AllListsAuto from "./all-lists-auto/all-lists-auto"
-import { AddPlusIcon, ToggleListsIcon, TrashIcon } from "../../assets/icons"
+import { AddPlusIcon, Search, ToggleListsIcon, TrashIcon } from "../../assets/icons"
 import Totalizer from "./totalizer/totalizer"
 
 
@@ -61,7 +61,7 @@ export default function AutoTable(){
 
         return (
             <div className={`worker-and-food-outer ${removedWorker ? 'removed' : ''}`}  key={worker.ID}>
-                <div className="worker-and-food-inner" onClick={()=>{toggleFoodPicker(worker)}}>
+                <div className={`worker-and-food-inner ${removedWorker ? 'removed' : ''}`} onClick={()=>{toggleFoodPicker(worker)}}>
                 <div className="left-side">
                     <p className="worker-name">{worker.listworker}:</p>  
                     <div className="food-picked">
@@ -76,13 +76,13 @@ export default function AutoTable(){
                         </div>
                     </div>
                 </div>
-                <p><AddPlusIcon/></p>
+                <p className="add-plus"><AddPlusIcon/></p>
                 </div>
 
                 {removedWorker ?
                     <p onClick={()=>addWorkersBackToList(worker.ID)}>undo</p>
                     :
-                    <p onClick={()=>removeWorkersFromList(worker.ID)}><TrashIcon/></p>
+                    <p className="remove-trash" onClick={()=>removeWorkersFromList(worker.ID)}><TrashIcon/></p>
                 }
             </div>
             // onclick should activate food picker
@@ -120,10 +120,12 @@ export default function AutoTable(){
                 <div className="modal-inner">
                 <div className="top-section">
                     <p>Add Table</p>
+                    <p className="list-head">current list: <span>{chosenList.listName}</span></p>
                     <div className="flexy">
-                    <p>current list: {chosenList.listName}</p>
+                    <div className="input-container">
+                      <Search />
                     <input type="text" name="filterworkers" onChange={(e)=>handleChange(e)} placheholder="search for worker"/>
-
+                    </div>
                     <button className="toggle-totalizer" onClick={()=>{setTotalizerOpen((prevState)=>!prevState)}}>see total</button>
                     </div>
                 </div>

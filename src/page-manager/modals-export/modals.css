@@ -73,12 +73,16 @@
     height: 50px;
     width: 50px;
     border-radius: 50%;
+    border: none;
+}
+.secondary-chin .lists-toggle svg{
+    fill: rgb(231, 146, 146);
 }
 
 .chin .chin-button-active{
     width: 100px;
     border-radius: 20000px;
-    background-color: rgb(35, 27, 148);
+    background-color: rgb(250, 118, 118);
 }
 .chin .chin-button-active svg{
     fill: white;
@@ -93,7 +97,7 @@
 }
 .modal-bottom button{
     transition: all 150ms ease;
-    border-radius: 5px;
+    border-radius: 11000px;
     padding: 5px;
     width: 100px;
     height: 35px;
@@ -101,10 +105,10 @@
 }
 
 .modal-bottom :nth-child(2){
-    border: 1px solid grey;
+    border: 1px solid rgb(255, 172, 172);
     font-weight: 700;
     color: white;
-    background-color: rgb(64, 52, 219);
+    background-color: rgb(255, 172, 172);
     
     
 }
@@ -118,7 +122,14 @@
     background-color: rgb(255, 255, 255);
 }
 
-.modal-bottom :nth-child(2){
+.modal-bottom :first-child{
+    border: 1px solid rgb(255, 190, 190);
+    font-weight: 600;
+    background-color: white;
+    color: rgb(250, 118, 118);
 
+}
+
+.modal-bottom :first-child:hover{
 
 }

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import "./generic-table"
+import "./generic-table.css"
 import { toggleopenGenericTable } from "../../store/modals-slices/all-modals-controller";
 import { getDate } from "../../utilites/get-date";
 import { useState } from "react";
@@ -8,6 +8,7 @@ import { collection, doc, setDoc } from "firebase/firestore";
 import { nanoid } from "nanoid";
 import DynamicFields from "./Dynamic-fields";
 import { fetchInitialData } from "../../store/home-slice";
+import { AddPlusIcon } from "../../assets/icons";
 
 
 
@@ -122,8 +123,10 @@ export default function GenericTable(){
 
         <>
         <div className="auto-bg-black" onClick={()=>{dispatch(toggleopenGenericTable())}}></div>
-        <div className="modal-container">
-            <p>Create a table</p>
+        <div className="modal-container generic">
+            <div className="top-section">
+              <p>Create a table</p>
+            </div>
             <form onSubmit={handleSubmit}>
                 <div className="top">
                 <p>Table ID (use the format 'Table-01' to make it easier to  identify)</p>
@@ -132,7 +135,7 @@ export default function GenericTable(){
                 <div className="dynamic-fields-container">
                 {dynamicFieldsToBeRendered}
                 </div>
-                <div className="addplus" onClick={addFields}>add <p>Add field </p></div>
+                <div className="addplus" onClick={addFields}><AddPlusIcon/><p>Add field </p></div>
                 </div>
                 <div className="modal-bottom">
                     <button type="button" className="left-button" onClick={()=>{dispatch(toggleopenGenericTable())}}>Cancel</button>

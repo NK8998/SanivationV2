@@ -1,0 +1,55 @@
+.top-section.adding p{
+    font-size: 19px;
+}
+
+.modal-form .top{
+    padding: 10px 20px;
+}
+
+.modal-form p{
+    font-weight: 500;
+   
+}
+
+.modal-form .top input{
+    padding: 5px 20px;
+    border-radius: 8px;
+    outline: none;
+    border: 1px solid rgb(255, 212, 212);
+    width: calc(80% - 40px);
+
+    margin-top: 10px;
+}
+
+.dynamic-container{
+    padding: 10px 20px;
+}
+
+.dynamic-container p{
+    padding-bottom: 10px;
+}
+
+.worker-dynamic{
+    display: flex;
+    align-items: center;
+
+}
+
+.worker-dynamic input{
+    flex-grow: 1;
+    padding: 5px 20px;
+    border-radius: 8px;
+    outline: none;
+    border: 1px solid rgb(255, 212, 212);
+}
+.worker-dynamic svg{
+    fill: grey;
+}
+
+.addplus{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 10px 20px;
+
+}

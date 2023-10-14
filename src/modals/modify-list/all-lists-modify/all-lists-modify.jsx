@@ -1,8 +1,9 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getUserListsThunk, updateChosenList } from "../../../store/modals-slices/modify-list-slice"
+import { AllYourListsIcon } from "../../../assets/icons"
 
-export default function AllListsModify(){
+export default function AllListsModify({showLists, setShowLists}){
 
     const dispatch = useDispatch()
     const userData = useSelector((state)=> state.auth.userData)
@@ -24,15 +25,20 @@ export default function AllListsModify(){
     
     const ListEl = lists.map((list)=>{
         return (
-            <p onClick={()=>{dispatch(updateChosenList(list))}} key={list.listId}>{list.listName}</p>
+           <div className="list-option" onClick={()=>{dispatch(updateChosenList(list))}}><div className="list-letter">{list.listName[0]}</div><p  key={list.listId}>{list.listName}</p><AllYourListsIcon/></div> 
         )
     })
 
     return(
-        <div className="secondary-modal-continer">
-
-            { loading  ? <p>Loading...</p> : ListEl}
-
+        <div className={`modal-container-lists ${showLists ? 'open' : ''}`}>
+            <div className="all-lists-container">
+                <div className="close-me-container">
+                    <div className="close-me" onClick={()=>{setShowLists((prevState)=>!prevState)}}></div>
+                </div>
+                <div className="separatr-box"></div>
+                
+                { loading  ? <p>Loading...</p> : ListEl}
+            </div>
         </div>
     )
 }

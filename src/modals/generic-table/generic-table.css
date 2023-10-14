@@ -1,0 +1,21 @@
+.modal-container.generic .top{
+    padding: 10px 20px;
+}
+
+.modal-container.generic .top p{
+   
+    padding: 10px 0px;
+}
+
+.modal-container.generic .top input{
+    border-radius: 8px;
+    outline: none;
+    caret-color: black;
+    padding: 5px 20px;
+    width: calc(80% - 40px);
+    border: 1px solid rgb(253, 195, 195);
+}
+
+.modal-container.generic .worker-dynamic{
+    gap: 1em;
+}

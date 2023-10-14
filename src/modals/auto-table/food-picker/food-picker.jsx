@@ -77,10 +77,11 @@ export default function FoodPicker({toggleFoodPicker}){
         return(
             <>
             <button key={drinkDish}  className={`${drinkDish === drinks ? 'active' : ''}`}>{drinkDish}</button>
-            <p className="picker-container">Total Packets</p>
-            <button onClick={()=>{totalPackets > 0 && setTotalPackest((count)=> count - 1)}}>-</button>
-            {drinkDish === drinks  ? totalPackets : 0}
-            <button onClick={()=>{addDrink(drinkDish)}}>+</button>
+            <div className="winder-container">
+                <button onClick={()=>{totalPackets > 0 && setTotalPackest((count)=> count - 1)}}>-</button>
+                {drinkDish === drinks  ? totalPackets : 0}
+                <button onClick={()=>{addDrink(drinkDish)}}>+</button>
+            </div>
             </>
         )
     })
@@ -122,7 +123,7 @@ export default function FoodPicker({toggleFoodPicker}){
         <div className={`secondary-modal-container ${foodPickerOpen ? "open" : ''}`}>
 
                 <div className="upper-modal">
-
+                <p>{currentWorker.listworker}</p>
                 </div>
 
                 <div className="Main picker">
