@@ -11,9 +11,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { useFilterContext } from "../../utilites/filter-context"
 import { db } from "../../authentication/config"
 import { getDate } from "../../utilites/get-date"
-import { initialFetch } from "../../store/home-slice"
+import { fetchInitialData, initialFetch } from "../../store/home-slice"
 import { initialWorkers } from "../../store/table-slice"
 import { AddPerson, NavigateBackArrow, OrderBy, Refresh, Search, SortBy } from "../../assets/icons"
+import { fetchWorkerData } from "../../store/worker-slice"
 
 
 export default function PageManagerUpper(){
@@ -21,10 +22,20 @@ export default function PageManagerUpper(){
     const [addingWorker, setAddingWorker] = useState(false)
     const [openSortingBox, setOpeningSortingBox] = useState(false)
     const [openOrderBox, setOpeningOrderBox]  = useState(false)
-    const {filter, setFilter, fetchFilteredData, editingWorker, individualTable, tableName, sortOrder} = useFilterContext()
+    const {filter, setFilter, fetchFilteredData, editingWorker, individualTable, workerID, tableName, sortOrder} = useFilterContext()
 
   
     const timeoutRef = useRef()
+
+    
+
+    const location = useLocation()
+    const navigate = useNavigate()
+
+    const userData = useSelector((state)=>state.auth.userData)
+    const {uid} = userData
+
+    const dispatch = useDispatch()
 
     useEffect(()=>{
         if(timeoutRef.current){
@@ -38,14 +49,6 @@ export default function PageManagerUpper(){
 
     }, [filter])
 
-
-    const location = useLocation()
-    const navigate = useNavigate()
-
-    const userData = useSelector((state)=>state.auth.userData)
-    const {uid} = userData
-
-    const dispatch = useDispatch()
 
     const navigateBack = ()=>{
         if(location.pathname === "/") return
@@ -131,7 +134,20 @@ export default function PageManagerUpper(){
 
     }
 
-    
+    const reloadData = ()=>{
+        if(editingWorker){
+            dispatch(fetchWorkerData(workerID, uid, tableName))
+
+        }else{
+            if(individualTable){
+                dispatch(initialWorkers(filter, uid, tableName))
+            }else{
+                dispatch(fetchInitialData(filter, uid))
+            }
+
+        }
+
+    }
 
     return(
         <>
@@ -145,7 +161,7 @@ export default function PageManagerUpper(){
                 <div className="vertical-separator-inner"></div>
             </div>
           
-            <button><Refresh/> reload</button>
+            <button onClick={reloadData}><Refresh/> reload</button>
             
             <div className="button-conainer">
                 <button className={`button-toggle dropdown ${editingWorker ? 'grey' : ''}`} onClick={toggleSortByBox}><SortBy/>  Sort by  <NavigateBackArrow/> </button>

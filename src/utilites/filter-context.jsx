@@ -29,6 +29,8 @@ const FilteredContentProvider = ({children})=>{
     const dispatch = useDispatch()
 
     const [tableName, setTableName] = useState()
+    const [workerID, setWorkerID] = useState()
+
 
     const [tableCluster, setTableCluster] = useState(2)
    
@@ -207,7 +209,9 @@ const FilteredContentProvider = ({children})=>{
 
             tableName, setTableName,
 
-            tableCluster, setTableCluster
+            tableCluster, setTableCluster,
+
+            workerID, setWorkerID
 
             }}>
             {children}

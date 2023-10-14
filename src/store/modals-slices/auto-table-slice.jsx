@@ -11,7 +11,7 @@ const autoTableSlice = createSlice({
     initialState:{
         lists: [],
         totalizer: {},
-        chosenList:{},
+        chosenList:{workers: []},
         foodPickerOpen: false,
         currentWorker: {},
         loading: true,

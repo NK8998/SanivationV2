@@ -62,7 +62,7 @@
     position: absolute;
     bottom: 45px;
     width: 100%;
-    background-color: wheat;
+    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -82,4 +82,43 @@
 }
 .chin .chin-button-active svg{
     fill: white;
+}
+
+.modal-bottom{
+
+    display: flex;
+    justify-content: end;
+    padding: 5px 20px;
+    gap: 1em;
+}
+.modal-bottom button{
+    transition: all 150ms ease;
+    border-radius: 5px;
+    padding: 5px;
+    width: 100px;
+    height: 35px;
+    cursor: pointer;
+}
+
+.modal-bottom :nth-child(2){
+    border: 1px solid grey;
+    font-weight: 700;
+    color: white;
+    background-color: rgb(64, 52, 219);
+    
+    
+}
+.modal-bottom :nth-child(2):hover{
+    border: 1px solid rgb(35, 27, 148);
+    scale: 1.05;
+}
+.modal-bottom :nth-child(2):active{
+    transform: scale(.95);
+    color: rgb(35, 27, 148);
+    background-color: rgb(255, 255, 255);
+}
+
+.modal-bottom :nth-child(2){
+
+
 }

@@ -22,6 +22,8 @@ export default function Worker(){
 
     const [editingOrders, setEditingOrders] = useState(false)
     const [editingName, setEditingName] = useState(false)
+
+    const {setTableName, setWorkerID} = useFilterContext()
    
     const dispatch = useDispatch()
 
@@ -30,6 +32,8 @@ export default function Worker(){
         dispatch(fetchWorkerData(workerID, uid, tableName))
 
         setEditingWorker(true)
+        setTableName(tableName)
+        setWorkerID(workerID)
 
         return()=>{
             setEditingWorker(false)

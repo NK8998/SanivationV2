@@ -31,18 +31,17 @@ export default function AutoTable(){
   
 
     }, [])
-
     const toggleFoodPicker=(worker)=>{
         dispatch(toggleFoodPicker_())
         dispatch(updateCurrentWorker(worker))
 
     }
 
-    const filteredWorkers = chosenList.workers?.filter((worker)=>
+    const filteredWorkers = chosenList?.workers.filter((worker)=>
     worker.listworker.toLowerCase().includes(filter.toLowerCase())
     )
 
-    const listContent = filteredWorkers.map((worker)=>{
+    const listContent = filteredWorkers?.map((worker)=>{
         const workerFoodOrderedEl = worker.foodOrdered.map((food)=>{
             return (
                 <p key={worker.ID + food}>{food}</p>
