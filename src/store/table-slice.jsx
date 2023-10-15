@@ -2,6 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import { db } from "../authentication/config";
 import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore"
 import { getDate } from "../utilites/get-date";
+import toast from "react-hot-toast";
 
 
 const tableSlice =createSlice({
@@ -9,7 +10,8 @@ const tableSlice =createSlice({
     initialState: {
         tableData: {workers:[]},
         loading: true,
-        error: ''
+        error: '',
+        success: ''
     },
     reducers:{
         fetchWorkers: (state, action)=>{
@@ -60,6 +62,7 @@ export const initialWorkers = (filter, uid, tableName)=>{
 
           }catch(error){
               console.error('error fetching', error)
+              toast.error(error)
           }finally{
             dispatch(revertLoading(false))
           }
@@ -82,7 +85,7 @@ export const initialWorkers = (filter, uid, tableName)=>{
        
         } catch (error) {
           console.error('Error fetching table document:', error);
-        
+        toast.error(error)
           // remeber to show wthe error
         }finally{
           dispatch(revertLoading(false))
@@ -122,12 +125,13 @@ export const removeWorkerFromArray = (uid, tableName, workerID)=>{
               await setDoc(tableDocRef, tableData);
               console.log('Table document updated:', tableDocRef.id);
    
-
+              toast.success(`worker with ID ${workerID}`)
             } else {
             console.log('Table document does not exist.');
             } 
 
         }catch (error) {
+          toast.error(error)
           console.error('Error updating table document:', error);
         }
     }

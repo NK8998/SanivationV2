@@ -1,6 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import { db } from "../authentication/config";
 import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, where, query } from "firebase/firestore"
+import toast from "react-hot-toast";
 
 
 
@@ -45,7 +46,7 @@ export default homeSlice.reducer;
 
 // Thunk action for initial data fetch
 export const fetchInitialData = (filter, uid) => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(revertLoading(true));
     const userDocRef = doc(db, 'users', uid);
     const allTablesRef = collection(userDocRef, 'tables');
@@ -53,37 +54,49 @@ export const fetchInitialData = (filter, uid) => {
     // Create a query that includes the filter criteria for document IDs
     let q = allTablesRef;
 
-  
     if (filter) {
-      const querySnapshot = await getDocs(q);
+      getDocs(q)
+        .then((querySnapshot) => {
+          if (!querySnapshot.empty) {
+            const tableData = querySnapshot.docs.map((doc) => doc.data());
 
-      if (!querySnapshot.empty) {
-        const tableData = querySnapshot.docs.map((doc) => doc.data());
+            const filteredTables = tableData.filter((table) =>
+              table.tableName.toLowerCase().includes(filter.toLowerCase())
+            );
 
-        const filteredTables =  tableData.filter((table)=>
-        table.tableName.toLowerCase().includes(filter.toLowerCase()))
-        
-        dispatch(initialFetch(filteredTables));
-      } else {
-        dispatch(initialFetch([]))
-        console.log('No matching documents found.');
-      }
-      dispatch(revertLoading(false));
-
+            dispatch(initialFetch(filteredTables));
+          } else {
+            dispatch(initialFetch([]));
+            console.log('No matching documents found.');
+          }
+          dispatch(revertLoading(false));
+        })
+        .catch((error) => {
+          console.error('Error fetching documents:', error);
+          dispatch(showError(error));
+          dispatch(revertLoading(false));
+        });
     } else {
       // Fetch all documents if no filter is provided
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        const tableData = querySnapshot.docs.map((doc) => doc.data());
-        dispatch(initialFetch(tableData));
-      } else {
-        console.log('No matching documents found.');
-      }
-      dispatch(revertLoading(false));
+      getDocs(q)
+        .then((querySnapshot) => {
+          if (!querySnapshot.empty) {
+            const tableData = querySnapshot.docs.map((doc) => doc.data());
+            dispatch(initialFetch(tableData));
+          } else {
+            console.log('No matching documents found.');
+          }
+          dispatch(revertLoading(false));
+        })
+        .catch((error) => {
+          console.error('Error fetching documents:', error);
+          dispatch(showError(error));
+          dispatch(revertLoading(false));
+        });
     }
   };
 };
+
 
 
 
@@ -118,9 +131,11 @@ export const fetchDynamicData = () => {
             const newTablesArray = allTables.filter((table)=> table.tableName !== tableName)
 
             dispatch(initialFetch(newTablesArray))
+            toast.success(`${tableName} removed`)
          
         } catch (error) {
             console.error('Error updating table document:', error);
+            toast.error(error)
         }
 
 

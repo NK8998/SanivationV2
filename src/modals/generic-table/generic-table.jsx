@@ -9,6 +9,7 @@ import { nanoid } from "nanoid";
 import DynamicFields from "./Dynamic-fields";
 import { fetchInitialData } from "../../store/home-slice";
 import { AddPlusIcon } from "../../assets/icons";
+import toast from "react-hot-toast";
 
 
 
@@ -66,21 +67,25 @@ export default function GenericTable(){
           console.log('User document written with ID:', userDocRef.id);
 
 
+        const tableName = `${formData.tableName}_${uniqueTableID}`
          const tableData ={
             ...formData,
+            tableName: tableName,
             createdAt: getDate(),
             lastModified: getDate(),
             tableID: uniqueTableID
 
           }
     
-          const tableDocRef = doc(collection(userDocRef, 'tables'), `${formData.tableName}_${uniqueTableID}`);
+          const tableDocRef = doc(collection(userDocRef, 'tables'), tableName);
           await setDoc(tableDocRef, tableData);
 
           console.log('Table document written with ID:', tableDocRef.id);
           dispatch(fetchInitialData('', uid))
+          toast.success(`${formData.tableName} added`)
         } catch (error) {
           console.error('Error adding documents:', error);
+          toast.error(error)
         }
 
   }
@@ -92,22 +97,28 @@ export default function GenericTable(){
     e.preventDefault();
     const formData = new FormData(e.target);
     const formDataObject = { workers: [] };
-
+  
     formData.forEach((value, key) => {
-      const uniqueWorkerID = nanoid(6)
+      const uniqueWorkerID = nanoid(6);
       const [field, dataIndex] = key.split('-'); // Split the name attribute to get field and dataIndex
       if (field === "tableName") {
-        const tableName  = value
+        const tableName = value;
         formDataObject[field] = tableName;
-      } else if (field === "worker" || field === "foodOrdered") {
+      } else if (field === "worker") {
         if (!formDataObject.workers[dataIndex]) {
           formDataObject.workers[dataIndex] = {};
         }
         formDataObject.workers[dataIndex][field] = value;
-
+  
         formDataObject.workers[dataIndex].createdAt = getDate();
         formDataObject.workers[dataIndex].lastModified = getDate();
         formDataObject.workers[dataIndex].ID = uniqueWorkerID;
+      } else if (field === "foodOrdered") {
+        // If the field is "foodOrdered," split it by commas
+        if (!formDataObject.workers[dataIndex]) {
+          formDataObject.workers[dataIndex] = {};
+        }
+        formDataObject.workers[dataIndex].foodOrdered = value.split(',').map(item => item.trim());
       }
     });
   
@@ -117,6 +128,8 @@ export default function GenericTable(){
     console.log(formDataObject); // Log the grouped form data
     uploadTable(formDataObject)
   };
+  
+  
     
       
     return(

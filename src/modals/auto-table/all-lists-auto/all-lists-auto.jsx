@@ -17,6 +17,7 @@ export default function AllListsAuto({showLists, setShowLists}){
     useEffect(()=>{
 
         dispatch(getUserListThunk(uid))
+        
 
     }, [])
 

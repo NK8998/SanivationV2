@@ -4,6 +4,9 @@ import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/fi
 import { nanoid } from "nanoid";
 import { getDate } from "../../utilites/get-date";
 import { fetchInitialData, initialFetch } from "../home-slice";
+import { useRef } from "react";
+import toast from "react-hot-toast";
+
 
 
 const autoTableSlice = createSlice({
@@ -15,7 +18,10 @@ const autoTableSlice = createSlice({
         foodPickerOpen: false,
         currentWorker: {},
         loading: true,
-        error: ''
+        errorState: false,
+        errMessage: '',
+        successState: false,
+        successMessage: '',
     },
     reducers:{
         fetchLists:(state, action)=>{
@@ -37,66 +43,67 @@ const autoTableSlice = createSlice({
         },
         revertLoading:(state, action)=>{
             state.loading = true
+        },
+        showError:(state, action)=>{
+            state.errorState = !state.errorState
+            state.errMessage = action.payload
+        },
+        showSuccess:(state, action)=>{
+           state.successState = !state.successState
         }
     }
 })
 
 
-export const {fetchLists, updateTotalizer, updateChosenList, toggleFoodPicker_, updateCurrentWorker, revertLoading} = autoTableSlice.actions
+export const {fetchLists, updateTotalizer, updateChosenList, toggleFoodPicker_, updateCurrentWorker, revertLoading, showError, showSuccess} = autoTableSlice.actions
 
 export default autoTableSlice.reducer
 
 
-export const getUserListThunk=(uid)=>{
-
-    return async(dispatch)=>{
-        const userDocRef = doc(db, 'users', uid);
-        const allListsRef = collection(userDocRef, 'lists');
-        try {
-          const allLists =  await getDocs(allListsRef)
-         
-      
+export const getUserListThunk = (uid) => {
+    return (dispatch) => {
+      const userDocRef = doc(db, 'users', uid);
+      const allListsRef = collection(userDocRef, 'lists');
+  
+      getDocs(allListsRef)
+        .then((allLists) => {
           if (allLists) {
             const lists = allLists.docs.map((doc) => doc.data());
-            // console.log('Table data:', individualTableData);
-           
-            dispatch(fetchLists(lists))
-
+            // Dispatch a success action
+            dispatch(fetchLists(lists));
           } else {
             console.log('Table document does not exist.');
           }
-     
-        } catch (error) {
+        })
+        .catch((error) => {
+          // Handle Firebase error
           console.error('Error fetching table document:', error);
-          setLoading(false) 
-          // remeber to throw error
-          dispatch
-        }
-    }
+          toast.error(error)
+        });
+    };
+  };
 
-}
-
-const uploadTable = async (dispatch, uid, totalizer, newTableObj)=>{
-
+  const uploadTable = (dispatch, uid, totalizer, newTableObj) => {
     const tableData = {
-        ...newTableObj,
-        totalizer: {...totalizer}
-      }
-      
-      
-      const userDocRef = doc(db, 'users', uid); // Replace 'USER_ID' with the actual user's document ID
-   
-      try {
-        const tableDocRef = doc(collection(userDocRef, 'tables'), newTableObj.tableName);
-        await setDoc(tableDocRef, tableData);
-
+      ...newTableObj,
+      totalizer: { ...totalizer },
+    };
+  
+    const userDocRef = doc(db, 'users', uid);
+  
+    const tableDocRef = doc(collection(userDocRef, 'tables'), newTableObj.tableName);
+  
+    setDoc(tableDocRef, tableData)
+      .then(() => {
         console.log('Table document written with ID:', tableDocRef.id);
-        dispatch(fetchInitialData('', uid))
-      } catch (error) {
+        dispatch(fetchInitialData('', uid));
+        toast.success('Successfully added table')
+      })
+      .catch((error) => {
         console.error('Error adding documents:', error);
-      }
-
-}
+        toast.error(error)
+      });
+  };
 
 export const generateTableThunk = (uid, totalizer, chosenList)=>{
 

@@ -13,24 +13,18 @@ import Totalizer from "./totalizer/totalizer"
 
 export default function AutoTable(){
     const dispatch  = useDispatch()
-
     const userData = useSelector((state)=>state.auth.userData)
     const {uid} = userData
 
     const chosenList = useSelector((state)=>state.autoTable.chosenList)
     const totalizer = useSelector((state)=> state.autoTable.totalizer)
-
+    
     const [showLists, setShowLists] = useState(false)
     const [totalizerOpen, setTotalizerOpen] = useState(false)
     const [filter, setFilter] = useState('')
     const [removedWorkerIDs, setRemovedWorkerIDs] = useState([])
     const timeoutRef = useRef()
-    useEffect(()=>{
-
-        // get user list 
-  
-
-    }, [])
+ 
     const toggleFoodPicker=(worker)=>{
         dispatch(toggleFoodPicker_())
         dispatch(updateCurrentWorker(worker))
@@ -96,6 +90,7 @@ export default function AutoTable(){
         console.log(newChosenList)
 
         dispatch(generateTableThunk(uid, totalizer, newChosenList))
+
       }
       
       const toggleAutoTable = ()=>{

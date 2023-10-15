@@ -8,6 +8,7 @@ import { useState } from "react";
 import { db } from "../../authentication/config";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { AddPlusIcon } from "../../assets/icons";
+import toast from "react-hot-toast";
 
 export default function AddList(){
 
@@ -101,11 +102,12 @@ export default function AddList(){
     
           const tableDocRef = doc(collection(userDocRef, 'lists'), formData.listName);
           await setDoc(tableDocRef, tableData);
-
+          toast.success(`${formData.listName} list added`)
           console.log('List document written with ID:', tableDocRef.id);
         
         } catch (error) {
           console.error('Error adding documents:', error);
+          toast.error(error)
         }
 
   }

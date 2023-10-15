@@ -3,6 +3,7 @@ import { db } from "../../authentication/config";
 import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore"
 import { nanoid } from "nanoid";
 import { getDate } from "../../utilites/get-date";
+import toast from "react-hot-toast";
 
 
 const modifyListSlice = createSlice({
@@ -78,7 +79,7 @@ export const getUserListsThunk = (uid)=>{
        
         } catch (error) {
           console.error('Error fetching table document:', error);
-      
+          toast.error(error)
           // remeber to throw error
         }
 
@@ -108,9 +109,10 @@ const modifyList = async (dispatch, uid, formData)=>{
       dispatch(getUserListsThunk(uid))
 
       console.log('List document written with ID:', tableDocRef.id);
-      
+      toast.success(`list ${formData.listName} modified`)
     } catch (error) {
       console.error('Error adding documents:', error);
+      toast.error(error)
     }
 
   }

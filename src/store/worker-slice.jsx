@@ -2,6 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import { db } from "../authentication/config";
 import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore"
 import { getDate } from "../utilites/get-date";
+import toast from "react-hot-toast";
 
 
 const workerSlice = createSlice({
@@ -12,6 +13,7 @@ const workerSlice = createSlice({
         loading: true,
         error: '',
         updateWorker: Date.now(),
+        success: '',
     },
     reducers:{
       initialFetchTable:(state, action)=>{
@@ -25,83 +27,88 @@ const workerSlice = createSlice({
       },
       revertLoading:(state, action)=>{
           state.loading = true
+      },
+      errMessage:(state, action)=>{
+        state.error = action.payload
+      },
+      successMessage:(state, action)=>{
+        state.success = action.payload
       }
     }
  
 
 })
 
-export const {initialFetchTable, updateWorkerData, initialFetchWorker, revertLoading} = workerSlice.actions
+export const {initialFetchTable, updateWorkerData, initialFetchWorker, revertLoading, errMessage, successMessage} = workerSlice.actions
 
 
   
 export default workerSlice.reducer;
 
 
-export const fetchWorkerData = (workerID, uid, tableName) =>{
-    return async (dispatch)=>{
-        const userDocRef = doc(db, 'users', uid);
-        const tableDocRef = doc(userDocRef, 'tables', tableName);
-      
-        try {
-          const tableDocSnapshot = await getDoc(tableDocRef);
-      
-          if (tableDocSnapshot.exists()) {
-            const tableData = tableDocSnapshot.data();
-            console.log('Table data:', tableData);
+export const fetchWorkerData = (workerID, uid, tableName) => {
+  return async (dispatch) => {
+    const userDocRef = doc(db, 'users', uid);
+    const tableDocRef = doc(userDocRef, 'tables', tableName);
 
-          
-            dispatch(initialFetchTable(tableData))
-      
-            // Access the workers array in the table data
-            const workers = tableData.workers || [];
-      
-            // Now you can work with the workers array
-            const currentWorker = workers.find((workerObj) => workerObj.ID === workerID);
+    getDoc(tableDocRef)
+      .then((tableDocSnapshot) => {
+        if (tableDocSnapshot.exists()) {
+          const tableData = tableDocSnapshot.data();
+          console.log('Table data:', tableData);
 
-            if (currentWorker) {
-              // Worker with the specified name found, set the worker data
-     
-              dispatch(initialFetchWorker(currentWorker))
-            } else {
-              // Worker not found, you can handle this case as needed
-              console.log(`Worker with name "${currentWorker}" not found.`);
-            }
-            console.log('Workers:', workers);
+          dispatch(initialFetchTable(tableData));
+
+          // Access the workers array in the table data
+          const workers = tableData.workers || [];
+
+          // Now you can work with the workers array
+          const currentWorker = workers.find((workerObj) => workerObj.ID === workerID);
+
+          if (currentWorker) {
+            // Worker with the specified name found, set the worker data
+            dispatch(initialFetchWorker(currentWorker));
           } else {
-            console.log('Table document does not exist.');
+            // Worker not found, you can handle this case as needed
+            console.log(`Worker with ID "${workerID}" not found.`);
           }
-        } catch (error) {
-          console.error('Error fetching table document:', error);
+          console.log('Workers:', workers);
+        } else {
+          console.log('Table document does not exist.');
         }
-    }
-}
+      })
+      .catch((error) => {
+        console.error('Error fetching table document:', error);
+        toast.error(error)
+      });
+  };
+};
 
-const updateTable = async (dispatch, uid, formData)=>{
 
-    const userDocRef = doc(db, 'users', uid); // Replace 'USER_ID' with the actual user's document ID
-        
 
-   
-    try {
+const updateTable = (dispatch, uid, formData) => {
+  const userDocRef = doc(db, 'users', uid);
 
-     const tableData ={
-        ...formData,
-        lastModified: getDate(),
-      }
+  const tableData = {
+    ...formData,
+    lastModified: getDate(),
+  };
 
-      const tableDocRef = doc(collection(userDocRef, 'tables'), formData.tableName);
-      await setDoc(tableDocRef, tableData);
+  const tableDocRef = doc(collection(userDocRef, 'tables'), formData.tableName);
 
+  setDoc(tableDocRef, tableData)
+    .then(() => {
       console.log('Table document written with ID:', tableDocRef.id);
-  
-      dispatch(updateWorkerData(Date.now()))
-    } catch (error) {
+      dispatch(successMessage(`${formData.tableName} updated`));
+      dispatch(updateWorkerData(Date.now()));
+      toast.success(`${formData.tableName} updated`)
+    })
+    .catch((error) => {
       console.error('Error adding documents:', error);
-    }
+      toast.error(error)
+    });
+};
 
-     
-}
 
 
 export const handleSubmitNameThunk = (e, uid, workerID, tableData)=>{
