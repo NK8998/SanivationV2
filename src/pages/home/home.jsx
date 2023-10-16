@@ -47,7 +47,7 @@ export default function Home({}){
 
            
             return(
-                <div>
+                <div key={index}>
                 <p className="date">{table?.createdAt}</p>
                 <div className="table-wrapper">
                     <Link to={`/${table?.tableName}`} key={table?.tableName || ''} className="date-wrapper">
@@ -124,10 +124,10 @@ export default function Home({}){
     console.log(monthArrays)
 
 
-    allTablesEl = monthArrays.map((month)=>{
+    allTablesEl = monthArrays.map((month, index)=>{
         const allMonthsArray = month?.tableArray || []
         return (
-            <div className="date-wrapper" >
+            <div className="date-wrapper" key={index}>
             <p className="date">{month?.month} {month?.year}</p>
             <div className="table-wrapper">
             {allMonthsArray.map((table, index)=>{
@@ -180,12 +180,12 @@ export default function Home({}){
         })
    
 
-       allTablesEl =  sortedByYear.map((yearObj)=>{
+       allTablesEl =  sortedByYear.map((yearObj, index)=>{
         const allYearArray = yearObj?.tables || []
         return(
 // display year and map over the array of tables
   
-            <div className="date-wrapper">
+            <div className="date-wrapper" key={index}>
                 <p className="date">{yearObj?.year}</p>
                 <div className="table-wrapper">
                 {allYearArray.map((table, index)=>{

@@ -78,7 +78,7 @@ export const getUserListThunk = (uid) => {
         .catch((error) => {
           // Handle Firebase error
           console.error('Error fetching table document:', error);
-          toast.error(error)
+          toast.error(error.message)
         });
     };
   };
@@ -101,7 +101,7 @@ export const getUserListThunk = (uid) => {
       })
       .catch((error) => {
         console.error('Error adding documents:', error);
-        toast.error(error)
+        toast.error(error.message)
       });
   };
 

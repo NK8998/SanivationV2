@@ -15,6 +15,8 @@ import { fetchInitialData, initialFetch } from "../../store/home-slice"
 import { initialWorkers } from "../../store/table-slice"
 import { AddPerson, NavigateBackArrow, OrderBy, Refresh, Search, SortBy } from "../../assets/icons"
 import { fetchWorkerData } from "../../store/worker-slice"
+import AddingWorker from "./adding-worker"
+import toast from "react-hot-toast"
 
 
 export default function PageManagerUpper(){
@@ -63,19 +65,21 @@ export default function PageManagerUpper(){
 
     }
 
-    const addWorker = (e)=>{
+    const addWorker = (e, foodOrdered, totalPackets)=>{
         e.preventDefault()
         const uniqueID = nanoid(6)
 
         const newWorkerObj = {
             ID:uniqueID,
-            worker: e.target.addWorker.value,
-            foodOrdered: e.target.addFoodOrdered.value,
+            listworker: e.target.addWorker.value,
+            foodOrdered: foodOrdered,
+            totalPackets: totalPackets,
             createdAt: getDate(),
             lastModified: getDate(),
         }
 
        updateTableData(newWorkerObj)
+    
 
     }
     
@@ -102,17 +106,20 @@ export default function PageManagerUpper(){
         
               // Update the lastModified timestamp
               tableData.lastModified = getDate();
-            
+            tableData.totalizer.totalPackets += workerObj.totalPackets
+            tableData.totalizer.totalPlates = newWorkersArray.length
         
               // Save the updated table data back to Firestore
               await setDoc(tableDocRef, tableData);
               console.log('Table document updated:', tableDocRef.id);
               dispatch(initialWorkers(filter, uid, tableName))
+              toast.success('successfully added worker')
             } else {
               console.log('Table document does not exist.');
             }
           } catch (error) {
             console.error('Error updating table document:', error);
+            toast.error(error.message)
           }
 
     }
@@ -187,23 +194,8 @@ export default function PageManagerUpper(){
             </div>
         </div>
         {addingWorker &&
-            <>
-        <div className="bg-black-adding" onClick={toggleAddingWorkerModal}></div>
-        <div className="adding-worker-modal">
-            <form onSubmit={addWorker}>
-                <p className="top-p">Add worker</p>
-                <div className="input-div">
-                    <input type="text" name="addWorker" placeholder="add worker" />
-                    <input type="text" name="addFoodOrdered" placeholder="food ordered"/>
-                </div>
-                <div className="adding-worker-bottom">
-                    <button type="button" className="left-button" onClick={toggleAddingWorkerModal}>Cancel</button>
-                    <button type="submit" className="right-button">Add</button>
-                </div>
-            </form>
-
-        </div>
-        </>}
+        <AddingWorker toggleAddingWorkerModal={toggleAddingWorkerModal} addWorker={addWorker}/>
+            }
 
 
         </>

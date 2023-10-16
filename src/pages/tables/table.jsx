@@ -30,6 +30,8 @@ export default function Table(){
         }
     }, [])
 
+    console.log(tableData)
+
     useEffect(()=>{
 
     }, [sortOrder, sortBy])

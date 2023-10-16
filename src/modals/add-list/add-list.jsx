@@ -107,7 +107,7 @@ export default function AddList(){
         
         } catch (error) {
           console.error('Error adding documents:', error);
-          toast.error(error)
+          toast.error(error.message)
         }
 
   }

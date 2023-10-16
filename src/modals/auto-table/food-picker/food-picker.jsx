@@ -24,22 +24,22 @@ export default function FoodPicker({toggleFoodPicker}){
 
     useEffect(()=>{
         if(currentWorker && currentWorker?.foodOrdered?.length > 0){
-            currentWorker.foodOrdered.map((food, index)=>{
-                if(index === 0){
-                    setMain(food)
-                }else if(index === 1){
-                    setSupplement(food)
-                }else if(index === 2){
-                    setGreens(food)
-                }else if(index === 3){
-                    const drink = food.split(' ')[1]
-                    setDrinks(` ${drink}`)
-                  
-               
-                }
+                currentWorker.foodOrdered.map((food, index)=>{
+                    if(index === 0){
+                        setMain(food)
+                    }else if(index === 1){
+                        setSupplement(food)
+                    }else if(index === 2){
+                        setGreens(food)
+                    }else if(index === 3){
+                        const drink = food.split(' ')[1]
+                        setDrinks(` ${drink}`)
+                    
                 
-            })
-            setTotalPackest(currentWorker.totalPackets)
+                    }
+                    
+                })
+                setTotalPackest(currentWorker.totalPackets)
         }else{
             setMain('')
             setGreens('')
@@ -90,7 +90,7 @@ export default function FoodPicker({toggleFoodPicker}){
         let newWorkerObj = {...currentWorker};
 
         
-        newWorkerObj.foodOrdered = [main, supplement, greens, `${drinks} ${drinks.length > 0  ? `(${totalPackets})` : ''}`]
+        newWorkerObj.foodOrdered = [main, supplement, greens, `${drinks} ${drinks.trim().length > 0  ? `(${totalPackets})` : ''}`]
 
         console.log(newWorkerObj.foodOrdered)
         let newChosenListObj = { ...chosenList };

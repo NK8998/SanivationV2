@@ -62,7 +62,7 @@ export const initialWorkers = (filter, uid, tableName)=>{
 
           }catch(error){
               console.error('error fetching', error)
-              toast.error(error)
+              toast.error(error.message)
           }finally{
             dispatch(revertLoading(false))
           }
@@ -85,7 +85,7 @@ export const initialWorkers = (filter, uid, tableName)=>{
        
         } catch (error) {
           console.error('Error fetching table document:', error);
-        toast.error(error)
+          toast.error(error.message)
           // remeber to show wthe error
         }finally{
           dispatch(revertLoading(false))
@@ -110,11 +110,13 @@ export const removeWorkerFromArray = (uid, tableName, workerID)=>{
         
             if (tableDocSnapshot.exists()) {
               const tableData = tableDocSnapshot.data();
-        
+              const workerToBeRemoved = tableData.workers.find((worker)=> worker.ID  === workerID)
+
               const newWorkersArray = tableData.workers.filter((workerObj) => workerObj.ID !== workerID)
               // Update the workers array in the table data
               tableData.workers = newWorkersArray;
-        
+              tableData.totalizer.totalPackets -= workerToBeRemoved.totalPackets
+              tableData.totalizer.totalPlates = newWorkersArray.length
               // Update the lastModified timestamp
               tableData.lastModified = getDate();
               
@@ -131,7 +133,7 @@ export const removeWorkerFromArray = (uid, tableName, workerID)=>{
             } 
 
         }catch (error) {
-          toast.error(error)
+          toast.error(error.message)
           console.error('Error updating table document:', error);
         }
     }

@@ -79,7 +79,7 @@ export const getUserListsThunk = (uid)=>{
        
         } catch (error) {
           console.error('Error fetching table document:', error);
-          toast.error(error)
+          toast.error(error.message)
           // remeber to throw error
         }
 
@@ -112,7 +112,7 @@ const modifyList = async (dispatch, uid, formData)=>{
       toast.success(`list ${formData.listName} modified`)
     } catch (error) {
       console.error('Error adding documents:', error);
-      toast.error(error)
+      toast.error(error.message)
     }
 
   }

@@ -9,7 +9,7 @@ const workerSlice = createSlice({
     name: 'worker',
     initialState: {
         tableData:{},
-        workerData: {},
+        workerData: {foodOrdered:[]},
         loading: true,
         error: '',
         updateWorker: Date.now(),
@@ -79,7 +79,7 @@ export const fetchWorkerData = (workerID, uid, tableName) => {
       })
       .catch((error) => {
         console.error('Error fetching table document:', error);
-        toast.error(error)
+        toast.error(error.message)
       });
   };
 };
@@ -105,7 +105,7 @@ const updateTable = (dispatch, uid, formData) => {
     })
     .catch((error) => {
       console.error('Error adding documents:', error);
-      toast.error(error)
+      toast.error(error.message)
     });
 };
 
@@ -127,32 +127,45 @@ export const handleSubmitNameThunk = (e, uid, workerID, tableData)=>{
             ...tableData,
             workers: updatedWorkers,
           };
+
         
           console.log(updatedTableData);
           updateTable(dispatch, uid, updatedTableData)
     }
 }
 
-export const handleSubmitOrdersThunk = (e, uid, workerID, tableData)=>{
+export const handleSubmitOrdersThunk = (newWorkerObj, tableData, uid, workerID)=>{
     return async(dispatch)=>{
-          // Create a new array with the updated worker data
-          const updatedWorkers = tableData.workers.map((workerObj) => {
-            if (workerObj.ID === workerID) {
-              // Update the specific foodOrdered field
-              return { ...workerObj, foodOrdered : e.target.editedOrders.value, lastModified: getDate() };
-            }
-            // If the worker doesn't match, return the original workerObj
-            return workerObj;
-          });
-        
-          // Create a new tableData object with the updated workers array
-          const updatedTableData = {
-            ...tableData,
-            workers: updatedWorkers,
-          };
-        
-          console.log(updatedTableData);
-          updateTable(dispatch, uid, updatedTableData)
+      let newTableData = {...tableData}
+      // Create a new array with the updated worker data
+    const updatedWorkers = newTableData.workers.map((workerObj) => {
+    if (workerObj.ID === workerID) {
+        // Update the specific foodOrdered field
+        return {...newWorkerObj};
+    }
+    // If the worker doesn't match, return the original workerObj
+    return workerObj;
+    });
+    
+    const newTotalizer = {...newTableData.totalizer}
+  
+   
+    newTableData.workers = updatedWorkers
+   
+
+    let newTotalPackets = 0
+    newTableData.workers.forEach((worker)=>{
+      newTotalPackets += worker.totalPackets
+    })
+   
+ 
+
+    const updatedTotalizer = {...newTotalizer, totalPackets:newTotalPackets}
+      // Create a new tableData object with the updated workers array
+    newTableData.totalizer = updatedTotalizer
+    console.log(newTableData)
+      
+    updateTable(dispatch, uid, newTableData)
         
           // You can now use the updatedTableData as needed
     }

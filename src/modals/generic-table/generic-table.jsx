@@ -85,7 +85,7 @@ export default function GenericTable(){
           toast.success(`${formData.tableName} added`)
         } catch (error) {
           console.error('Error adding documents:', error);
-          toast.error(error)
+          toast.error(error.message)
         }
 
   }

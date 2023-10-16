@@ -1,4 +1,5 @@
 import jsPDF from "jspdf";
+import toast from "react-hot-toast";
 
 export const convertMonthDataToPdf = (summarizedMonthData) => {
     // Create a new jsPDF instance
@@ -31,7 +32,7 @@ export const convertMonthDataToPdf = (summarizedMonthData) => {
   
     summarizedMonthData.forEach((month) => {
       doc.setFontSize(12);
-      doc.text(`Month: ${month.month}`, 10, y);
+      doc.text(`Month: ${month.month} ${month.year}`, 10, y);
   
       // Create rectangles for the grid
       doc.rect(10, y + 10, 60, 10); // Rectangle for 'Total Packets'
@@ -52,5 +53,6 @@ export const convertMonthDataToPdf = (summarizedMonthData) => {
   
     // Save or download the PDF
     doc.save('summary_report.pdf');
+    toast.success('Your summary has been generated')
   };
   

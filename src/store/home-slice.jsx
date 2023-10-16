@@ -73,8 +73,8 @@ export const fetchInitialData = (filter, uid) => {
         })
         .catch((error) => {
           console.error('Error fetching documents:', error);
-          dispatch(showError(error));
           dispatch(revertLoading(false));
+          toast.error(error.message)
         });
     } else {
       // Fetch all documents if no filter is provided
@@ -90,7 +90,7 @@ export const fetchInitialData = (filter, uid) => {
         })
         .catch((error) => {
           console.error('Error fetching documents:', error);
-          dispatch(showError(error));
+          toast.error(error.message)
           dispatch(revertLoading(false));
         });
     }
@@ -111,6 +111,7 @@ export const fetchDynamicData = () => {
         dispatch(dynamicFetch(moreData));
       } catch (error) {
         // Handle errors if necessary
+        toast.error(error.message)
       }
     };
   };
@@ -135,7 +136,7 @@ export const fetchDynamicData = () => {
          
         } catch (error) {
             console.error('Error updating table document:', error);
-            toast.error(error)
+            toast.error(error.message)
         }
 
 

@@ -1,16 +1,6 @@
-import { useDispatch, useSelector } from "react-redux"
-import { useSearchParams } from "react-router-dom"
-import { handleSubmitOrdersThunk } from "../../../store/worker-slice"
 import { useEffect, useState } from "react"
-import { getDate } from "../../../utilites/get-date"
 
-export default function EditOrder({workerID, startEditingOrders}){
-
-    const workerData = useSelector((state)=>state.worker.workerData)
-    const userData = useSelector((state)=> state.auth.userData)
-    const tableData = useSelector((state)=>state.worker.tableData)
-    const {uid} = userData
-    const dispatch = useDispatch()
+export default function AddingWorker({toggleAddingWorkerModal, addWorker}){
 
     const [mainDishes, setMainDishes] = useState([' Ugali', ' Chapati', ' Rice'])
     const [supplementDishes, setSupplementDishes] = useState([' Matumbo', ' meat'])
@@ -22,36 +12,6 @@ export default function EditOrder({workerID, startEditingOrders}){
     const [greens, setGreens]  = useState('')
     const [drinks, setDrinks] = useState('')
     const [totalPackets, setTotalPackest] = useState(0)
-
-
-    useEffect(()=>{
-       
-        workerData.foodOrdered.map((food, index)=>{
-            if(index === 0){
-                setMain(food)
-            }else if(index === 1){
-                setSupplement(food)
-            }else if(index === 2){
-                setGreens(food)
-            }else if(index === 3){
-                const drink = food.split(' ')[1]
-                setTimeout(()=>{
-                    setDrinks(` ${drink}`)
-                }, 100)
-                
-              
-           
-            }
-            
-        })
-        setTimeout(()=>{
-            setTotalPackest(workerData.totalPackets)
-        }, 100)
-      
-       
-       
-
-    }, [])
 
     const mainDishesEl = mainDishes.map((mainFood)=>{
         return(
@@ -89,30 +49,23 @@ export default function EditOrder({workerID, startEditingOrders}){
         )
     })
 
-    const foodOrdered = [main, supplement, greens, `${drinks} ${drinks.length > 0  ? `(${totalPackets})` : ''}`]
+    const foodOrdered = [main, supplement, greens, `${drinks} ${drinks.trim().length > 0  ? `(${totalPackets})` : ''}`]
 
     useEffect(()=>{
 
         totalPackets === 0 && setDrinks('')
     }, [totalPackets])
 
-    const handleSubmitOrders = (e)=>{
-        e.preventDefault()
-       
-        let newWorkerObj = {...workerData}
-        newWorkerObj.totalPackets = totalPackets
-        newWorkerObj.lastModified = getDate()
-        newWorkerObj.foodOrdered = foodOrdered
-    
-
-        dispatch(handleSubmitOrdersThunk(newWorkerObj, tableData, uid, workerID))
-    }
     return(
         <>
-        <div className="editing-orders-bg" onClick={startEditingOrders}></div>
-        <form onSubmit={(e)=>handleSubmitOrders(e)} className="editing-orders">
-            <div className="form-middle">
-            <div className="editing-orders-picker">
+        <div className="bg-black-adding" onClick={toggleAddingWorkerModal}></div>
+        <div className="adding-worker-modal">
+            <form onSubmit={(e)=>addWorker(e, foodOrdered, totalPackets)}>
+                <p className="top-p">Add worker</p>
+                <div className="input-div">
+                    <input type="text" name="addWorker" placeholder="add worker" />
+                </div>
+                <div className="adding-worker-picker">
                     <div className="Main picker">
                         <p>Main</p>
                         <div className="picker-container">
@@ -141,13 +94,13 @@ export default function EditOrder({workerID, startEditingOrders}){
                 
                     </div>
                 </div>
-            </div>
-            <div className="modal-bottom">
-                <button type="button" onClick={startEditingOrders}>Cancel</button>
-                <button type="submit">Update</button>
-            </div>
-        </form>
-        </>
+                <div className="modal-bottom">
+                    <button type="button" className="left-button" onClick={toggleAddingWorkerModal}>Cancel</button>
+                    <button type="submit" className="right-button">Add</button>
+                </div>
+            </form>
 
+        </div>
+        </>
     )
 }

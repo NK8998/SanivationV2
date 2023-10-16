@@ -16,8 +16,9 @@ export default function EditName({workerID, tableData, startEditingName}){
         dispatch(handleSubmitNameThunk(e, uid, workerID, tableData))
     }
     return(
-   
-        <form onSubmit={(e)=>handleSubmitName(e)}>
+        <>
+        <div className="adding-name-bg" onClick={startEditingName}></div>
+        <form onSubmit={(e)=>handleSubmitName(e)} className="editing-name">
                 <p className="top-form">*Changes for this field will take effect after refreshing*</p>
                 <div className="form-middle">
                     <input type="text" name="editedName" placeholder="edit order" defaultValue={workerData?.worker || workerData?.listworker}/>
@@ -27,7 +28,8 @@ export default function EditName({workerID, tableData, startEditingName}){
                     <button type="button" onClick={startEditingName}>Cancel</button>
                     <button type="submit">Update</button>
                 </div>
-        </form>          
+        </form>   
+        </>       
 
     )
 }

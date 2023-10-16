@@ -4,13 +4,14 @@ import SideNav from '../navigation/side-nav/side-nav';
 import PageManagerUpper from './page-manager-upper/page-manager-upper';
 import AllRoutes from './all-routes/allRoutes';
 import ModalsExport from './modals-export/modals-exports';
-import { Burger } from '../assets/icons';
+import { Burger, PrinterIcon } from '../assets/icons';
 import { useState } from 'react';
 import { db } from '../authentication/config';
 import { collection, doc, getDocs } from 'firebase/firestore';
 import jsPDF from 'jspdf';
 import { convertMonthDataToPdf } from './convertTodpf';
 import { Toaster } from 'react-hot-toast';
+import { useFilterContext } from '../utilites/filter-context';
 
 
 export default function PageManager(){
@@ -18,6 +19,7 @@ export default function PageManager(){
     const [showNav, setShowNav] = useState(false)
 
     const userData = useSelector((state)=>state.auth.userData)
+    const {filterRouteData} = useFilterContext()
     const {uid } = userData
     const toggleNav = ()=>{
         setShowNav((prevState) =>!prevState)
@@ -105,6 +107,7 @@ export default function PageManager(){
     
       // Create a summary object for the current month
       const monthTotalizerObj = {
+        year: month.year,
         month: month.month,
         totalPackets: totalPackets,
         totalPlates: totalPlates,
@@ -113,10 +116,12 @@ export default function PageManager(){
       // Push the summary object to the monthArrays
       summarizedMonthData.push(monthTotalizerObj);
     });
+
+    const sortedsummarizedMonthData = filterRouteData(summarizedMonthData, 'true')
     
     // Now, monthArrays contains totalPackets and totalPlates for each month
-    console.log(summarizedMonthData);
-    convertMonthDataToPdf(summarizedMonthData)
+    console.log(sortedsummarizedMonthData);
+    convertMonthDataToPdf(sortedsummarizedMonthData)
 }
 
 
@@ -131,8 +136,10 @@ export default function PageManager(){
                 <div className='header-burger' onClick={toggleNav}>
                     <Burger/>
                 </div>
-                <h1>Orders</h1>
-                <button onClick={getSummary}>get summary</button>
+                <div className='orders-and-summary'>
+                  <h1>Orders</h1>
+                  <button onClick={getSummary} title='get summary'><PrinterIcon/></button>
+                </div>
                 <div className='page-rendered'>
                     <PageManagerUpper/>
                         <Header/>

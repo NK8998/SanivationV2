@@ -6,7 +6,7 @@ import { fetchWorkerData } from "../../store/worker-slice"
 import EditName from "./worker-forms/edit-name"
 import EditOrder from "./worker-forms/edit-order"
 import { useParams } from "react-router-dom"
-import { EditIcon, EditList } from "../../assets/icons"
+import { DrinksIcon, EditIcon, EditList, MainFoodIcon, SupplementFoodIcon } from "../../assets/icons"
 
 export default function Worker(){
     const {setEditingWorker} = useFilterContext()
@@ -59,6 +59,36 @@ export default function Worker(){
 
     }
 
+    const workerDataEl = workerData?.foodOrdered?.map((food, index)=>{
+
+        let type;
+        let icon;
+        if( index === 0){
+            type = 'main' 
+            icon = <MainFoodIcon/>
+        }else if(index === 1){
+            type = 'supplement'
+            icon = <SupplementFoodIcon/>
+        }else if(index === 2){
+            type = 'greens'
+            icon = <SupplementFoodIcon/>
+        }else if(index === 3){
+            type = 'drink'
+            icon = <DrinksIcon/>
+        }
+      
+        return(
+            <div className="food-picked" >
+                  <p>{type}</p>
+                <div className=" pick">
+                    {icon}
+                  
+                    {food}
+                </div>
+            </div>
+        )
+    })
+
     return(
         <div className="chosen-worker">
             <div className="chosen-worker-start">
@@ -72,8 +102,10 @@ export default function Worker(){
                         {editingName && <EditName workerID={workerID} tableData={tableData} startEditingName={startEditingName}/>}
                     </div>
                     <div className="worker-middle general">
-                        <p>Food</p>
-                        <p className="right editable-field " onClick={startEditingOrders}>{workerData?.foodOrdered}</p>
+                      
+                        <div className="all-foods-container" onClick={startEditingOrders}>
+                        {workerDataEl}
+                        </div>
                         {editingOrders && <EditOrder workerID={workerID} tableData={tableData} startEditingOrders={startEditingOrders}/>}
                     </div>
                 
