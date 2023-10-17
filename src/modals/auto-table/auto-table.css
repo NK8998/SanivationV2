@@ -20,7 +20,7 @@
     font-weight: 600;
 }
 .top-section{
-    height: fit-content;
+    min-height: 100px;
 }
 .top-section .list-head{
     font-size: 16px;
