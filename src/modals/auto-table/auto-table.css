@@ -20,7 +20,7 @@
     font-weight: 600;
 }
 .top-section{
-    height: 13vh;
+    height: fit-content;
 }
 .top-section .list-head{
     font-size: 16px;
@@ -185,7 +185,7 @@
 .all-workers-container{
     padding: 10px 5px;
     height: fit-content;
-    max-height: 300px;
+    /* max-height: 300px; */
     overflow-y: scroll;
 }
 .all-workers-container::-webkit-scrollbar{
