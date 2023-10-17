@@ -14,7 +14,7 @@
     height: 90vh;
  
     border-radius: 12px;
-    overflow-y: scroll;
+    overflow: hidden;
    
 }
 .modal-inner{
@@ -59,7 +59,7 @@
 
 .secondary-chin{
     height: 80px;
-    /* position: absolute; */
+    position: absolute;
     bottom: 45px;
     width: 100%;
     background-color: white;
