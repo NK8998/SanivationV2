@@ -127,13 +127,15 @@ export default function AutoTable(){
                 <div className="all-workers-container">
                     {listContent}
                 </div>
-                <div className="modal-bottom">
-                    <button className="left-button" onClick={toggleAutoTable}>Cancel</button>
-                    <button className="right-button" onClick={generateTable}>Save</button>
-                </div>
+                
                 <Totalizer setTotalizerOpen={setTotalizerOpen} totalizerOpen={totalizerOpen} removedWorkerIDs={removedWorkerIDs}/>
-            <div className="secondary-chin" onClick={()=>{setShowLists((prevState)=>!prevState)}}>
-                <button className="lists-toggle" ><ToggleListsIcon/></button>
+            <div className="secondary-chin " >
+                <button className="left-button " onClick={toggleAutoTable}>Cancel</button>
+
+                <button className="lists-toggle" onClick={()=>{setShowLists((prevState)=>!prevState)}}><ToggleListsIcon/></button>
+
+                <button className="right-button" onClick={generateTable}>Save</button>
+
             </div>
       
             <AllListsAuto showLists={showLists} setShowLists={setShowLists}/>

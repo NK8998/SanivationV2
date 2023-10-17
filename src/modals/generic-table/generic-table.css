@@ -19,3 +19,8 @@
 .modal-container.generic .worker-dynamic{
     gap: 1em;
 }
+
+.modal-container.generic  .dynamic-fields-container{
+    max-height:230px ;
+    overflow-y: scroll;
+}

@@ -67,6 +67,7 @@
     justify-content: center;
     align-items: center;
     z-index: 22;
+    gap: 2em;
 
 }
 .secondary-chin .lists-toggle{
@@ -95,7 +96,8 @@
     padding: 5px 20px;
     gap: 1em;
 }
-.modal-bottom button{
+.modal-bottom button,
+.secondary-chin button{
     transition: all 150ms ease;
     border-radius: 11000px;
     padding: 5px;
@@ -104,7 +106,8 @@
     cursor: pointer;
 }
 
-.modal-bottom :nth-child(2){
+.modal-bottom :nth-child(2),
+.secondary-chin .right-button{
     border: 1px solid rgb(255, 172, 172);
     font-weight: 700;
     color: white;
@@ -112,17 +115,20 @@
     
     
 }
-.modal-bottom :nth-child(2):hover{
+.modal-bottom :nth-child(2):hover,
+.secondary-chin .right-button:hover{
     border: 1px solid rgb(35, 27, 148);
     scale: 1.05;
 }
-.modal-bottom :nth-child(2):active{
+.modal-bottom :nth-child(2):active,
+.secondary-chin .right-button:active{
     transform: scale(.95);
     color: rgb(35, 27, 148);
     background-color: rgb(255, 255, 255);
 }
 
-.modal-bottom :first-child{
+.modal-bottom :first-child,
+.secondary-chin .left-button{
     border: 1px solid rgb(255, 190, 190);
     font-weight: 600;
     background-color: white;

@@ -120,19 +120,21 @@ export default function ModifyList(){
                 <form onSubmit={(e)=>{addWorkers(e)}}>
                 {dynamicFieldsToBeRendered}
                 <div className="addplus" onClick={addFields}><AddPlusIcon/><p>Add field </p></div>
-                <div className="modal-bottom">
-                      <button className="left-button" onClick={()=>{dispatch(toggleOpenListModifier())}}>Cancel</button>
-                      <button className="right-button">Save</button>
-                  </div>
+              
+                <div className="secondary-chin">
+            <button className="left-button" type="button" onClick={()=>{dispatch(toggleOpenListModifier())}}>Cancel</button>
+
+                <button className="lists-toggle" type="button" onClick={()=>{setShowLists((prevState)=>!prevState)}}><ToggleListsIcon/></button>
+                <button className="right-button">Save</button>
+
+            </div>
                 </form>
 
 
               </div>
 
 
-            <div className="secondary-chin" onClick={()=>{setShowLists((prevState)=>!prevState)}}>
-                <button className="lists-toggle" ><ToggleListsIcon/></button>
-            </div>
+           
             <AllListsModify showLists={showLists} setShowLists={setShowLists}/>
             {/* buttons to open lists drawer should slide from bottom */}
             {removingWorkerModal && <RemoveWorkerModal removeWorker={removeWorker} toggleRemovingWorker={toggleRemovingWorker}/>}

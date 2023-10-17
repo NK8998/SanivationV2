@@ -147,10 +147,12 @@ export default function GenericTable(){
                 <p>*separate each entry for food with comas*</p>
                 <div className="dynamic-fields-container">
                 {dynamicFieldsToBeRendered}
-                </div>
                 <div className="addplus" onClick={addFields}><AddPlusIcon/><p>Add field </p></div>
+
                 </div>
-                <div className="modal-bottom">
+                </div>
+
+                <div className="secondary-chin">
                     <button type="button" className="left-button" onClick={()=>{dispatch(toggleopenGenericTable())}}>Cancel</button>
                     <button type="submit" className="right-button">Save</button>
                 </div>

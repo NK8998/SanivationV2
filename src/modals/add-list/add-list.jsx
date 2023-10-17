@@ -133,14 +133,15 @@ export default function AddList(){
                 <div className="dynamic-container">
                     <p>Add as many fields as you wish</p>
                     {dynamicFieldsToBeRendered}
+                    <div className="addplus" onClick={addFields}><AddPlusIcon/> <p>add field </p></div>
+
                 </div>
 
 
            
 
-            <div className="addplus" onClick={addFields}><AddPlusIcon/> <p>add field </p></div>
 
-            <div className="modal-bottom">
+            <div className="secondary-chin">
                 <button type="button"className="left-button" onClick={()=>{dispatch(toggleOpenLists())}}>Cancel</button>
                 <button type="submit"className="right-button">Save</button>
             </div>
