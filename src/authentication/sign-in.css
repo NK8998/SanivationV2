@@ -9,7 +9,7 @@
     margin: 0 auto;
     background-color: rgb(43, 43, 43);
     border-radius: 6px;
-    color: white;
+    color: rgb(230, 230, 230);
     border: 1px solid rgba(255, 255, 255, 0.199);
     padding: 5px 10px;
     font-size: 14px;
@@ -20,4 +20,26 @@
 
 .sign-in button:active{
     transform: scale(.95);
+}
+.sign-in-options{
+    border: 1px solid rgba(128, 128, 128, 0.295);
+    width: 90%;
+    min-width: 250px;
+    max-width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    height: 300px;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 30px;
+}
+.inop{
+    opacity: .4;
+}
+.sign-in-options button{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    width: 100%;
 }

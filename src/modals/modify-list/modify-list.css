@@ -123,3 +123,9 @@
 .modal-container.modifying form{
     box-shadow: 1px -20px 20px 5px rgba(0, 0, 0, 0.062);
 }
+
+.all-workers-container.modifying .modal-bottom{
+    position: absolute;
+    right: 0;
+    bottom: 150px;
+}

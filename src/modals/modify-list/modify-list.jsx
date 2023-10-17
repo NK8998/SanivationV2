@@ -117,28 +117,17 @@ export default function ModifyList(){
             <div className="all-workers-container modifying">
                 <p className="top-p">Current Workers on list:</p>
                 {listContent}
-
-              </div>
-
-            <form onSubmit={(e)=>{addWorkers(e)}}>
-                <button type="button"className="adding-workers-top" onClick={()=>{setAddingWorkersModal((prevState)=>!prevState)}}><AddPlusIcon/>Add workers</button>
-                <div className={`adding-workers-containers ${addingWorkersModal ? 'open' : ''}`}>
-                <div className="close-me-container">
-                    <div className="close-me" onClick={()=>{setAddingWorkersModal((prevState)=>!prevState)}}></div>
-                </div>
-                  {dynamicFieldsToBeRendered}
-                  <div className="addplus" onClick={addFields}><AddPlusIcon/><p>Add field </p></div>
-                </div>
-            
-           
-
-                  <div className="modal-bottom">
+                <form onSubmit={(e)=>{addWorkers(e)}}>
+                {dynamicFieldsToBeRendered}
+                <div className="addplus" onClick={addFields}><AddPlusIcon/><p>Add field </p></div>
+                <div className="modal-bottom">
                       <button className="left-button" onClick={()=>{dispatch(toggleOpenListModifier())}}>Cancel</button>
                       <button className="right-button">Save</button>
                   </div>
-               
-            </form>
+                </form>
 
+
+              </div>
 
 
             <div className="secondary-chin" onClick={()=>{setShowLists((prevState)=>!prevState)}}>

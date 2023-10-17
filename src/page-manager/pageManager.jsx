@@ -4,7 +4,7 @@ import SideNav from '../navigation/side-nav/side-nav';
 import PageManagerUpper from './page-manager-upper/page-manager-upper';
 import AllRoutes from './all-routes/allRoutes';
 import ModalsExport from './modals-export/modals-exports';
-import { Burger, PrinterIcon } from '../assets/icons';
+import { Burger, PrinterIcon, ShowData } from '../assets/icons';
 import { useState } from 'react';
 import { db } from '../authentication/config';
 import { collection, doc, getDocs } from 'firebase/firestore';
@@ -12,6 +12,7 @@ import jsPDF from 'jspdf';
 import { convertMonthDataToPdf } from './convertTodpf';
 import { Toaster } from 'react-hot-toast';
 import { useFilterContext } from '../utilites/filter-context';
+import TableTotalizer from './table-totalizer';
 
 
 export default function PageManager(){
@@ -19,8 +20,11 @@ export default function PageManager(){
     const [showNav, setShowNav] = useState(false)
 
     const userData = useSelector((state)=>state.auth.userData)
-    const {filterRouteData} = useFilterContext()
+    const {filterRouteData, individualTable} = useFilterContext()
+    const [showTableData, setShowTableData] = useState(false)
     const {uid } = userData
+    const [allMonths, setAllMonths] = useState(false)
+    const [summaryModal, setSummaryModal] = useState(false)
     const toggleNav = ()=>{
         setShowNav((prevState) =>!prevState)
     }
@@ -60,12 +64,26 @@ export default function PageManager(){
     if (yearObj.year) {
         allYearObjs.push(yearObj);
     }
+
+    const mergedYearObjs = [];
+
+    allYearObjs.forEach((yearObj) => {
+    const existingYear = mergedYearObjs.find((mergedYear) => mergedYear.year === yearObj.year);
+
+    if (existingYear) {
+        // Year object with the same year already exists, merge the tables
+        existingYear.tables = existingYear.tables.concat(yearObj.tables);
+    } else {
+        // Year object with this year doesn't exist, add a new one
+        mergedYearObjs.push({ year: yearObj.year, tables: yearObj.tables });
+    }
+    });
     
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     
     const monthArrays = [];
     
-    allYearObjs.forEach((yearObj) => {
+    mergedYearObjs.forEach((yearObj) => {
       const monthGroups = new Map(); // Use a Map to group tables by month
       yearObj.tables.forEach((table) => {
         const month = parseInt(table.createdAt.split('-')[1]);
@@ -91,7 +109,7 @@ export default function PageManager(){
     console.log(monthArrays)
 
     // get the totalPlates and totalPackets
-    const summarizedMonthData = []; // Assuming you have your month data here
+    let summarizedMonthData = []; // Assuming you have your month data here
     
     // Iterate over each month
     monthArrays.forEach((month) => {
@@ -117,6 +135,15 @@ export default function PageManager(){
       summarizedMonthData.push(monthTotalizerObj);
     });
 
+    const currentDate = new Date();
+    const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
+
+    console.log('Current Month:', currentMonth);
+
+    if(!allMonths){
+      summarizedMonthData = summarizedMonthData.filter((month)=> month.month === currentMonth)
+    }
+
     const sortedsummarizedMonthData = filterRouteData(summarizedMonthData, 'true')
     
     // Now, monthArrays contains totalPackets and totalPlates for each month
@@ -138,7 +165,10 @@ export default function PageManager(){
                 </div>
                 <div className='orders-and-summary'>
                   <h1>Orders</h1>
-                  <button onClick={getSummary} title='get summary'><PrinterIcon/></button>
+                  <div className='right-bundle'>
+                  <button onClick={()=>setSummaryModal(true)} title='get summary'><PrinterIcon/></button>
+                  {individualTable && <button className='show-data' onClick={()=>setShowTableData((prevState)=>!prevState)}><ShowData/>show data</button>}
+                  </div>
                 </div>
                 <div className='page-rendered'>
                     <PageManagerUpper/>
@@ -147,10 +177,25 @@ export default function PageManager(){
                  
                 </div>
             </div>
-            <div className='company-picture'>
-
+            <div className={`company-picture ${individualTable ? 'active' : ''} ${showTableData ? 'show': ''}`}>
+              {individualTable && <TableTotalizer setShowTableData={setShowTableData} showTableData={showTableData}/>}
             </div>
         </div>
+       {summaryModal &&  
+        <>
+          <div className='summary-bg-black' onClick={()=>setSummaryModal((prevState)=>!prevState)}></div>
+          <div className='summary-modal'>
+            <p>Select whether to get summary of all months or just the current month</p>
+            <div className='summary-buttons'>
+              <button className={`${allMonths ? 'chosen': ''}`} onClick={()=>setAllMonths(true)}>All months</button>
+              <button className={`${allMonths ? '': 'chosen'}`} onClick={()=>setAllMonths(false)}>Current month</button>
+            </div>
+            <div className='modal-bottom'>
+              <button  onClick={()=>setSummaryModal((prevState)=>!prevState)}>Cancel</button>
+              <button onClick={getSummary}><PrinterIcon/>Generate</button>
+            </div>
+          </div>
+          </>}
         <ModalsExport/>
         </>
     )

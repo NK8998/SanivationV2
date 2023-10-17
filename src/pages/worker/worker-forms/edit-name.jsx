@@ -24,7 +24,7 @@ export default function EditName({workerID, tableData, startEditingName}){
                     <input type="text" name="editedName" placeholder="edit order" defaultValue={workerData?.worker || workerData?.listworker}/>
                 </div>
 
-                <div className="bottom-buttons">
+                <div className="modal-bottom">
                     <button type="button" onClick={startEditingName}>Cancel</button>
                     <button type="submit">Update</button>
                 </div>

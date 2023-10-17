@@ -1,11 +1,12 @@
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import "./table.css"
 import { useFilterContext } from "../../utilites/filter-context"
 import { useDispatch, useSelector } from "react-redux"
 import { initialWorkers, removeWorkerFromArray } from "../../store/table-slice"
 import { Link, useParams } from "react-router-dom"
 import { TrashIcon } from "../../assets/icons"
+import RemoveWorkerModal from "./modal"
 export default function Table(){
 
     const {setIndividualTable, filterRouteData, setTableName, sortOrder, sortBy} = useFilterContext()
@@ -15,6 +16,10 @@ export default function Table(){
     const {uid} = userData
     const dispatch = useDispatch()
     const {tableName} = useParams()
+
+    const [removeWorkerModal, setRemoveWorkerModal] = useState(false)
+    const [currentWorker, setCurrentWorker] = useState({})
+    
   
 
     useEffect(()=>{
@@ -30,20 +35,28 @@ export default function Table(){
         }
     }, [])
 
-    console.log(tableData)
-
+  
     useEffect(()=>{
 
     }, [sortOrder, sortBy])
 
-    const removeWorker = async (e, workerID)=>{
+    const removeWorker = async ()=>{
       
+
+        dispatch(removeWorkerFromArray(uid, tableName, currentWorker.ID))
+
+        setRemoveWorkerModal(false)
+    }  
+
+    const toggleWorkerModal = (e, workerObj)=>{
+        
         e.stopPropagation()
         e.preventDefault()
 
-        dispatch(removeWorkerFromArray(uid, tableName, workerID))
-    }  
+        setCurrentWorker(workerObj)
+        setRemoveWorkerModal((prevState)=>!prevState)
 
+    }
     
 
     const sortedWorkers = filterRouteData(tableData.workers)
@@ -51,7 +64,7 @@ export default function Table(){
     const workersEl = sortedWorkers.map((worker)=>{
 
         return (
-            <>
+            <div key={worker.ID}>
             <p className="date"></p>
             <div className="table-wrapper">
             <Link to={`/${tableName}/${worker.ID}`} key={worker.ID}>
@@ -63,11 +76,11 @@ export default function Table(){
                     <p >{worker.ID}</p>
                     <p >{worker.createdAt}</p>
                     <p >{worker.lastModified}</p>
-                    <p  className="remove" onClick={(e)=>{removeWorker(e, worker.ID)}}><TrashIcon/></p>
+                    <p  className="remove" onClick={(e)=>{toggleWorkerModal(e, worker)}}><TrashIcon/></p>
                 </div>
             </Link>
             </div>
-            </>
+            </div>
         )
 
     })
@@ -77,6 +90,7 @@ export default function Table(){
         <div className="chosen-table">
            {loading ? <p>Loading...</p> : workersEl}
 
+        {removeWorkerModal && <RemoveWorkerModal setRemoveWorkerModal={setRemoveWorkerModal} removeWorker={removeWorker} currentWorker={currentWorker}/> }
         </div>
     )
 }

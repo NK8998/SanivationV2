@@ -32,7 +32,7 @@ const FilteredContentProvider = ({children})=>{
     const [workerID, setWorkerID] = useState()
 
 
-    const [tableCluster, setTableCluster] = useState(2)
+    const [tableCluster, setTableCluster] = useState(1)
    
 
     
@@ -42,11 +42,18 @@ const FilteredContentProvider = ({children})=>{
 
     const converTime = (time)=>{
 
-        const date = new Date(time);
+      const dateParts = time.split('-');
 
-        const timestampSeconds = Math.floor(date.getTime() / 1000);
+      // Rearrange the date parts
+      const flippedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+    
+    
+      const date = new Date(flippedDate);
 
-        return(timestampSeconds)
+      const timestamp = date.getTime()
+   
+
+      return(timestamp)
 
     }
 

@@ -16,10 +16,10 @@
 }
 .header-and-pages{
     background-color: white;
-    border-radius: 10px 0px 0px 10px;
+    border-radius: 10px ;
     flex-grow: 1;
     padding: 30px 40px;
-    box-shadow: 3px 0px 8px 3px rgba(0, 0, 0, 0.404);
+    box-shadow: 0px 0px 8px 3px rgba(0, 0, 0, 0.233);
     overflow: hidden;
     width: 100%;
 }
@@ -44,7 +44,7 @@
     display: flex;
     justify-content: space-between;
     max-width: 1280px;
-    min-width: 850px;
+    width: 100%;
 }
 .orders-and-summary button{
     padding: 5px 10px;
@@ -57,6 +57,11 @@
     fill:  rgb(255, 175, 175);
 }
 
+.right-bundle{
+    display: flex;
+    align-items: center;
+    gap: .5em;
+}
 .route-renderer::-webkit-scrollbar{
     width: 8px;
   
@@ -87,8 +92,131 @@
     display: none;
 }
 
+.company-picture{
+    transition: all 150ms ease;
+    width: 0px;
+    min-width: 0px;
+    height: 100vh;
+}
+
+.company-picture.active{
+    
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+    
+}
+
+.show-data{
+    display: none;
+    font-weight: 500;
+    color: grey;
+    
+}
+.orders-and-summary .show-data svg{
+    fill: rgb(250, 200, 108);
+}
+.close-button{
+    display: none;
+    background-color: transparent;
+    border: 1px solid rgba(128, 128, 128, 0.322);
+    border-radius: 5px;
+    cursor: pointer;
+   
+}
+.close-button svg{
+    fill: black;
+}
+.table-name-totalizer{
+    /* background-color: rgb(183, 208, 255); */
+    padding: 10px ;
+    
+    border-bottom: 1px solid rgba(128, 128, 128, 0.356);
+    
+    
+}
+.table-data.right-side .table-name-totalizer p{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+.table-data.right-side{
+    padding: 10px 10px;
+    /* padding-top: 20vh; */
+
+
+}
+.top-totalizer,
+.dates{
+    padding: 10px;
+}
+
+.table-data.right-side p{
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 10px;
+}
+.table-data.right-side p span{
+    font-weight: 700;
+    font-style: italic;
+}
+
 @media(max-width:40em){
     .header-and-pages{
         padding: 30px 5px;
     }
+}
+
+@media(max-width:80em){
+    .table-name-totalizer{
+        border-top: 1px solid rgba(128, 128, 128, 0.356);
+        margin-top: 10px;
+        padding-top: 5px;
+        
+    }
+    .close-button{
+        display: block;
+    }
+    .company-picture.active{
+      width: 0px;
+      min-width: 0;
+
+    }
+    .table-data.right-side{
+        padding-top: 10px;
+        position: fixed;
+        right: -240px;
+        top: 0;
+        z-index: 10;
+        background-color: hsl(0, 0%, 95%);
+        height: 100vh;
+        min-width: 200px;
+        transition: all 150ms ease;
+
+    }
+    .table-data.right-side.show{
+        right: 0px;
+    }
+    .show-data{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        height: 40px;
+    }
+    .totalizer-bg-black{
+        display: none;
+    }
+    .totalizer-bg-black.show{
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.164);
+        z-index: 9;
+        top: 0;
+        left: 0;
+        display: block;
+    }
+
+
 }

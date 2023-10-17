@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import "./side-nav.css"
 import { toggleOpenAutoTable, toggleOpenListModifier, toggleOpenLists, toggleopenGenericTable } from "../../store/modals-slices/all-modals-controller"
-import { AddTable, Burger, CreateList, EditList, NavigateBackArrow, PlusIcon, Settings } from "../../assets/icons"
+import { AddTable, Burger, CreateList, EditList, NavigateBackArrow, PlusIcon, Selected, Settings } from "../../assets/icons"
 import { useState } from "react"
 import { useFilterContext } from "../../utilites/filter-context"
 export default function SideNav({toggleNav, showNav}){
@@ -17,7 +17,7 @@ export default function SideNav({toggleNav, showNav}){
     const firstName = displayName.split(' ')[0]
     const [drawerOpen, setDrawerOpen] = useState(false)
 
-    const {setTableCluster} = useFilterContext()
+    const {tableCluster, setTableCluster} = useFilterContext()
 
 
 
@@ -47,9 +47,9 @@ export default function SideNav({toggleNav, showNav}){
                 <div className={`drawer ${drawerOpen ? 'active': ''}`}>
                     <div className="guide-icon" onClick={()=>setDrawerOpen((prevState)=>!prevState)}><Settings/> <p>Configuration</p> <NavigateBackArrow/></div>
                     <div className={`drawer-lower`}>
-                        <button className={`first ${drawerOpen ? 'animate': ''}`} onClick={()=>{setTableCluster(0)}}>day</button>
-                        <button className={`second ${drawerOpen ? 'animate': ''}`} onClick={()=>{setTableCluster(1)}}>month</button>
-                        <button className={`third ${drawerOpen ? 'animate': ''}`} onClick={()=>{setTableCluster(2)}}>year</button>
+                        <button className={`first ${drawerOpen ? 'animate': ''} ${tableCluster === 0 ? 'active' : ''}`} onClick={()=>{setTableCluster(0)}}><p >{tableCluster === 0 && <Selected/>}</p>day</button>
+                        <button className={`second ${drawerOpen ? 'animate': ''} ${tableCluster === 1 ? 'active' : ''}`} onClick={()=>{setTableCluster(1)}}><p>{tableCluster === 1 && <Selected/>}</p>month</button>
+                        <button className={`third ${drawerOpen ? 'animate': ''} ${tableCluster === 2 ? 'active' : ''}`} onClick={()=>{setTableCluster(2)}}><p>{tableCluster === 2 && <Selected/>}</p>year</button>
                     </div>
                 </div>
                 <button className={`toggle-config ${drawerOpen ? 'active': ''}  ${showNav ? 'open' : 'min'}`} onClick={()=>setDrawerOpen((prevState)=>!prevState)}> <div className="display-picture"></div><p className={showNav ? 'open' : 'min'}>Hi,  {firstName}</p></button>

@@ -26,14 +26,36 @@
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid rgba(204, 204, 204, 0.623);
+    width: 100%;
+    padding: 10px 0px;
+    gap: 1em;
+    background-color: rgb(255, 251, 251);
+}
+.title-of-worker{
+    padding-left: 20px;
+    margin-top: 10px;
+    font-style: italic;
+    font-weight: 600;
 }
 
 .editable-field{
     padding: 10px 20px;
-    box-shadow: 1px 1px 5px 5px rgba(0, 0, 0, 0.158) ;
+    box-shadow: 1px 1px 5px 5px rgba(0, 0, 0, 0) ;
     border-radius: 50px;
     margin-top: 10px;
     width: 80%;
+}
+.editable-field.left{
+    border-radius: 0px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 2em;
+    padding-left: 20px;
+   
+}
+.editable-field.left svg{
+    fill: rgb(173, 173, 255);
 }
 .all-foods-container{
     display: flex;
@@ -45,9 +67,16 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 20px;
-    box-shadow: 0px 1px 5px 1px black;
-    border-radius: 2000px;
+    box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.055);
+    border-radius: 10px;
+    width: calc(100% - 40px);
 
+}
+.food-picked {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 500;
 }
 .pick svg{
     fill: orange;
@@ -68,9 +97,69 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 45vh;
+    height: fit-content;
     background-color: white;
     border-radius: 12px;
     padding: 10px;
     z-index: 20;
+    display: grid;
+    place-content: center;
+}
+
+.editing-name input{
+    padding: 5px 10px;
+    width: 90%;
+    border-radius: 5px;
+    border: 1px solid rgb(255, 176, 176);
+    margin-top: 10px;
+
+}
+
+.editing-name .modal-bottom{
+    margin-top: 10px;
+}
+
+.worker-end .editable-top{
+    height: 24px;
+}
+
+.worker-end span{
+    font-weight: 600;
+    font-size: 14px;
+    font-style: normal;
+}
+.worker-end p{
+    font-weight: 700;
+    font-style: italic;
+}
+.date-lower{
+    padding: 10px 20px;
+   
+}
+.date-lower p {
+    margin-top: 10px;
+}
+
+.worker-left{
+    border-right: 1px solid rgba(97, 97, 97, 0.281);
+}
+
+.general{
+    cursor: pointer;
+    margin-top: 20px;
+    box-shadow: 1px 1px 5px 1px rgb(255, 244, 244);
+    border-radius: 12px;
+}
+.general:hover{
+   
+    transform: translateY(-10px);
+    background-color: white;
+    transition: all 300ms ease;
+    
+ 
+}
+.left{
+    padding: 5px;
+    display: flex;
+    gap: 1em ;
 }

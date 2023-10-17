@@ -6,3 +6,38 @@
     
 
 }
+
+.bg-black-removing{
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 19;
+    background-color: rgba(0, 0, 0, 0.116);
+
+}
+
+.remove-worker{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: fit-content;
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px 20px;
+    z-index: 20;
+}
+.remove-worker p{
+    font-size: 15px;
+    font-weight: 500;
+}
+.remove-worker p span{
+    font-size: 22px;
+    font-weight: 700;
+    padding: 10px;
+}
+.remove-worker .modal-bottom{
+    margin-top: 10px;
+}

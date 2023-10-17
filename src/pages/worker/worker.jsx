@@ -6,7 +6,7 @@ import { fetchWorkerData } from "../../store/worker-slice"
 import EditName from "./worker-forms/edit-name"
 import EditOrder from "./worker-forms/edit-order"
 import { useParams } from "react-router-dom"
-import { DrinksIcon, EditIcon, EditList, MainFoodIcon, SupplementFoodIcon } from "../../assets/icons"
+import { AccountCircle, DrinksIcon, EditIcon, EditList, MainFoodIcon, SupplementFoodIcon } from "../../assets/icons"
 
 export default function Worker(){
     const {setEditingWorker} = useFilterContext()
@@ -96,25 +96,31 @@ export default function Worker(){
                 <p className="editable-top">click to edit <EditIcon/></p>
                 </div>
                 <div className="left">
-                    <div className="worker-left general">
-                        <p>Name</p>
-                        <p className=" left editable-field" onClick={startEditingName}>{workerData?.worker || workerData?.listworker}</p>
-                        {editingName && <EditName workerID={workerID} tableData={tableData} startEditingName={startEditingName}/>}
+                    <div className="worker-left general" onClick={startEditingName}>
+                        <p className="title-of-worker">Name</p>
+                        <p className=" left editable-field" ><AccountCircle/>{workerData?.worker || workerData?.listworker}</p>
+                   
                     </div>
                     <div className="worker-middle general">
-                      
+                    <p className="title-of-worker">Food</p>
                         <div className="all-foods-container" onClick={startEditingOrders}>
                         {workerDataEl}
                         </div>
-                        {editingOrders && <EditOrder workerID={workerID} tableData={tableData} startEditingOrders={startEditingOrders}/>}
+                      
                     </div>
                 
                 </div>
             </div>
-           
+            {editingName && <EditName workerID={workerID} tableData={tableData} startEditingName={startEditingName}/>}
+            {editingOrders && <EditOrder workerID={workerID} tableData={tableData} startEditingOrders={startEditingOrders}/>}
             <div className="worker-end ">
-                <p>created at: {workerData?.createdAt}</p>
-                <p>last modified: {workerData?.lastModified}</p>
+                <div className="editable-top">
+                    Date
+                </div>
+                <div className="date-lower">
+                    <p><span>created at:</span> {workerData?.createdAt}</p>
+                    <p><span>last modified: </span>{workerData?.lastModified}</p>
+                </div>
             </div>
         </div>
     )

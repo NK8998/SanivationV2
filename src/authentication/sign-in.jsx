@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { userLoggedIn } from "../store/auth-slice";
 import "./sign-in.css"
 import { json } from "react-router-dom";
+import { EmailLogo, GoogleLogo } from "../assets/icons";
 
 
 
@@ -17,8 +18,7 @@ export function SignIn(){
 
     useEffect(()=>{
         
-        // REMEMBER TO CHANE TO SESSION STORAGE
-      const userData =  localStorage.getItem('userData')
+      const userData =  sessionStorage.getItem('userData')
 
       if(userData){
         dispatch(userLoggedIn(JSON.parse(userData)))
@@ -39,7 +39,7 @@ export function SignIn(){
             
             })
             .catch((error) => {
-                console.error('Error signing in:', error);
+                console.error('Error signing in:', error.message);
             });
         }
 
@@ -47,7 +47,10 @@ export function SignIn(){
 
     return(
         <div className="sign-in">
-            <button onClick={handleClick}>Sign in with google</button>
+            <div className="sign-in-options">
+            <button onClick={handleClick}> <GoogleLogo/>Sign in with google</button>
+            <button className="inop"><EmailLogo/> email and password</button>
+            </div>
         </div>
     )
 }

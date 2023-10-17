@@ -74,7 +74,8 @@
     cursor: pointer;
     display: none;
 }
-.bg-black-adding{
+.bg-black-adding,
+.summary-bg-black{
     background-color: rgba(0, 0, 0, 0.192);
     position: fixed;
     top: 0;
@@ -83,7 +84,8 @@
     width: 100%;
     height: 100vh;
 }
-.adding-worker-modal{
+.adding-worker-modal,
+.summary-modal{
     position: fixed;
     top: 50%;
     left: 50%;
@@ -95,6 +97,49 @@
     padding: 10px 20px;
     border-radius: 12px;
 
+}
+.summary-modal p{
+    font-size: 14px;
+    font-weight: 500;
+    color: rgb(75, 75, 75);
+}
+.summary-modal .modal-bottom{
+    margin-top: 40px;
+}
+.summary-modal .modal-bottom svg{
+    background-color: transparent;
+    border: none;
+    fill: white;
+}
+.summary-modal .modal-bottom button{
+    display: flex;
+    align-items: center;
+    gap: .5em;
+    justify-content: center;
+    transform: scale(.9);
+}
+.summary-buttons{
+    display: flex;
+    gap: 1em;
+    margin-top: 10px;
+   
+}
+.summary-buttons button{
+    padding: 7px 10px;
+    background-color: white;
+    border: 1px solid rgba(128, 128, 128, 0.308);
+    border-radius: 4px;
+    font-weight: 600;
+    transition: all 200ms ease;
+    cursor: pointer;
+    color: rgb(83, 83, 83);
+   
+
+}
+.summary-buttons .chosen{
+    background-color: rgb(167, 227, 255);
+    border: 1px solid rgb(167, 227, 255);
+    color: white;
 }
 .top-p{
     font-weight: 600;

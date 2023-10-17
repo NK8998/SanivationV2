@@ -1,10 +1,11 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import "./home.css"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchDynamicData, fetchInitialData, removeTableFromArray } from "../../store/home-slice"
 import { useFilterContext } from "../../utilites/filter-context"
 import { Link } from "react-router-dom"
 import { TrashIcon } from "../../assets/icons"
+import RemoveTableModal from "./modal"
 
 export default function Home({}){
 
@@ -15,6 +16,8 @@ export default function Home({}){
     const dispatch = useDispatch()
     const userData = useSelector((state)=> state.auth.userData)
     const {uid} = userData
+    const [currentTable, setCurrentTable] = useState({})
+    const [removingTableModal, setRemoveTableModal] = useState(false)
 
     useEffect(()=>{
 // initial fetch for tables 
@@ -30,12 +33,21 @@ export default function Home({}){
 
     }, [sortOrder, sortBy])
 
-    const removeTable = async (e, tableName)=>{
-        e.stopPropagation()
-        e.preventDefault()
-        dispatch(removeTableFromArray(allTables, uid, tableName))
+    const removeTable = async ()=>{
+    
+        dispatch(removeTableFromArray(allTables, uid, currentTable.tableName))
+        setRemoveTableModal((prevState)=>!prevState)
     }
 
+    const toggleRemoveModal = (e, tableObj)=>{
+
+        e.stopPropagation()
+        e.preventDefault()
+
+        setCurrentTable(tableObj)
+        setRemoveTableModal((prevState)=>!prevState)
+
+    }
     let allTablesEl
  
 
@@ -60,7 +72,7 @@ export default function Home({}){
                             <p>#{table?.tableID}</p>
                             <p>{table?.createdAt || ''}</p>
                             <p >{table?.lastModified || ''}</p>
-                            <p className="remove" onClick={(e)=>{removeTable(e, table.tableName)}}><TrashIcon/></p>
+                            <p className="remove" onClick={(e)=>{toggleRemoveModal(e, table)}}><TrashIcon/></p>
                         </div>
                     </Link>
                 </div>
@@ -91,9 +103,24 @@ export default function Home({}){
     if (yearObj.year) {
         allYearObjs.push(yearObj);
     }
-    
-    const sortedYearsObjArray = filterRouteData(allYearObjs, 'true');
 
+    const mergedYearObjs = [];
+
+    allYearObjs.forEach((yearObj) => {
+    const existingYear = mergedYearObjs.find((mergedYear) => mergedYear.year === yearObj.year);
+
+    if (existingYear) {
+        // Year object with the same year already exists, merge the tables
+        existingYear.tables = existingYear.tables.concat(yearObj.tables);
+    } else {
+        // Year object with this year doesn't exist, add a new one
+        mergedYearObjs.push({ year: yearObj.year, tables: yearObj.tables });
+    }
+    });
+
+    const sortedYearsObjArray = filterRouteData(mergedYearObjs, 'true');
+
+  
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     
     const monthArrays = [];
@@ -121,7 +148,7 @@ export default function Home({}){
       });
     });
 
-    console.log(monthArrays)
+  
 
 
     allTablesEl = monthArrays.map((month, index)=>{
@@ -141,7 +168,7 @@ export default function Home({}){
                             <p>#{table?.tableID}</p>
                             <p>{table?.createdAt}</p>
                             <p>{table?.lastModified}</p>
-                            <p className="remove" onClick={(e)=>{removeTable(e, table.tableName)}}><TrashIcon/></p>
+                            <p className="remove" onClick={(e)=>{toggleRemoveModal(e, table)}}><TrashIcon/></p>
                         </div>
                     </Link>
                 )
@@ -172,8 +199,22 @@ export default function Home({}){
             allYearObjs.push(yearObj);
         }
 
+        const mergedYearObjs = [];
+
+        allYearObjs.forEach((yearObj) => {
+        const existingYear = mergedYearObjs.find((mergedYear) => mergedYear.year === yearObj.year);
+    
+        if (existingYear) {
+            // Year object with the same year already exists, merge the tables
+            existingYear.tables = existingYear.tables.concat(yearObj.tables);
+        } else {
+            // Year object with this year doesn't exist, add a new one
+            mergedYearObjs.push({ year: yearObj.year, tables: yearObj.tables });
+        }
+        });
+    
       
-        const sortedByYear = filterRouteData(allYearObjs, 'true')
+        const sortedByYear = filterRouteData(mergedYearObjs, 'true')
         
         sortedByYear.forEach((yearObj)=>{
             yearObj.tables = filterRouteData(yearObj.tables)
@@ -200,7 +241,7 @@ export default function Home({}){
                             <p>#{table?.tableID}</p>
                             <p>{table?.createdAt}</p>
                             <p>{table?.lastModified}</p>
-                            <p className="remove" onClick={(e)=>{removeTable(e, table.tableName)}}><TrashIcon/></p>
+                            <p className="remove" onClick={(e)=>{toggleRemoveModal(e, table)}}><TrashIcon/></p>
                         </div>
                     </Link>
                   
@@ -214,13 +255,12 @@ export default function Home({}){
 
     }
       
-    
-
 
     return(
         <div className="home">
             {loading ? <p>Loading...</p> : allTablesEl}
 
+{   removingTableModal &&   <RemoveTableModal setRemoveTableModal={setRemoveTableModal} currentTable={currentTable} removeTable={removeTable}/>}
         </div>
     )
 
