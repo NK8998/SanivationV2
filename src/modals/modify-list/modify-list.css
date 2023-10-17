@@ -48,7 +48,7 @@
     fill: rgb(255, 115, 115);
 }
 .all-workers-container.modifying{
-    max-height: 360px;
+    max-height: 300px;
 }
 .adding-workers-top{
     padding: 5px 10px;
@@ -128,4 +128,5 @@
     position: absolute;
     right: 0;
     bottom: 150px;
+    background-color: white;
 }
