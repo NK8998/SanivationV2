@@ -185,7 +185,7 @@
 .all-workers-container{
     padding: 10px 5px;
     height: fit-content;
-    /* max-height: 300px; */
+    max-height: 300px;
     overflow-y: scroll;
 }
 .all-workers-container::-webkit-scrollbar{
