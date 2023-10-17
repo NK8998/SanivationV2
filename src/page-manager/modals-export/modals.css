@@ -11,10 +11,10 @@
     max-width: 550px;
     z-index: 20;
     background-color: white;
-    height: 95vh;
+    height: 90vh;
  
     border-radius: 12px;
-    overflow: hidden;
+    overflow-y: scroll;
    
 }
 .modal-inner{
