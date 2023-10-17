@@ -31,8 +31,7 @@ export function SignIn(){
             signInWithPopup(auth, provider)
             .then((result) => {
                 const user = result.user;
-                console.log(user);
-              
+                
                 dispatch(userLoggedIn(result.user))
                 sessionStorage.setItem('userData', JSON.stringify(result.user))
            
