@@ -128,20 +128,22 @@ export default function AutoTable(){
                     <button className="toggle-totalizer" onClick={()=>{setTotalizerOpen((prevState)=>!prevState)}}>see total</button>
                     </div>
                 </div>
-                <div className="all-workers-container">
-                    {listContent.length > 0  ? listContent : <p>Select a list</p>}
+                <div className="flexy-container-modal">
+                    <div className="all-workers-container">
+                        {listContent.length > 0  ? listContent : <p>Select a list</p>}
+                    </div>
+                    
+                    <Totalizer setTotalizerOpen={setTotalizerOpen} totalizerOpen={totalizerOpen} removedWorkerIDs={removedWorkerIDs}/>
+                    <div className="secondary-chin " >
+                        <button className="left-button " onClick={toggleAutoTable}>Cancel</button>
+
+                        <button className="lists-toggle" onClick={()=>{setShowLists((prevState)=>!prevState)}}><ToggleListsIcon/></button>
+
+                        <button className="right-button" onClick={generateTable}>Save</button>
+                        <AllListsAuto showLists={showLists} setShowLists={setShowLists}/>
+
+                    </div>
                 </div>
-                
-                <Totalizer setTotalizerOpen={setTotalizerOpen} totalizerOpen={totalizerOpen} removedWorkerIDs={removedWorkerIDs}/>
-            <div className="secondary-chin " >
-                <button className="left-button " onClick={toggleAutoTable}>Cancel</button>
-
-                <button className="lists-toggle" onClick={()=>{setShowLists((prevState)=>!prevState)}}><ToggleListsIcon/></button>
-
-                <button className="right-button" onClick={generateTable}>Save</button>
-                <AllListsAuto showLists={showLists} setShowLists={setShowLists}/>
-
-            </div>
 
             </div>
             </div>
