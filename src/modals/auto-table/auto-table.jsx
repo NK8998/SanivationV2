@@ -9,6 +9,7 @@ import FoodPicker from "./food-picker/food-picker"
 import AllListsAuto from "./all-lists-auto/all-lists-auto"
 import { AddPlusIcon, Search, ToggleListsIcon, TrashIcon } from "../../assets/icons"
 import Totalizer from "./totalizer/totalizer"
+import toast from "react-hot-toast"
 
 
 export default function AutoTable(){
@@ -84,6 +85,10 @@ export default function AutoTable(){
       })
 
       const generateTable = ()=>{
+        if(!chosenList || Object.entries(chosenList).length < 2 ){
+            toast.error('please select a list')
+            return
+        }
         const newChosenList =  {...chosenList}
 
         newChosenList.workers = newChosenList.workers.filter((worker)=> !removedWorkerIDs.includes(worker.ID))
@@ -110,7 +115,6 @@ export default function AutoTable(){
    
     return(
         <>
-            <div className="auto-bg-black" onClick={toggleAutoTable}></div>
             <div className="modal-container">
                 <div className="modal-inner">
                 <div className="top-section">
@@ -125,7 +129,7 @@ export default function AutoTable(){
                     </div>
                 </div>
                 <div className="all-workers-container">
-                    {listContent}
+                    {listContent.length > 0  ? listContent : <p>Select a list</p>}
                 </div>
                 
                 <Totalizer setTotalizerOpen={setTotalizerOpen} totalizerOpen={totalizerOpen} removedWorkerIDs={removedWorkerIDs}/>
@@ -135,10 +139,10 @@ export default function AutoTable(){
                 <button className="lists-toggle" onClick={()=>{setShowLists((prevState)=>!prevState)}}><ToggleListsIcon/></button>
 
                 <button className="right-button" onClick={generateTable}>Save</button>
+                <AllListsAuto showLists={showLists} setShowLists={setShowLists}/>
 
             </div>
-      
-            <AllListsAuto showLists={showLists} setShowLists={setShowLists}/>
+
             </div>
             </div>
             <FoodPicker toggleFoodPicker={toggleFoodPicker}/>

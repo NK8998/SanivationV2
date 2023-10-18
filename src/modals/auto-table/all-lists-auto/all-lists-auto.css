@@ -1,17 +1,17 @@
 
 .modal-container-lists{
     height: fit-content;
-    max-height: 400px;
+    max-height: 300px;
     overflow-y: scroll;
     padding: 0px;
     align-items: center;
     background-color: white;
     position: fixed;
     width:100% ;
-    bottom: -400px;
+    bottom:20px;
     z-index: -1;
     pointer-events: none;
-    transition: bottom 150ms ease 100ms;
+   
     opacity: 0;
     padding-bottom: 20px;
     border-radius: 12px;
@@ -32,12 +32,13 @@
 }
 .close-me{
     width: 20%;
-    height: 10px;
+    height: 20px;
     background-color: white;
     border-radius: 20000px;
     cursor: pointer;
     box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.24);
     margin-top: 10px;
+    text-align: center;
   
  
 }
@@ -48,10 +49,13 @@
 }
 
 .modal-container-lists.open{
-    bottom: 110px;
+    /* bottom: 0px; */
     pointer-events: all;
     z-index: 21;
     opacity: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
 }
 .modal-container-lists .title-p{

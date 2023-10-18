@@ -47,9 +47,9 @@
 .worker-container .trash-remove svg{
     fill: rgb(255, 115, 115);
 }
-.all-workers-container.modifying{
+/* .all-workers-container.modifying{
     max-height: 300px;
-}
+} */
 .adding-workers-top{
     padding: 5px 10px;
     border-radius: 2000px;
@@ -98,7 +98,7 @@
   
 }
 .adding-workers-containers{
-    max-height: 300px;
+   
     min-height: 300px;
     overflow-y: scroll;
     position: fixed;
@@ -121,13 +121,4 @@
     display: none;
 }
 
-.modal-container.modifying form{
-    box-shadow: 1px -20px 20px 5px rgba(0, 0, 0, 0.062);
-}
 
-.all-workers-container.modifying .modal-bottom{
-    position: absolute;
-    right: 0;
-    bottom: 150px;
-    background-color: white;
-}

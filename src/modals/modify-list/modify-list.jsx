@@ -9,6 +9,7 @@ import { RemoveWorkerModal } from "./remove-worker/remove-worker"
 import AllListsModify from "./all-lists-modify/all-lists-modify"
 import { nanoid } from "nanoid"
 import { AccountCircle, AddPlusIcon, ToggleListsIcon, TrashIcon } from "../../assets/icons"
+import toast from "react-hot-toast"
 
 export default function ModifyList(){
     const dispatch = useDispatch()
@@ -68,6 +69,7 @@ export default function ModifyList(){
         dispatch(updateChosenWorker(worker))
     }
 
+   
     const listContent = chosenList.workers?.map((worker)=>{
     
         return(
@@ -96,18 +98,22 @@ export default function ModifyList(){
     }
 
     const addWorkers = (e)=>{
-
       e.preventDefault()
-      dispatch(addWorkerThunk(e, chosenList, uid))
-      setAllFieldsIDs([])
+
+      if(!chosenList || Object.entries(chosenList).length === 0){
+        toast.error('please select a list ')
+      }else{
+        dispatch(addWorkerThunk(e, chosenList, uid))
+        setAllFieldsIDs([])
+      }
+
+   
     }
     
 
     return(
 
         <>
-        <div className="auto-bg-black" onClick={()=>{dispatch(toggleOpenListModifier())}}></div>
-
         <div className="modal-container modifying">
             <div className="top-section modifying">
               <p>All your lists can be modified from here</p>
@@ -116,10 +122,12 @@ export default function ModifyList(){
 
             <div className="all-workers-container modifying">
                 <p className="top-p">Current Workers on list:</p>
-                {listContent}
+                {(!chosenList || Object.entries(chosenList).length < 2) ? <p>Select a list</p> : listContent} 
                 <form onSubmit={(e)=>{addWorkers(e)}}>
-                {dynamicFieldsToBeRendered}
-                <div className="addplus" onClick={addFields}><AddPlusIcon/><p>Add field </p></div>
+                  <div className="dynamic-container-modify">
+                  {dynamicFieldsToBeRendered}
+                  </div>
+                { (!chosenList || Object.entries(chosenList).length < 2) ? <></> : <div className="addplus" onClick={addFields}><AddPlusIcon/><p>Add field </p></div>}
               
                 <div className="secondary-chin">
             <button className="left-button" type="button" onClick={()=>{dispatch(toggleOpenListModifier())}}>Cancel</button>

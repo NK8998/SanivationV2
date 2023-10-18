@@ -17,7 +17,7 @@ import TableTotalizer from './table-totalizer';
 
 export default function PageManager(){
 
-    const [showNav, setShowNav] = useState(false)
+    const [showNav, setShowNav] = useState(true)
 
     const userData = useSelector((state)=>state.auth.userData)
     const {filterRouteData, individualTable} = useFilterContext()

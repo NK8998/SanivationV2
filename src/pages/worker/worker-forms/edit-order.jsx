@@ -45,7 +45,7 @@ export default function EditOrder({workerID, startEditingOrders}){
             
         })
         setTimeout(()=>{
-            setTotalPackest(workerData.totalPackets)
+            workerData.totalPackets ?  setTotalPackest(workerData.totalPackets) : setTotalPackest(0)
         }, 100)
       
        

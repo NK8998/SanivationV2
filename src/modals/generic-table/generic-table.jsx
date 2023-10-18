@@ -95,6 +95,12 @@ export default function GenericTable(){
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const inputValue = document.querySelector('[name="tableName"]').value;
+
+    if(inputValue.trim() === ''){
+      toast.error('please give your table a name')
+      return
+    }
     const formData = new FormData(e.target);
     const formDataObject = { workers: [] };
   
@@ -135,7 +141,6 @@ export default function GenericTable(){
     return(
 
         <>
-        <div className="auto-bg-black" onClick={()=>{dispatch(toggleopenGenericTable())}}></div>
         <div className="modal-container generic">
             <div className="top-section">
               <p>Create a table</p>

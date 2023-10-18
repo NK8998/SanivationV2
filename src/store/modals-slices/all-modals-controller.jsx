@@ -33,11 +33,18 @@ const allModalsControllerSlice = createSlice({
             state.openListModifier =false
             state.openAutoTable =false
             state.openLists = false
+        },
+        closeAllModals:(state, action)=>{
+            state.openGenericTable = false
+            state.openListModifier =false
+            state.openAutoTable =false
+            state.openLists = false
         }
+
     }
 })
 
 
-export const {toggleOpenLists, toggleOpenListModifier, toggleOpenAutoTable, toggleopenGenericTable} = allModalsControllerSlice.actions
+export const {toggleOpenLists, toggleOpenListModifier, toggleOpenAutoTable, toggleopenGenericTable, closeAllModals} = allModalsControllerSlice.actions
 
 export default allModalsControllerSlice.reducer

@@ -46,6 +46,13 @@ export default function AddList(){
 
     const handleSubmit = (e)=>{
         e.preventDefault()
+
+        const inputValue = document.querySelector('[name="listName-input"]').value;
+        if(inputValue.trim() === ''){
+          toast.error('please give your list a name')
+          return
+        }
+       
         const listID = nanoid(6)
         const formData = new FormData(e.target);
         let formDataObject = { workers: [] };
@@ -117,7 +124,6 @@ export default function AddList(){
     return(
 
         <>
-        <div className="auto-bg-black" onClick={()=>{dispatch(toggleOpenLists())}}></div>
         <div className="modal-container">
             <div className="top-section adding">
                 <p>Create your lists to save time.</p>

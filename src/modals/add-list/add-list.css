@@ -23,8 +23,7 @@
 
 .dynamic-container{
     padding: 10px 20px;
-    max-height: 240px;
-    overflow-y: scroll;
+  
 }
 
 .dynamic-container p{
