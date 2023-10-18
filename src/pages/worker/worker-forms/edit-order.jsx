@@ -44,12 +44,11 @@ export default function EditOrder({workerID, startEditingOrders}){
             }
             
         })
+
+
         setTimeout(()=>{
             workerData.totalPackets ?  setTotalPackest(workerData.totalPackets) : setTotalPackest(0)
         }, 100)
-      
-       
-       
 
     }, [])
 
