@@ -3,7 +3,7 @@ import "./home.css"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchDynamicData, fetchInitialData, removeTableFromArray } from "../../store/home-slice"
 import { useFilterContext } from "../../utilites/filter-context"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { TrashIcon } from "../../assets/icons"
 import RemoveTableModal from "./modal"
 
@@ -22,6 +22,7 @@ export default function Home({}){
     useEffect(()=>{
 // initial fetch for tables 
     dispatch(fetchInitialData('', uid))
+ 
     }, [])
 
     useEffect(()=>{
@@ -61,20 +62,32 @@ export default function Home({}){
             return(
                 <div key={index}>
                 <p className="date">{table?.createdAt}</p>
-                <div className="table-wrapper">
-                    <Link to={`/${table?.tableName}`} key={table?.tableName || ''} className="date-wrapper">
-                        <div className={`table last`}>
+                <div className="index-and-table">
+                    <p>{index + 1}</p>
+                    <div className="table-wrapper">
+                    <div className="listname outer" title={table?.listName || 'generic'}>{table?.listName && table?.listName[0] || 'T'}</div>
 
-                            <div className="name-and-title">
-                                <div className="listname" title={table?.listName || 'generic'}>{table?.listName && table?.listName[0] || 'T'}</div>
-                                <p className="name">{table?.tableName.split('_')[0] || table?.tableName}</p>
+                        <Link to={`/${table?.tableName}`} key={table?.tableName || ''} className="date-wrapper">
+
+                            <div className={`table last`}>
+
+                                <div className="name-and-title">
+                                    <span>Name</span>
+                                    <div className="listname inner" title={table?.listName || 'generic'}>{table?.listName && table?.listName[0] || 'T'}</div>
+                                    <p className="name">{table?.tableName.split('_')[0] || table?.tableName}</p>
+                                </div>
+                                
+                                <p><span>Table ID</span>#{table?.tableID}</p>
+                                <p><span>Created At</span>{table?.createdAt || ''}</p>
+                                <p ><span>Last Modified</span>{table?.lastModified || ''}</p>
+                                <p className="remove inner" onClick={(e)=>{toggleRemoveModal(e, table)}}><TrashIcon/></p>
+
                             </div>
-                            <p>#{table?.tableID}</p>
-                            <p>{table?.createdAt || ''}</p>
-                            <p >{table?.lastModified || ''}</p>
-                            <p className="remove" onClick={(e)=>{toggleRemoveModal(e, table)}}><TrashIcon/></p>
-                        </div>
-                    </Link>
+
+                        </Link>
+                        <p className="remove outer" onClick={(e)=>{toggleRemoveModal(e, table)}}><TrashIcon/></p>
+
+                    </div>
                 </div>
                 </div>
             
@@ -157,23 +170,32 @@ export default function Home({}){
             <div className="date-wrapper" key={index}>
             <p className="date">{month?.month} {month?.year}</p>
             <div className="table-wrapper">
+
             {allMonthsArray.map((table, index)=>{
                 return(
-                    <Link to={`/${table?.tableName}`} key={table?.tableName || ''} >
-                        <div className={`table ${index === allMonthsArray.length - 1 ? 'last' : ''}`}>
+
+
+                    <Link to={`/${table?.tableName}`} key={table?.tableName || ''} className={`month table ${index === allMonthsArray.length - 1 ? 'last' : ''}`}>
+                    <div className="listname outer" title={table?.listName || 'generic'}>{table?.listName && table?.listName[0] || 'T'}</div>
+
+                        <div className="months-table">
                             <div className="name-and-title">
-                            <div className="listname" title={table?.listName || 'generic'}>{table?.listName && table?.listName[0] || 'T'}</div>
+                            <div className="listname inner" title={table?.listName || 'generic'}>{table?.listName && table?.listName[0] || 'T'}</div>
+                                <span>Name</span>
                                 <p className="name">{table?.tableName.split('_')[0] || table?.tableName}</p>
                             </div>
-                            <p>#{table?.tableID}</p>
-                            <p>{table?.createdAt}</p>
-                            <p>{table?.lastModified}</p>
-                            <p className="remove" onClick={(e)=>{toggleRemoveModal(e, table)}}><TrashIcon/></p>
+                            <p><span>Table ID</span>#{table?.tableID}</p>
+                            <p><span>Created at</span>{table?.createdAt}</p>
+                            <p><span>Last modified</span>{table?.lastModified}</p>
+                            <p className="remove inner" onClick={(e)=>{toggleRemoveModal(e, table)}}><TrashIcon/></p>
                         </div>
+                        <p className="remove outer" onClick={(e)=>{toggleRemoveModal(e, table)}}><TrashIcon/></p>
+
                     </Link>
                 )
             })}
             </div>
+
             </div>
         )
     })
@@ -232,18 +254,23 @@ export default function Home({}){
                 {allYearArray.map((table, index)=>{
                     return(
                       
-                        <Link to={`/${table?.tableName}`} key={table?.tableName || ''} >
-                        <div className={`table  ${index === allYearArray.length - 1 ? 'last' : '' }`}>
-                            <div className="name-and-title">
-                                <div className="listname" title={table?.listName || 'generic'}>{table?.listName && table?.listName[0] || 'T'}</div>
-                                <p className="name">{table?.tableName.split('_')[0] || table?.tableName}</p>
+                        <Link to={`/${table?.tableName}`} key={table?.tableName || ''} className={`month table ${index === allYearArray.length - 1 ? 'last' : ''}`}>
+                        <div className="listname outer" title={table?.listName || 'generic'}>{table?.listName && table?.listName[0] || 'T'}</div>
+    
+                            <div className="months-table">
+                                <div className="name-and-title">
+                                <div className="listname inner" title={table?.listName || 'generic'}>{table?.listName && table?.listName[0] || 'T'}</div>
+                                    <span>Name</span>
+                                    <p className="name">{table?.tableName.split('_')[0] || table?.tableName}</p>
+                                </div>
+                                <p><span>Table ID</span>#{table?.tableID}</p>
+                                <p><span>Created at</span>{table?.createdAt}</p>
+                                <p><span>Last modified</span>{table?.lastModified}</p>
+                                <p className="remove inner" onClick={(e)=>{toggleRemoveModal(e, table)}}><TrashIcon/></p>
                             </div>
-                            <p>#{table?.tableID}</p>
-                            <p>{table?.createdAt}</p>
-                            <p>{table?.lastModified}</p>
-                            <p className="remove" onClick={(e)=>{toggleRemoveModal(e, table)}}><TrashIcon/></p>
-                        </div>
-                    </Link>
+                            <p className="remove outer" onClick={(e)=>{toggleRemoveModal(e, table)}}><TrashIcon/></p>
+    
+                        </Link>
                   
                     )
                 })}

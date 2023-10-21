@@ -8,7 +8,7 @@
 }
 .picker-container button{
     background-color: white;
-    padding: 10px 20px;
+    padding: 10px;
     border-radius: 20000px;
     border: 1px solid rgba(128, 128, 128, 0.397);
     font-weight: 700;
@@ -24,7 +24,7 @@
 } */
 .picker-container .active {
     font-size: 14px;
-    padding: .6rem 2.5rem;
+    padding: .6rem 1rem;
     border: none;
     outline: none;
     cursor: pointer;

@@ -14,7 +14,6 @@ const FilteredContentProvider = ({children})=>{
   
     const [individualTable, setIndividualTable] = useState(false)
 
-
     
     const [sortBy, setSortBy] = useState('created')
     const [sortOrder, setSortOrder] = useState('descending')

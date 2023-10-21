@@ -10,6 +10,7 @@ import AllListsAuto from "./all-lists-auto/all-lists-auto"
 import { AddPlusIcon, Search, ToggleListsIcon, TrashIcon } from "../../assets/icons"
 import Totalizer from "./totalizer/totalizer"
 import toast from "react-hot-toast"
+import { useSearchParams } from "react-router-dom"
 
 
 export default function AutoTable(){
@@ -24,6 +25,7 @@ export default function AutoTable(){
     const [totalizerOpen, setTotalizerOpen] = useState(false)
     const [filter, setFilter] = useState('')
     const [removedWorkerIDs, setRemovedWorkerIDs] = useState([])
+    const [searchParams, setSearchParams] = useSearchParams()
     const timeoutRef = useRef()
  
     const toggleFoodPicker=(worker)=>{
@@ -135,7 +137,7 @@ export default function AutoTable(){
                     
                     <Totalizer setTotalizerOpen={setTotalizerOpen} totalizerOpen={totalizerOpen} removedWorkerIDs={removedWorkerIDs}/>
                     <div className="secondary-chin " >
-                        <button className="left-button " onClick={toggleAutoTable}>Cancel</button>
+                        <button className="left-button " onClick={()=>setSearchParams('')}>Cancel</button>
 
                         <button className="lists-toggle" onClick={()=>{setShowLists((prevState)=>!prevState)}}><ToggleListsIcon/></button>
 

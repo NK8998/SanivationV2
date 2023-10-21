@@ -5,22 +5,38 @@ import PageManagerUpper from './page-manager-upper/page-manager-upper';
 import AllRoutes from './all-routes/allRoutes';
 import ModalsExport from './modals-export/modals-exports';
 import { Burger, PrinterIcon, ShowData } from '../assets/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { db } from '../authentication/config';
 import { collection, doc, getDocs } from 'firebase/firestore';
 import jsPDF from 'jspdf';
 import { convertMonthDataToPdf } from './convertTodpf';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { useFilterContext } from '../utilites/filter-context';
 import TableTotalizer from './table-totalizer';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 
 export default function PageManager(){
 
+  const {filterRouteData, individualTable} = useFilterContext()
+
+  useEffect(()=>{
+
+    toast(
+      "Please make sure the date on your device is correct",
+      {
+        duration: 6000,
+        position: "top-center"
+      }
+    );
+
+  }, [])
+ 
+
+
     const [showNav, setShowNav] = useState(true)
 
     const userData = useSelector((state)=>state.auth.userData)
-    const {filterRouteData, individualTable} = useFilterContext()
     const [showTableData, setShowTableData] = useState(false)
     const {uid } = userData
     const [allMonths, setAllMonths] = useState(false)
@@ -158,7 +174,7 @@ export default function PageManager(){
         <Toaster position="top-right"/>
 
         <div className='page-manager'>
-        <SideNav showNav={showNav} toggleNav={toggleNav}/>
+        <SideNav showNav={showNav} toggleNav={toggleNav} />
             <div className='header-and-pages'>
                 <div className='header-burger' onClick={toggleNav}>
                     <Burger/>
@@ -190,13 +206,13 @@ export default function PageManager(){
               <button className={`${allMonths ? 'chosen': ''}`} onClick={()=>setAllMonths(true)}>All months</button>
               <button className={`${allMonths ? '': 'chosen'}`} onClick={()=>setAllMonths(false)}>Current month</button>
             </div>
-            <div className='modal-bottom'>
+            <div className='modal-bottom pdf'>
               <button  onClick={()=>setSummaryModal((prevState)=>!prevState)}>Cancel</button>
-              <button onClick={getSummary}><PrinterIcon/>Generate</button>
+              <button onClick={getSummary}><PrinterIcon/>Get Pdf</button>
             </div>
           </div>
           </>}
-        <ModalsExport/>
+        <ModalsExport />
         </>
     )
 }

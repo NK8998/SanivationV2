@@ -6,7 +6,8 @@
     color: rgba(167, 167, 167, 0.795);
     font-weight: 400;
     font-size: 13px;
-    min-width: 810px;
+    /* min-width: 810px; */
+    width: calc(100% -40px);
     max-width: 1220px;
     padding:  20px;
     transform: translateY(15px);
@@ -19,4 +20,11 @@
 }
 .header :first-child{
     background-color: transparent;
+}
+
+@media(max-width:70em){
+    .header{
+        /* display: none; */
+        visibility: hidden;
+    }
 }

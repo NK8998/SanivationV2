@@ -11,6 +11,15 @@ export default function TableTotalizer({showTableData, setShowTableData}){
             <></>
         )
    }
+
+   const foodEl = tableData.totalizer.foodCountArray.map((food)=>{
+    return (
+        <div className="total-foods-container" key={food.food}>
+        <p>{food.food}</p>
+        <p>{food.count}</p>
+        </div>
+    )
+  })
   
     return(
         <>
@@ -24,10 +33,19 @@ export default function TableTotalizer({showTableData, setShowTableData}){
                 <p>Total plates: <span>{tableData.totalizer.totalPlates}</span></p>
                 <p>Total packets: <span>{tableData.totalizer.totalPackets}</span></p>
             </div>
+            <div className={`totalizer-table-data`}>
+         
+            <div className="upper-total-container">
+                <p>food</p>
+                <p>count</p>
+            </div>
+            {foodEl}
+        </div>
             <div className="dates">
                 <p>Created at: <span>{tableData.createdAt}</span></p>
                 <p>Last Modified: <span>{tableData.lastModified}</span></p>
             </div>
+        
         </div>
         </>
     )

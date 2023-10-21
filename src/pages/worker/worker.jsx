@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchWorkerData } from "../../store/worker-slice"
 import EditName from "./worker-forms/edit-name"
 import EditOrder from "./worker-forms/edit-order"
-import { useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import { AccountCircle, DrinksIcon, EditIcon, EditList, MainFoodIcon, SupplementFoodIcon } from "../../assets/icons"
 
 export default function Worker(){
@@ -26,6 +26,9 @@ export default function Worker(){
     const {setTableName, setWorkerID} = useFilterContext()
    
     const dispatch = useDispatch()
+
+
+    
 
     useEffect(()=>{
 

@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Home from "../../pages/home/home";
 import Table from "../../pages/tables/table";
 import Worker from "../../pages/worker/worker";
@@ -16,6 +16,7 @@ export default function AllRoutes(){
           }
         
     }
+   
    
     return(
         <div className="route-renderer" ref={pageRenderedRef} onScroll={handleScroll}>

@@ -10,8 +10,11 @@ import AllListsModify from "./all-lists-modify/all-lists-modify"
 import { nanoid } from "nanoid"
 import { AccountCircle, AddPlusIcon, ToggleListsIcon, TrashIcon } from "../../assets/icons"
 import toast from "react-hot-toast"
+import { useSearchParams } from "react-router-dom"
 
 export default function ModifyList(){
+
+    const [searchParams, setSearchParams] = useSearchParams()
     const dispatch = useDispatch()
 
     const userData = useSelector((state)=>state.auth.userData)
@@ -130,12 +133,12 @@ export default function ModifyList(){
                 { (!chosenList || Object.entries(chosenList).length < 2) ? <></> : <div className="addplus" onClick={addFields}><AddPlusIcon/><p>Add field </p></div>}
               
                 <div className="secondary-chin">
-            <button className="left-button" type="button" onClick={()=>{dispatch(toggleOpenListModifier())}}>Cancel</button>
 
-                <button className="lists-toggle" type="button" onClick={()=>{setShowLists((prevState)=>!prevState)}}><ToggleListsIcon/></button>
-                <button className="right-button">Save</button>
+                  <button className="left-button" type="button"  onClick={()=>setSearchParams('')}>Cancel</button>
+                  <button className="lists-toggle" type="button" onClick={()=>{setShowLists((prevState)=>!prevState)}}><ToggleListsIcon/></button>
+                  <button className="right-button">Save</button>
 
-            </div>
+                </div>
                 </form>
 
 

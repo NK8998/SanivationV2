@@ -104,6 +104,8 @@
     z-index: 20;
     display: grid;
     place-content: center;
+    width: 85%;
+    max-width: 350px;
 }
 
 .editing-name input{
@@ -162,4 +164,14 @@
     padding: 5px;
     display: flex;
     gap: 1em ;
+}
+@media(max-width:80em) {
+    .chosen-worker .left{
+        flex-direction: column;
+    }
+    .worker-end{
+    
+        display: none;
+    }
+    
 }

@@ -5,10 +5,12 @@
     
     padding-right: 30px;
     margin-top: 25px;
-    min-width: 850px;
+    /* min-width: 850px; */
+    width: calc(100% - 30px);
     max-width: 1280px;
     gap: 3em;
     overflow-x: scroll;
+    
 
 }
 .page-manager-upper::-webkit-scrollbar{
@@ -151,6 +153,7 @@
     border: 1px solid rgb(255, 186, 186);
     border-radius: 5px;
 }
+
 .filter-by{
     position: absolute;
     width: fit-content;
@@ -159,6 +162,7 @@
     z-index: 12;
     border-radius: 12px;
     border: 1px solid rgba(0, 0, 0, 0.253);
+   
 }
 .filter-by .options{
     display: flex;
@@ -185,5 +189,12 @@
 @media(max-width: 80em){
     .header-burger{
         display: block;
+    }
+   
+}
+
+@media(max-width:40em){
+    .filter-by{
+        right: 20%;
     }
 }

@@ -33,7 +33,7 @@ export default function AllListsModify({showLists, setShowLists}){
         <div className={`modal-container-lists ${showLists ? 'open' : ''}`}>
             <div className="all-lists-container">
                 <div className="close-me-container">
-                    <div className="close-me" onClick={()=>{setShowLists((prevState)=>!prevState)}}></div>
+                    <div className="close-me" onClick={()=>{setShowLists((prevState)=>!prevState)}}>close</div>
                 </div>
                 <div className="separatr-box"></div>
                 

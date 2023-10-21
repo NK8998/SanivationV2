@@ -10,10 +10,13 @@ import DynamicFields from "./Dynamic-fields";
 import { fetchInitialData } from "../../store/home-slice";
 import { AddPlusIcon } from "../../assets/icons";
 import toast from "react-hot-toast";
+import { useSearchParams } from "react-router-dom";
 
 
 
 export default function GenericTable(){
+
+  const [searchParams, setSearchParams] = useSearchParams()
 
     const dispatch = useDispatch()
 
@@ -50,7 +53,7 @@ export default function GenericTable(){
          
     const uploadTable = async (formData)=>{
   
-      const uniqueTableID = nanoid(6)
+        const uniqueTableID = nanoid(6)
 
         const userDocRef = doc(db, 'users', uid); // Replace 'USER_ID' with the actual user's document ID
       
@@ -158,7 +161,7 @@ export default function GenericTable(){
                 </div>
 
                 <div className="secondary-chin">
-                    <button type="button" className="left-button" onClick={()=>{dispatch(toggleopenGenericTable())}}>Cancel</button>
+                    <button type="button" className="left-button" onClick={()=>setSearchParams('')}>Cancel</button>
                     <button type="submit" className="right-button">Save</button>
                 </div>
             </form>

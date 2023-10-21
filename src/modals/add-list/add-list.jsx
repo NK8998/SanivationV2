@@ -9,8 +9,11 @@ import { db } from "../../authentication/config";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { AddPlusIcon } from "../../assets/icons";
 import toast from "react-hot-toast";
+import { useSearchParams } from "react-router-dom";
 
 export default function AddList(){
+
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const dispatch = useDispatch()
 
@@ -143,12 +146,8 @@ export default function AddList(){
 
                 </div>
 
-
-           
-
-
             <div className="secondary-chin">
-                <button type="button"className="left-button" onClick={()=>{dispatch(toggleOpenLists())}}>Cancel</button>
+                <button type="button"className="left-button" onClick={()=>setSearchParams('')}>Cancel</button>
                 <button type="submit"className="right-button">Save</button>
             </div>
             </form>
