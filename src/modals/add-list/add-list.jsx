@@ -122,6 +122,14 @@ export default function AddList(){
 
   }
 
+  const updateModal = (modalValue) => {
+    // Create a new search parameters object and set the 'modal' parameter to the new value
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('modal', modalValue);
+  
+    // Replace the entire search parameters with the updated one
+    setSearchParams(newSearchParams, {replace: true});
+  };
 
 
     return(
@@ -147,7 +155,7 @@ export default function AddList(){
                 </div>
 
             <div className="secondary-chin">
-                <button type="button"className="left-button" onClick={()=>setSearchParams('')}>Cancel</button>
+                <button type="button"className="left-button" onClick={()=>updateModal('')}>Cancel</button>
                 <button type="submit"className="right-button">Save</button>
             </div>
             </form>

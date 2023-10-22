@@ -113,6 +113,14 @@ export default function ModifyList(){
    
     }
     
+    const updateModal = (modalValue) => {
+      // Create a new search parameters object and set the 'modal' parameter to the new value
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.set('modal', modalValue);
+    
+      // Replace the entire search parameters with the updated one
+      setSearchParams(newSearchParams, {replace: true});
+    };
 
     return(
 
@@ -134,7 +142,7 @@ export default function ModifyList(){
               
                 <div className="secondary-chin">
 
-                  <button className="left-button" type="button"  onClick={()=>setSearchParams('')}>Cancel</button>
+                  <button className="left-button" type="button"  onClick={()=>updateModal('')}>Cancel</button>
                   <button className="lists-toggle" type="button" onClick={()=>{setShowLists((prevState)=>!prevState)}}><ToggleListsIcon/></button>
                   <button className="right-button">Save</button>
 

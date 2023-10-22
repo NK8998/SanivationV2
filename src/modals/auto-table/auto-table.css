@@ -6,6 +6,7 @@
     grid-template-columns: repeat(4, 1fr);
     gap: .5em;
     font-size: 13px;
+    width: 100%;
     
 }
 .food-picked-top{
