@@ -151,6 +151,7 @@
 .table-data.right-side{
     padding: 10px 10px;
     /* padding-top: 20vh; */
+    overflow-y:scroll;
 
 
 }
