@@ -64,6 +64,8 @@
     padding: 5px 0px;
     font-size: 14px;
     font-weight: 700;
+    position: sticky;
+    top: 0;
 }
 .close-modals svg{
     fill: rgb(255, 120, 120);
