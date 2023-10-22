@@ -1,6 +1,6 @@
 .modals-wrapper{
 
-    position: fixed;
+    position: absolute;
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
@@ -8,17 +8,20 @@
     max-width: 550px;
     z-index: 20;
     background-color: white;
-    height: 80vh;
-    max-height: 80vh;
+    height: 85vh;
+    max-height: 85vh;
     /* min-height: 400px; */
  
     border-radius: 12px;
-    overflow: scroll;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
    
 
+}
+.modals-content{
+    overflow-y: scroll;
 }
 .modal-container{
 
@@ -27,10 +30,19 @@
     z-index: 20;
     background-color: white;
     /* min-height: 400px; */
-    overflow-y: scroll;
+
     
     
    
+}
+.auto-bg-black.removing{
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.096);
+    position: fixed;
+    width: 100%;
+    z-index: 22;
+    top: 0;
+    left: 0;
 }
 
 
@@ -67,6 +79,7 @@
     font-weight: 700;
     position: sticky;
     top: 0;
+    z-index: 22;
 }
 .close-modals svg{
     fill: rgb(255, 120, 120);

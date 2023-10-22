@@ -29,7 +29,7 @@ export default function ModalsExport({}){
         <>
         <div className="modals-bg-close" onClick={()=>updateModal('')}></div>
         <div className='modals-wrapper'>
-            <div>
+            <div className="modals-content">
             <button className="close-modals"onClick={()=>updateModal('')}><CloseEx/>close</button>
             <>
             { modal === 'generic' && <GenericTable />}
