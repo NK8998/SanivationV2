@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-export default function AddingWorker({toggleAddingWorkerModal, addWorker}){
+export default function AddingWorker({toggleAddingWorkerModal, addWorker, isSubmitting}){
 
     const [mainDishes, setMainDishes] = useState([' Ugali', ' Chapati', ' Rice'])
     const [supplementDishes, setSupplementDishes] = useState([' Matumbo', ' meat'])
@@ -96,7 +96,10 @@ export default function AddingWorker({toggleAddingWorkerModal, addWorker}){
                 </div>
                 <div className="modal-bottom">
                     <button type="button" className="left-button" onClick={toggleAddingWorkerModal}>Cancel</button>
-                    <button type="submit" className="right-button">Add</button>
+                    {isSubmitting ?
+                    <button type="button" className="right-button loading"><div className="loader"></div></button>
+                    :
+                    <button type="submit" className="right-button">Add</button>}
                 </div>
             </form>
 

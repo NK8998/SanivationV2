@@ -22,6 +22,7 @@
 }
 .modals-content{
     overflow-y: scroll;
+    flex-grow: 1;
 }
 .modal-container{
 
@@ -30,6 +31,7 @@
     z-index: 20;
     background-color: white;
     /* min-height: 400px; */
+    height: 100%;
 
     
     
@@ -125,18 +127,34 @@
     justify-content: center;
     align-items: center;
     z-index: 22;
-    gap: 2em;
+    gap: 1em;
 
 
 }
 .secondary-chin .lists-toggle{
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
+    height: fit-content;
+    width: fit-content;
+    border-radius: 10000px;
+    display: flex;
+    align-items: center;
+    gap: .3em;
     border: none;
+    padding: 5px 8px;
+    white-space: nowrap;
+    max-width: 130px;
+    color: grey;
+    
+    
+}
+.secondary-chin .lists-toggle p{
+    max-width: 80px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .secondary-chin .lists-toggle svg{
     fill: rgb(231, 146, 146);
+    min-height: 24px;
+    min-width: 24px;
 }
 
 .chin .chin-button-active{
@@ -203,3 +221,26 @@
     display: none;
 }
 
+.loader {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 83, 83, 0.568);
+    border-top-color: transparent;
+    animation: rot1 1.2s linear infinite;
+  }
+  
+  @keyframes rot1 {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .right-button.loading{
+    /* opacity: .6; */
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(65, 65, 65);
+  }

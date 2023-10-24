@@ -1,7 +1,7 @@
 import jsPDF from "jspdf";
 import toast from "react-hot-toast";
 
-export const convertMonthDataToPdf = (summarizedMonthData) => {
+export const convertMonthDataToPdf = async (summarizedMonthData) => {
     // Create a new jsPDF instance
     const doc = new jsPDF();
   

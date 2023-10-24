@@ -7,13 +7,14 @@ import ModalsExport from './modals-export/modals-exports';
 import { Burger, PrinterIcon, ShowData } from '../assets/icons';
 import { useEffect, useState } from 'react';
 import { db } from '../authentication/config';
-import { collection, doc, getDocs } from 'firebase/firestore';
+import { collection, doc, getDocs, query, where } from 'firebase/firestore';
 import jsPDF from 'jspdf';
 import { convertMonthDataToPdf } from './convertTodpf';
 import toast, { Toaster } from 'react-hot-toast';
 import { useFilterContext } from '../utilites/filter-context';
 import TableTotalizer from './table-totalizer';
 import { useLocation, useSearchParams } from 'react-router-dom';
+import { getCurrentMonthAndYear } from '../utilites/get-date';
 
 
 export default function PageManager(){
@@ -41,26 +42,62 @@ export default function PageManager(){
     const {uid } = userData
     const [allMonths, setAllMonths] = useState(false)
     const [summaryModal, setSummaryModal] = useState(false)
+    const [isGenerating, setIsGenerating] = useState(false)
     const toggleNav = ()=>{
         setShowNav((prevState) =>!prevState)
     }
 
     const getSummary = async ()=>{
         // get all documents sort by month and give a summary of the totalPlates in each month
-
+        setIsGenerating(true)
         const userDocRef = doc(db, 'users', uid);
         const allTablesRef = collection(userDocRef, 'tables');
 
-        const querySnapshot = await getDocs(allTablesRef);
 
         let tableData
-        if (!querySnapshot.empty) {
-          tableData = querySnapshot.docs.map((doc) => doc.data());
-        } else {
-          console.log('No matching documents found.');
-        }
 
-        
+        const {month, year} = getCurrentMonthAndYear()
+
+        console.log(month, year)
+
+        if (!allMonths) {
+          const q = query(allTablesRef, where('month', '==', `${month}`), where('year', '==', year));
+
+          const querySnapshot = await getDocs(q)
+
+          if(!querySnapshot.empty){
+            tableData = querySnapshot.docs.map((doc) => doc.data());
+
+          }else{
+            console.log('No matching documents found.');
+            toast(
+              "No tables were found",
+              {
+                duration: 2000,
+                position: "top-center"
+              }
+            );
+            return
+          }
+
+        }else{
+          const querySnapshot = await getDocs(allTablesRef);
+          if (!querySnapshot.empty) {
+            tableData = querySnapshot.docs.map((doc) => doc.data());
+          } else {
+            console.log('No matching documents found.');
+            toast(
+              "No tables were found",
+              {
+                duration: 2000,
+                position: "top-center"
+              }
+            );
+            return
+          }
+        }
+       
+
     const allYearObjs = [];
     let yearObj = { year: '', tables: [] };
     
@@ -156,15 +193,17 @@ export default function PageManager(){
 
     console.log('Current Month:', currentMonth);
 
-    if(!allMonths){
-      summarizedMonthData = summarizedMonthData.filter((month)=> month.month === currentMonth)
-    }
+    // if(!allMonths){
+    //   summarizedMonthData = summarizedMonthData.filter((month)=> month.month === currentMonth)
+    // }
 
     const sortedsummarizedMonthData = filterRouteData(summarizedMonthData, 'true')
     
     // Now, monthArrays contains totalPackets and totalPlates for each month
     console.log(sortedsummarizedMonthData);
-    convertMonthDataToPdf(sortedsummarizedMonthData)
+    await convertMonthDataToPdf(sortedsummarizedMonthData)
+    setIsGenerating(false)
+
 }
 
 
@@ -208,8 +247,13 @@ export default function PageManager(){
             </div>
             <div className='modal-bottom pdf'>
               <button  onClick={()=>setSummaryModal((prevState)=>!prevState)}>Cancel</button>
-              <button onClick={getSummary}><PrinterIcon/>Get Pdf</button>
-            </div>
+
+              {isGenerating ?
+                <button className='right-button loading'><div className='loader'></div></button>
+                  :
+                <button onClick={getSummary}><PrinterIcon/>Get Pdf</button>
+              }            
+          </div>
           </div>
           </>}
         <ModalsExport />

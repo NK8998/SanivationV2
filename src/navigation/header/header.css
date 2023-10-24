@@ -7,16 +7,20 @@
     font-weight: 400;
     font-size: 13px;
     /* min-width: 810px; */
-    width: calc(100% -40px);
+    width: calc(100% - 40px);
     max-width: 1220px;
     padding:  20px;
     transform: translateY(15px);
     padding-bottom: 0px;
     padding-right: 0px;
+    position: relative;
+    z-index: 10;
+    
 }
 .header p{
     text-align: center;
-    background-color: white;
+   background-color: rgb(241, 241, 241);
+   font-weight: 500;
 }
 .header :first-child{
     background-color: transparent;

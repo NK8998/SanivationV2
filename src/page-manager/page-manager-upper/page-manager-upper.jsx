@@ -24,6 +24,7 @@ export default function PageManagerUpper(){
     const [addingWorker, setAddingWorker] = useState(false)
     const [openSortingBox, setOpeningSortingBox] = useState(false)
     const [openOrderBox, setOpeningOrderBox]  = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const {filter, setFilter, fetchFilteredData, editingWorker, individualTable, workerID, tableName, sortOrder} = useFilterContext()
 
   
@@ -60,14 +61,22 @@ export default function PageManagerUpper(){
 
     const toggleAddingWorkerModal = ()=>{
 
-        if(!tableName) return
+        if(!individualTable) return
         setAddingWorker((prevState)=> !prevState)
 
     }
 
     const addWorker = (e, foodOrdered, totalPackets)=>{
         e.preventDefault()
+        const inputValue = document.querySelector('[name="addWorker"]').value;
+
+        if(inputValue.trim() === ''){
+          toast.error('please add a name')
+          return
+        }
         const uniqueID = nanoid(6)
+
+        setIsSubmitting(true)
 
         const newWorkerObj = {
             ID:uniqueID,
@@ -105,21 +114,61 @@ export default function PageManagerUpper(){
               tableData.workers = newWorkersArray;
         
               // Update the lastModified timestamp
-              tableData.lastModified = getDate();
+              const newArrray = []
+   
+              tableData.workers.map((worker)=>{
+                let workerFoodArray = [...worker.foodOrdered]
+              
+                const filteredArrray =   workerFoodArray.filter(food=> !food.includes(' milk '))
+          
+                  for(let i = 0; i < worker.totalPackets; i++){
+                    filteredArrray.push('milk')
+                  }
+                  
+                  newArrray.push(...filteredArrray)
+              })
+              
+             const filteredNewArray =  newArrray.map((food)=> {return food.trim()})
+              const foodObj = filteredNewArray.reduce((result, food) => {
+                  if (food!== '') { // Check if food is not an empty string
+                    if (!result[food]) {
+                      result[food] = 1; // Initialize count to 1 for the first occurrence
+                    } else {
+                      result[food]++; // Increment count for subsequent occurrences
+                    }
+                  }
+                  return result;
+                }, {});
+          
+                let foodCountArray = []
+                
+                // Convert the result object to an array of objects
+                foodCountArray = Object.keys(foodObj).map((foodName) => ({
+                  food: foodName,
+                  count: foodObj[foodName],
+                }));
+
+            tableData.lastModified = getDate();
             tableData.totalizer.totalPackets += workerObj.totalPackets
             tableData.totalizer.totalPlates = newWorkersArray.length
+            tableData.totalizer.foodCountArray = foodCountArray
         
               // Save the updated table data back to Firestore
               await setDoc(tableDocRef, tableData);
               console.log('Table document updated:', tableDocRef.id);
               dispatch(initialWorkers(filter, uid, tableName))
               toast.success('successfully added worker')
+              setIsSubmitting(false)
             } else {
               console.log('Table document does not exist.');
+              setIsSubmitting(false)
             }
+
           } catch (error) {
             console.error('Error updating table document:', error);
             toast.error(error.message)
+            setIsSubmitting(false)
+
           }
 
     }
@@ -194,7 +243,7 @@ export default function PageManagerUpper(){
             </div>
         </div>
         {addingWorker &&
-        <AddingWorker toggleAddingWorkerModal={toggleAddingWorkerModal} addWorker={addWorker}/>
+        <AddingWorker toggleAddingWorkerModal={toggleAddingWorkerModal} addWorker={addWorker} isSubmitting={isSubmitting}/>
             }
 
 

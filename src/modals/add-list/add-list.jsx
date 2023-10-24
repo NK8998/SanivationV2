@@ -23,6 +23,8 @@ export default function AddList(){
 
     const [allFieldsIDs, setAllFieldsIDs] = useState([]);
 
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
     const addFields = () => {
       const uniqueID = nanoid(4);
       setAllFieldsIDs((prevFields) => [...prevFields, uniqueID]);
@@ -49,13 +51,14 @@ export default function AddList(){
 
     const handleSubmit = (e)=>{
         e.preventDefault()
+      
 
         const inputValue = document.querySelector('[name="listName-input"]').value;
         if(inputValue.trim() === ''){
           toast.error('please give your list a name')
           return
         }
-       
+        setIsSubmitting(true)
         const listID = nanoid(6)
         const formData = new FormData(e.target);
         let formDataObject = { workers: [] };
@@ -114,10 +117,14 @@ export default function AddList(){
           await setDoc(tableDocRef, tableData);
           toast.success(`${formData.listName} list added`)
           console.log('List document written with ID:', tableDocRef.id);
+          setIsSubmitting(false)
+
         
         } catch (error) {
           console.error('Error adding documents:', error);
           toast.error(error.message)
+          setIsSubmitting(false)
+
         }
 
   }
@@ -156,7 +163,11 @@ export default function AddList(){
 
             <div className="secondary-chin">
                 <button type="button"className="left-button" onClick={()=>updateModal('')}>Cancel</button>
-                <button type="submit"className="right-button">Save</button>
+
+                {isSubmitting ?
+                  <button type="button" className="right-button loading"><div className="loader"></div></button>
+                  :
+                  <button type="submit"className="right-button">Save</button>}
             </div>
             </form>
 

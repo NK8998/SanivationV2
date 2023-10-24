@@ -11,9 +11,8 @@ const workerSlice = createSlice({
         tableData:{},
         workerData: {foodOrdered:[]},
         loading: true,
-        error: '',
         updateWorker: Date.now(),
-        success: '',
+        isSubmitting: false
     },
     reducers:{
       initialFetchTable:(state, action)=>{
@@ -28,18 +27,16 @@ const workerSlice = createSlice({
       revertLoading:(state, action)=>{
           state.loading = true
       },
-      errMessage:(state, action)=>{
-        state.error = action.payload
-      },
-      successMessage:(state, action)=>{
-        state.success = action.payload
+      toggleIsSubmitting:(state, action)=>{
+        state.isSubmitting = !state.isSubmitting
       }
+      
     }
  
 
 })
 
-export const {initialFetchTable, updateWorkerData, initialFetchWorker, revertLoading, errMessage, successMessage} = workerSlice.actions
+export const {initialFetchTable, updateWorkerData, initialFetchWorker, revertLoading, toggleIsSubmitting} = workerSlice.actions
 
 
   
@@ -99,13 +96,14 @@ const updateTable = (dispatch, uid, formData) => {
   setDoc(tableDocRef, tableData)
     .then(() => {
       console.log('Table document written with ID:', tableDocRef.id);
-      dispatch(successMessage(`${formData.tableName} updated`));
       dispatch(updateWorkerData(Date.now()));
       toast.success(`${formData.tableName} updated`)
+      dispatch(toggleIsSubmitting())
     })
     .catch((error) => {
       console.error('Error adding documents:', error);
       toast.error(error.message)
+      dispatch(toggleIsSubmitting())
     });
 };
 
@@ -113,6 +111,7 @@ const updateTable = (dispatch, uid, formData) => {
 
 export const handleSubmitNameThunk = (e, uid, workerID, tableData)=>{
     return async (dispatch)=>{
+    dispatch(toggleIsSubmitting())
     const updatedWorkers = tableData.workers.map((workerObj) => {
             if (workerObj.ID === workerID) {
               // Update the specific foodOrdered field
@@ -136,7 +135,8 @@ export const handleSubmitNameThunk = (e, uid, workerID, tableData)=>{
 
 export const handleSubmitOrdersThunk = (newWorkerObj, tableData, uid, workerID)=>{
     return async(dispatch)=>{
-      let newTableData = {...tableData}
+      dispatch(toggleIsSubmitting())
+    let newTableData = {...tableData}
       // Create a new array with the updated worker data
     const updatedWorkers = newTableData.workers.map((workerObj) => {
     if (workerObj.ID === workerID) {
@@ -157,10 +157,43 @@ export const handleSubmitOrdersThunk = (newWorkerObj, tableData, uid, workerID)=
     newTableData.workers.forEach((worker)=>{
       newTotalPackets += worker.totalPackets
     })
+
+    const newArrray = []
    
+    newTableData.workers.map((worker)=>{
+      let workerFoodArray = [...worker.foodOrdered]
+    
+      const filteredArrray =   workerFoodArray.filter(food=> !food.includes(' milk '))
+
+        for(let i = 0; i < worker.totalPackets; i++){
+          filteredArrray.push('milk')
+        }
+        
+        newArrray.push(...filteredArrray)
+    })
+    
+   const filteredNewArray =  newArrray.map((food)=> {return food.trim()})
+    const foodObj = filteredNewArray.reduce((result, food) => {
+        if (food!== '') { // Check if food is not an empty string
+          if (!result[food]) {
+            result[food] = 1; // Initialize count to 1 for the first occurrence
+          } else {
+            result[food]++; // Increment count for subsequent occurrences
+          }
+        }
+        return result;
+      }, {});
+
+      let foodCountArray = []
+      
+      // Convert the result object to an array of objects
+      foodCountArray = Object.keys(foodObj).map((foodName) => ({
+        food: foodName,
+        count: foodObj[foodName],
+      }));
  
 
-    const updatedTotalizer = {...newTotalizer, totalPackets:newTotalPackets}
+    const updatedTotalizer = {...newTotalizer, totalPackets:newTotalPackets, foodCountArray:foodCountArray}
       // Create a new tableData object with the updated workers array
     newTableData.totalizer = updatedTotalizer
     console.log(newTableData)

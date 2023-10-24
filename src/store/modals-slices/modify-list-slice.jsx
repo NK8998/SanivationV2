@@ -16,6 +16,7 @@ const modifyListSlice = createSlice({
         loading: true,
         error: '',
         allFieldsIDs: [],
+        isSubmitting: false,
 
     },
     reducers:{
@@ -47,12 +48,16 @@ const modifyListSlice = createSlice({
         },
         revertAllFieldsIDs:(state, action)=>{
             state.allFieldsIDs = []
+        },
+        toggleIsSubmitting:(state, action)=>{
+          state.isSubmitting = !state.isSubmitting
         }
+        
     }
 })
 
 
-export const {updateLists, updateChosenList, updateChosenWorker, toggleWorkerModal, revertLoading, revertAllFieldsIDs, updateAllFieldIDs, filterAllFIeldIDs} = modifyListSlice.actions
+export const {updateLists, updateChosenList, updateChosenWorker, toggleWorkerModal, revertLoading, revertAllFieldsIDs, updateAllFieldIDs, filterAllFIeldIDs, toggleIsSubmitting} = modifyListSlice.actions
 
 
 export default modifyListSlice.reducer
@@ -110,9 +115,11 @@ const modifyList = async (dispatch, uid, formData)=>{
 
       console.log('List document written with ID:', tableDocRef.id);
       toast.success(`list ${formData.listName} modified`)
+      dispatch(toggleIsSubmitting())
     } catch (error) {
       console.error('Error adding documents:', error);
       toast.error(error.message)
+      dispatch(toggleIsSubmitting())
     }
 
   }
@@ -121,6 +128,8 @@ const modifyList = async (dispatch, uid, formData)=>{
 
 export const addWorkerThunk = (e, chosenList, uid)=>{
     return async(dispatch)=>{
+
+      dispatch(toggleIsSubmitting())
 
         const formData = new FormData(e.target);
         let formDataObject = { workers: [] };

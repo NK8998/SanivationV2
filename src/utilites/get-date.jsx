@@ -15,3 +15,16 @@ export function getDate(){
    
     return dd + '-' + mm + '-' + yyyy;
   }
+
+
+export function getCurrentMonthAndYear() {
+const now = new Date();
+const year = now.getFullYear();
+const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+];
+const month = monthNames[now.getMonth()];
+
+return { year, month };
+}

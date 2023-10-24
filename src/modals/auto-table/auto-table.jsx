@@ -20,6 +20,7 @@ export default function AutoTable(){
 
     const chosenList = useSelector((state)=>state.autoTable.chosenList)
     const totalizer = useSelector((state)=> state.autoTable.totalizer)
+    const isSubmitting = useSelector((state)=>state.autoTable.isSubmitting)
     
     const [showLists, setShowLists] = useState(false)
     const [totalizerOpen, setTotalizerOpen] = useState(false)
@@ -141,15 +142,19 @@ export default function AutoTable(){
                 </div>
                 <div className="flexy-container-modal">
                     <div className="all-workers-container">
-                        {listContent.length > 0  ? listContent : <p>Select a list</p>}
+                        {listContent }
                     </div>
                     
                     <div className="secondary-chin " >
                         <button className="left-button " onClick={()=>updateModal('')}>Cancel</button>
 
-                        <button className="lists-toggle" onClick={()=>{setShowLists((prevState)=>!prevState)}}><ToggleListsIcon/></button>
+                        <button className="lists-toggle" onClick={()=>{setShowLists((prevState)=>!prevState)}}><ToggleListsIcon/> {listContent.length > 0  ?   <p>: {chosenList.listName}</p> : <p>Select list</p>}</button>
 
-                        <button className="right-button" onClick={generateTable}>Save</button>
+
+                       {isSubmitting ?
+                        <button className="right-button loading" ><div className="loader"></div></button>
+                        :
+                        <button className="right-button" onClick={generateTable}>Save</button>}
 
                     </div>
                 </div>

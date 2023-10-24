@@ -6,6 +6,8 @@ export default function EditName({workerID, tableData, startEditingName}){
 
     const workerData = useSelector((state)=>state.worker.workerData)
     const userData = useSelector((state)=> state.auth.userData)
+    const isSubmitting = useSelector((state)=>state.worker.isSubmitting)
+
     const {uid} = userData
 
     const dispatch = useDispatch()
@@ -26,7 +28,10 @@ export default function EditName({workerID, tableData, startEditingName}){
 
                 <div className="modal-bottom">
                     <button type="button" onClick={startEditingName}>Cancel</button>
-                    <button type="submit">Update</button>
+                    {isSubmitting ?
+                    <button type="button" className="right-button loading"><div className="loader"></div></button>
+                    :
+                    <button type="submit">Update</button>}
                 </div>
         </form>   
         </>       

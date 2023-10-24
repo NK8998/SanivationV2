@@ -41,7 +41,7 @@
     background-color: hsla(352, 19%, 49%, 0.075);
 }
 .header-and-pages{
-    background-color: white;
+    background-color: rgb(241, 241, 241);
     border-radius: 10px ;
     flex-grow: 1;
     padding: 30px 40px;
@@ -77,7 +77,7 @@
 .orders-and-summary button{
     padding: 5px 10px;
     cursor: pointer;
-    background-color:white ;
+    background-color:rgb(248, 248, 248) ;
     border: 1px solid rgba(128, 128, 128, 0.24);
     border-radius: 5px;
 }

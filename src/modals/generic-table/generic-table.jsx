@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./generic-table.css"
 import { toggleopenGenericTable } from "../../store/modals-slices/all-modals-controller";
-import { getDate } from "../../utilites/get-date";
+import { getCurrentMonthAndYear, getDate } from "../../utilites/get-date";
 import { useState } from "react";
 import { db } from "../../authentication/config";
 import { collection, doc, setDoc } from "firebase/firestore";
@@ -18,40 +18,41 @@ export default function GenericTable(){
 
   const [searchParams, setSearchParams] = useSearchParams()
 
-    const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
-    
   const userData = useSelector((state)=> state.auth.userData)
   
   const {uid, displayName, email} = userData
 
-    const [allFieldsIDs, setAllFieldsIDs] = useState([]);
+  const [allFieldsIDs, setAllFieldsIDs] = useState([]);
 
-    const addFields = () => {
-      const uniqueID = nanoid(4);
-      setAllFieldsIDs((prevFields) => [...prevFields, uniqueID]);
-    };
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const addFields = () => {
+    const uniqueID = nanoid(4);
+    setAllFieldsIDs((prevFields) => [...prevFields, uniqueID]);
+  };
     
-    const removeFields = (e) => {
-      const dataIndex = e.target.getAttribute('dataindex');
-      console.log(dataIndex);
-      setAllFieldsIDs((prevElements) =>
-        prevElements.filter((element) => element !== dataIndex)
-      );
-    };
+  const removeFields = (e) => {
+    const dataIndex = e.target.getAttribute('dataindex');
+    console.log(dataIndex);
+    setAllFieldsIDs((prevElements) =>
+      prevElements.filter((element) => element !== dataIndex)
+    );
+  };
     
-    const dynamicFieldsToBeRendered = allFieldsIDs.map((uniqueID) => {
-      return (
-        <DynamicFields
-          key={uniqueID}
-          dataindex={uniqueID}
-          removeFields={removeFields}
-        />
-      );
-    });
+  const dynamicFieldsToBeRendered = allFieldsIDs.map((uniqueID) => {
+    return (
+      <DynamicFields
+        key={uniqueID}
+        dataindex={uniqueID}
+        removeFields={removeFields}
+      />
+    );
+  });
 
          
-    const uploadTable = async (formData)=>{
+  const uploadTable = async (formData)=>{
   
         const uniqueTableID = nanoid(6)
 
@@ -63,6 +64,8 @@ export default function GenericTable(){
           email: email,
         }
         
+        const { year, month } = getCurrentMonthAndYear();
+
 
        
         try {
@@ -73,6 +76,8 @@ export default function GenericTable(){
         const tableName = `${formData.tableName}_${uniqueTableID}`
          const tableData ={
             ...formData,
+            year: year,
+            month: month,
             tableName: tableName,
             createdAt: getDate(),
             lastModified: getDate(),
@@ -86,9 +91,13 @@ export default function GenericTable(){
           console.log('Table document written with ID:', tableDocRef.id);
           dispatch(fetchInitialData('', uid))
           toast.success(`${formData.tableName} added`)
+          setIsSubmitting(false)
+
         } catch (error) {
           console.error('Error adding documents:', error);
           toast.error(error.message)
+          setIsSubmitting(false)
+
         }
 
   }
@@ -104,6 +113,7 @@ export default function GenericTable(){
       toast.error('please give your table a name')
       return
     }
+    setIsSubmitting(true)
     const formData = new FormData(e.target);
     const formDataObject = { workers: [] };
   
@@ -170,7 +180,10 @@ export default function GenericTable(){
 
                 <div className="secondary-chin">
                     <button type="button" className="left-button" onClick={()=>updateModal('')}>Cancel</button>
-                    <button type="submit" className="right-button">Save</button>
+                    {isSubmitting ?
+                      <button type="button" className="right-button loading"><div className="loader"></div></button>
+                      :
+                      <button type="submit" className="right-button">Save</button>}
                 </div>
             </form>
         </div>

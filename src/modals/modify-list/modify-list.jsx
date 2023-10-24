@@ -23,6 +23,7 @@ export default function ModifyList(){
     const chosenList =  useSelector((state)=> state.modifyList.chosenList)
     const chosenWorker =  useSelector((state)=> state.modifyList.chosenWorker)
     const removingWorkerModal =  useSelector((state)=> state.modifyList.removingWorkerModal)
+    const isSubmitting = useSelector((state)=>state.modifyList.isSubmitting)
     
 
     const [showLists, setShowLists] = useState(false)
@@ -133,7 +134,7 @@ export default function ModifyList(){
 
             <div className="all-workers-container modifying">
                 <p className="top-p">Current Workers on list:</p>
-                {(!chosenList || Object.entries(chosenList).length < 2) ? <p>Select a list</p> : listContent} 
+                {listContent} 
                 <form onSubmit={(e)=>{addWorkers(e)}}>
                   <div className="dynamic-container-modify">
                   {dynamicFieldsToBeRendered}
@@ -143,8 +144,12 @@ export default function ModifyList(){
                 <div className="secondary-chin">
 
                   <button className="left-button" type="button"  onClick={()=>updateModal('')}>Cancel</button>
-                  <button className="lists-toggle" type="button" onClick={()=>{setShowLists((prevState)=>!prevState)}}><ToggleListsIcon/></button>
-                  <button className="right-button">Save</button>
+                  <button className="lists-toggle" type="button" onClick={()=>{setShowLists((prevState)=>!prevState)}}><ToggleListsIcon/>{(!chosenList || Object.entries(chosenList).length < 2) ? <p>Select list</p> : (<p>: {chosenList?.listName}</p> || '')}</button>
+                  
+                  {isSubmitting ?
+                    <button className="right-button loading"><div className="loader"></div></button>
+                    :
+                    <button className="right-button">Save</button>}
 
                 </div>
                 </form>

@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import { db } from "../../authentication/config";
 import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore"
 import { nanoid } from "nanoid";
-import { getDate } from "../../utilites/get-date";
+import { getCurrentMonthAndYear, getDate } from "../../utilites/get-date";
 import { fetchInitialData, initialFetch } from "../home-slice";
 import { useRef } from "react";
 import toast from "react-hot-toast";
@@ -18,10 +18,7 @@ const autoTableSlice = createSlice({
         foodPickerOpen: false,
         currentWorker: {},
         loading: true,
-        errorState: false,
-        errMessage: '',
-        successState: false,
-        successMessage: '',
+        isSubmitting:false,
     },
     reducers:{
         fetchLists:(state, action)=>{
@@ -44,18 +41,15 @@ const autoTableSlice = createSlice({
         revertLoading:(state, action)=>{
             state.loading = true
         },
-        showError:(state, action)=>{
-            state.errorState = !state.errorState
-            state.errMessage = action.payload
-        },
-        showSuccess:(state, action)=>{
-           state.successState = !state.successState
+        toggleSubmitting:(state, action)=>{
+          state.isSubmitting = !state.isSubmitting
         }
+
     }
 })
 
 
-export const {fetchLists, updateTotalizer, updateChosenList, toggleFoodPicker_, updateCurrentWorker, revertLoading, showError, showSuccess} = autoTableSlice.actions
+export const {fetchLists, updateTotalizer, updateChosenList, toggleFoodPicker_, updateCurrentWorker, revertLoading, toggleSubmitting} = autoTableSlice.actions
 
 export default autoTableSlice.reducer
 
@@ -84,8 +78,12 @@ export const getUserListThunk = (uid) => {
   };
 
   const uploadTable = (dispatch, uid, totalizer, newTableObj) => {
+    const { year, month } = getCurrentMonthAndYear();
+
     const tableData = {
       ...newTableObj,
+      year: year,
+      month: month,
       totalizer: { ...totalizer },
     };
   
@@ -98,17 +96,19 @@ export const getUserListThunk = (uid) => {
         console.log('Table document written with ID:', tableDocRef.id);
         dispatch(fetchInitialData('', uid));
         toast.success('Successfully added table')
+        dispatch(toggleSubmitting())
       })
       .catch((error) => {
         console.error('Error adding documents:', error);
         toast.error(error.message)
+        dispatch(toggleSubmitting())
       });
   };
 
 export const generateTableThunk = (uid, totalizer, chosenList)=>{
 
     return async(dispatch)=>{
-
+        dispatch(toggleSubmitting())
         const uniqueID = nanoid(6)
         
         const tableName = `Table-${getDate()}_${uniqueID}`;

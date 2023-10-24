@@ -9,6 +9,7 @@ export default function EditOrder({workerID, startEditingOrders}){
     const workerData = useSelector((state)=>state.worker.workerData)
     const userData = useSelector((state)=> state.auth.userData)
     const tableData = useSelector((state)=>state.worker.tableData)
+    const isSubmitting = useSelector((state)=>state.worker.isSubmitting)
     const {uid} = userData
     const dispatch = useDispatch()
 
@@ -22,6 +23,7 @@ export default function EditOrder({workerID, startEditingOrders}){
     const [greens, setGreens]  = useState('')
     const [drinks, setDrinks] = useState('')
     const [totalPackets, setTotalPackest] = useState(0)
+
 
 
     useEffect(()=>{
@@ -98,6 +100,7 @@ export default function EditOrder({workerID, startEditingOrders}){
     const handleSubmitOrders = (e)=>{
         e.preventDefault()
        
+        
         let newWorkerObj = {...workerData}
         newWorkerObj.totalPackets = totalPackets
         newWorkerObj.lastModified = getDate()
@@ -143,7 +146,10 @@ export default function EditOrder({workerID, startEditingOrders}){
             </div>
             <div className="modal-bottom">
                 <button type="button" onClick={startEditingOrders}>Cancel</button>
-                <button type="submit">Update</button>
+                {isSubmitting ?
+                <button type="button" className="right-button loading"><div className="loader"></div></button>
+                :
+                <button type="submit">Update</button>}
             </div>
         </form>
         </>
