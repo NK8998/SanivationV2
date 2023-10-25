@@ -35,6 +35,18 @@
 ::-webkit-scrollbar-thumb:hover{
     background-color: rgb(175, 175, 175);
 }
+.toast-button-center{
+    border-radius: 8px;
+    padding: 6px 15px;
+    width: fit-content;
+    color: rgb(255, 91, 91);
+    border: 1px solid #fcb1b1;
+    margin-left: 242px;
+    cursor: pointer;
+    font-weight: 600;
+    background-color: white;
+
+}
 
 .page-manager{
     display: flex;

@@ -175,7 +175,7 @@ export default function Home({}){
                 return(
 
 
-                    <Link to={`/${table?.tableName}`} key={table?.tableName || ''} className={`month table ${index === allMonthsArray.length - 1 ? 'last' : ''}`}>
+                    <Link to={`/${table?.tableName}`} key={table?.tableName || ''} className={`month table ${index === 0 ? 'first-row' : '' } separation ${index === allMonthsArray.length - 1 ? 'last' : ''}`}>
                     <div className="listname outer" title={table?.listName || 'generic'}>{table?.listName && table?.listName[0] || 'T'}</div>
 
                         <div className="months-table">
@@ -254,7 +254,7 @@ export default function Home({}){
                 {allYearArray.map((table, index)=>{
                     return(
                       
-                        <Link to={`/${table?.tableName}`} key={table?.tableName || ''} className={`month table ${index === allYearArray.length - 1 ? 'last' : ''}`}>
+                        <Link to={`/${table?.tableName}`} key={table?.tableName || ''} className={`month table ${index === 0 ? 'first-row' : '' } separation  ${index === allYearArray.length - 1 ? 'last' : ''}`}>
                         <div className="listname outer" title={table?.listName || 'generic'}>{table?.listName && table?.listName[0] || 'T'}</div>
     
                             <div className="months-table">

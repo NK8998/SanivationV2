@@ -1,5 +1,6 @@
 import jsPDF from "jspdf";
 import toast from "react-hot-toast";
+import { getDate } from "../utilites/get-date";
 
 export const convertMonthDataToPdf = async (summarizedMonthData) => {
     // Create a new jsPDF instance
@@ -8,15 +9,15 @@ export const convertMonthDataToPdf = async (summarizedMonthData) => {
     // Set the title for your PDF
     const pageWidth = doc.internal.pageSize.getWidth();
     const textWidth = doc.getStringUnitWidth('INVOICE') * doc.internal.getFontSize();
-    const xCenter = (pageWidth - textWidth) / 2;
+    const xCenter = (pageWidth - textWidth) / 1.6;
 
 // Set the title for your PDF
     doc.setFontSize(16);
-    doc.text('INVOICE', xCenter, 10);
+    doc.text('INVOICE', xCenter, 6);
   
     // Add a date (replace 'Random Date' with the actual date)
     doc.setFontSize(12);
-    doc.text(`Date: Random Date`, 10, 20);
+    doc.text(`Date: ${getDate()}`, 10, 20);
   
     // Add a section for 'Summary Report'
     doc.setFontSize(14);
@@ -31,25 +32,44 @@ export const convertMonthDataToPdf = async (summarizedMonthData) => {
     let y = 70; // Initial vertical position
   
     summarizedMonthData.forEach((month) => {
-      doc.setFontSize(12);
-      doc.text(`Month: ${month.month} ${month.year}`, 10, y);
-  
-      // Create rectangles for the grid
-      doc.rect(10, y + 10, 60, 10); // Rectangle for 'Total Packets'
-      doc.rect(70, y + 10, 60, 10); // Rectangle for the value
-  
-      doc.rect(10, y + 20, 60, 10); // Rectangle for 'Total Plates'
-      doc.rect(70, y + 20, 60, 10); // Rectangle for the value
-  
+      doc.setFontSize(10);
+      doc.text(`Month: ${month.month} ${month.year}`, 10, y + 5);
+    
+      // Create rectangles for the grid (increased size to 35)
+      doc.rect(10, y + 10, 35, 10); // Rectangle for 'Total Packets'
+      doc.rect(45, y + 10, 35, 10); // Rectangle for the value
+      doc.rect(80, y + 10, 35, 10);
+      doc.rect(115, y + 10, 35, 10);
+      doc.rect(150, y + 10, 35, 20);
+    
+      doc.rect(10, y + 20, 35, 10); // Rectangle for 'Total Plates'
+      doc.rect(45, y + 20, 35, 10); // Rectangle for the value
+      doc.rect(80, y + 20, 35, 10);
+      doc.rect(115, y + 20, 35, 10);
+    
       // Add labels and values inside the rectangles
       doc.text('Total Packets', 15, y + 15);
-      doc.text(`${month.totalPackets}`, 75, y + 15);
-  
+      doc.text(`${month.totalPackets}`, 50, y + 15);
+    
+      doc.text('Price per item', 85, y + 8);
+      doc.text('200', 90, y + 15);
+      doc.text('200', 90, y + 25);
+    
       doc.text('Total Plates', 15, y + 25);
-      doc.text(`${month.totalPlates}`, 75, y + 25);
-  
-      y += 40; // Increase vertical position for the next month
+      doc.text(`${month.totalPlates}`, 50, y + 25);
+    
+      doc.text('Total Price', 120, y + 8);
+      doc.text(`${month.totalPlates} x 200 = ${month.totalPackets * 200}`, 123, y + 15);
+    
+      doc.text(`${month.totalPackets} x 200 = ${month.totalPlates * 200}`, 123, y + 25);
+    
+      doc.text('Cumulative Price', 155, y + 8);
+      doc.text(`${(month.totalPlates * 200) + (month.totalPackets * 200)}`, 158, y + 20);
+    
+      y += 70; // Increase vertical position for the next month
     });
+    
+    
   
     // Save or download the PDF
     doc.save('summary_report.pdf');
