@@ -15,44 +15,61 @@ export const getSummary = async (setIsGenerating, filterRouteData, allMonths, ui
 
     const {month, year} = getCurrentMonthAndYear()
 
-    console.log(month, year)
+    // console.log(month, year)
 
     if (!allMonths) {
       const q = query(allTablesRef, where('month', '==', `${month}`), where('year', '==', year));
+    
+      try {
+        const querySnapshot = await getDocs(q);
+    
+        if (!querySnapshot.empty) {
+          tableData = querySnapshot.docs.map((doc) => doc.data());
+        } else {
+          console.log('No matching documents found.');
+          toast(
+            "No tables were found. This could be due to network issues. Check your internet connection",
+            {
+              duration: 6000,
+              position: "top-center"
+            }
+          );
+          setIsGenerating(false)
 
-      const querySnapshot = await getDocs(q)
+          return;
+        }
+      } catch (error) {
+        toast.error(error.message)
+        setIsGenerating(false)
 
-      if(!querySnapshot.empty){
-        tableData = querySnapshot.docs.map((doc) => doc.data());
-
-      }else{
-        console.log('No matching documents found.');
-        toast(
-          "No tables were found",
-          {
-            duration: 2000,
-            position: "top-center"
-          }
-        );
-        return
+        // Handle the error here
       }
+    } else {
+      try {
+        const querySnapshot = await getDocs(allTablesRef);
+    
+        if (!querySnapshot.empty) {
+          tableData = querySnapshot.docs.map((doc) => doc.data());
+        } else {
+          console.log('No matching documents found.');
+          toast(
+            "No tables were found. This could be due to network issues. Check your internet connection",
+            {
+              duration: 6000,
+              position: "top-center"
+            }
+          );
+          setIsGenerating(false)
+          return;
+        }
+      } catch (error) {
+        toast.error(error.message)
+        setIsGenerating(false)
 
-    }else{
-      const querySnapshot = await getDocs(allTablesRef);
-      if (!querySnapshot.empty) {
-        tableData = querySnapshot.docs.map((doc) => doc.data());
-      } else {
-        console.log('No matching documents found.');
-        toast(
-          "No tables were found",
-          {
-            duration: 2000,
-            position: "top-center"
-          }
-        );
-        return
+        // Handle the error here
       }
     }
+    
    
 
 const allYearObjs = [];

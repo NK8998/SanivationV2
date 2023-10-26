@@ -10,6 +10,14 @@
 
 }
 
+:root{
+
+    --regular-side-font-color:rgba(0, 0, 0, 0.808);
+    --special-side-svg-fill: rgb(235, 54, 63);
+    --regular-side-svg-fill: rgba(0, 0, 0, 0.603);
+}
+
+
 ::-webkit-scrollbar{
     background-color: rgba(156, 156, 156, 0);
     width: 16px;

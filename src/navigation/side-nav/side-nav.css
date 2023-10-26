@@ -12,12 +12,6 @@
     
 }
 
-:root{
-
-    --regular-side-font-color:rgba(0, 0, 0, 0.808);
-    --special-side-svg-fill: rgb(235, 54, 63);
-    --regular-side-svg-fill: rgba(0, 0, 0, 0.603);
-}
 
 
 .side-nav::-webkit-scrollbar{
@@ -290,8 +284,21 @@
     pointer-events: none;
     height: 100vh;
     width: 100%;
+    animation: fade 120ms linear forwards;
 }
 
+@keyframes fade {
+    0%{
+        opacity: 0;
+    }
+    50%{
+        opacity: .5;
+
+    }100%{
+        opacity: 1;
+    }
+    
+}
 
 
 

@@ -103,11 +103,12 @@
   
 }
 .chin button{
+    cursor: pointer;
     height: 40px;
     width: 40px;
     border-radius: 100%;
     border: none;
-    transition: all 200ms ease;
+    transition: all 250ms ease;
     background-color: white;
 
 
@@ -115,6 +116,16 @@
 }
 .chin button svg{
     fill: rgb(78, 78, 78);
+}
+.chin button:hover{
+    scale: 1.1;
+}
+.chin button:hover svg{
+    fill: rgb(29, 29, 29);
+}
+
+.chin .chin-button-active:hover svg{
+    fill: rgb(255, 74, 74);
 }
 
 .secondary-chin{
