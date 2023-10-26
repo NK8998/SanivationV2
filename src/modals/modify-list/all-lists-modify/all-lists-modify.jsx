@@ -25,7 +25,7 @@ export default function AllListsModify({showLists, setShowLists}){
     
     const ListEl = lists.map((list)=>{
         return (
-           <div className="list-option" onClick={()=>{dispatch(updateChosenList(list))}}><div className="list-letter">{list.listName[0]}</div><p  key={list.listId}>{list.listName}</p><AllYourListsIcon/></div> 
+           <div className="list-option" onClick={()=>{dispatch(updateChosenList(list)); setShowLists((prevState)=>!prevState)}}><div className="list-letter">{list.listName[0]}</div><p  key={list.listId}>{list.listName}</p><AllYourListsIcon/></div> 
         )
     })
 
