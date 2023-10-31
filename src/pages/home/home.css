@@ -198,3 +198,88 @@
         text-align: right;
     }
 }
+.nothing-wrapper{
+    background-image: linear-gradient(to right, rgb(255, 107, 107), purple);
+    padding: 2px;
+    width: calc(100% - 60px);
+    transform: translateY(100px);
+    margin: auto;
+    border-radius: 12px;
+    max-width: 450px;
+}
+
+.nothing{
+    background-color: white;
+    border-radius: 12px;
+    padding:20px 20px;
+
+}   
+
+.nothing .nothing-top{
+    display: flex;
+    align-items: center;
+    font-size: 50px;
+    background: -webkit-linear-gradient(rgb(255, 107, 107), purple);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 40px;
+    gap: 1em;
+}
+.nothing .nothing-bottom{
+    font-size: 14px;
+    font-weight: 500;
+}
+.nothing .nothing-top svg{
+    fill: rgb(255, 107, 107);
+    height: 50px;
+    width: 50px;
+    scale: 2;
+}
+.nothing .nothing-bottom svg{
+    fill: rgb(216, 216, 59);
+   
+}
+
+@media(max-width:50em){
+    .nothing{
+        padding: 20px;
+    }
+    .nothing .nothing-top{
+        font-size: 40px;
+        justify-content: space-between;
+        padding-bottom: 20px;
+       
+    }
+    .nothing .nothing-top svg{
+        fill: rgb(255, 107, 107);
+        height: 50px;
+        width: 50px;
+        scale: 1.5;
+        
+    }
+}
+
+@media(max-width:460px){
+    .nothing .nothing-top{
+        font-size: 35px;
+        padding-bottom: 20px;
+    }
+    .nothing .nothing-top svg{
+        scale: 1.5;
+        height: 30px;
+        width: 30px;
+        
+    }
+}
+@media(max-width:415px){
+    .nothing .nothing-top{
+        font-size: 30px;
+        padding-bottom: 20px;
+    }
+    .nothing .nothing-top svg{
+        scale: 1.5;
+        height: 30px;
+        width: 30px;
+        
+    }
+}

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchDynamicData, fetchInitialData, removeTableFromArray } from "../../store/home-slice"
 import { useFilterContext } from "../../utilites/filter-context"
 import { Link, useLocation } from "react-router-dom"
-import { TrashIcon } from "../../assets/icons"
+import { HappyIcon, SadIcon, TrashIcon } from "../../assets/icons"
 import RemoveTableModal from "./modal"
 
 export default function Home({}){
@@ -286,7 +286,18 @@ export default function Home({}){
     return(
         <div className="home">
             {loading ? <p>Loading...</p> : allTablesEl}
+            {
+            !loading &&
 
+            allTables.length === 0 ?
+            <div className="nothing-wrapper">
+             <div className="nothing">
+                <h2 className="nothing-top">Nothing here.<SadIcon/></h2>
+                <p className="nothing-bottom">If you want to add tables click the burger icon at the top-left corner of the page. From there you can create a list and use it to create your tables. </p>
+             </div>
+             </div>
+            :<></>
+            }
 {   removingTableModal &&   <RemoveTableModal setRemoveTableModal={setRemoveTableModal} currentTable={currentTable} removeTable={removeTable}/>}
         </div>
     )
