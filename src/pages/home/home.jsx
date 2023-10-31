@@ -293,7 +293,7 @@ export default function Home({}){
             <div className="nothing-wrapper">
              <div className="nothing">
                 <h2 className="nothing-top">Nothing here.<SadIcon/></h2>
-                <p className="nothing-bottom">If you want to add tables click the burger icon at the top-left corner of the page. From there you can create a list and use it to create your tables. </p>
+                <p className="nothing-bottom">If you want to add tables navigate to the side bar to left of your screen. From there you can create a list and use it to create your tables. </p>
              </div>
              </div>
             :<></>
