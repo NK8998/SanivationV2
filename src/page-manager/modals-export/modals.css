@@ -68,23 +68,24 @@
 
 .close-modals{
     width: 100%;
-    background-color: rgb(232, 244, 252);
+    background-color: rgb(250, 116, 116);
     border: none;
     display: flex;
     gap: 1em;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: rgb(182, 181, 181);
+    color: rgb(255, 255, 255);
     padding: 5px 0px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
     position: sticky;
     top: 0;
     z-index: 22;
 }
 .close-modals svg{
-    fill: rgb(255, 120, 120);
+    fill: rgb(141, 210, 255);
+    scale: 1.3;
 }
 .chin{
 

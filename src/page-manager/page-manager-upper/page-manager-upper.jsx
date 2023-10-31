@@ -176,11 +176,27 @@ export default function PageManagerUpper(){
     const toggleOrderByBox = ()=>{
         if(editingWorker) return
         setOpeningOrderBox((prevState)=> !prevState)
+        document.addEventListener('click', (e)=>{
+
+            if(!e.target.closest('.filter-by.second') && !e.target.matches('.orderby')){
+
+                setOpeningOrderBox(false)
+
+            }
+        })
         setOpeningSortingBox(false)
     }
     const toggleSortByBox = ()=>{
         if(editingWorker) return
         setOpeningSortingBox((prevState)=> !prevState)
+        document.addEventListener('click', (e)=>{
+
+            if(!e.target.closest('.filter-by.first') && !e.target.matches('.sortby')){
+
+                setOpeningSortingBox(false)
+
+            }
+        })
         setOpeningOrderBox(false)
     }
 
@@ -205,9 +221,48 @@ export default function PageManagerUpper(){
 
     }
 
+    const scrollBarRef = useRef()
+    const leftSliderRef = useRef()
+    const rightSliderRef = useRef()
+
+    const handlescroll = () => {
+        const isAtBeginning = scrollBarRef.current.scrollLeft === 0;
+        const isAtEnd = scrollBarRef.current.scrollLeft + scrollBarRef.current.clientWidth === scrollBarRef.current.scrollWidth;
+      
+        if (isAtBeginning) {
+            leftSliderRef.current.classList.add('hide');
+            rightSliderRef.current.classList.remove('hide');
+        } else if (isAtEnd) {
+          leftSliderRef.current.classList.remove('hide');
+          rightSliderRef.current.classList.add('hide');
+        } else {
+          leftSliderRef.current.classList.remove('hide');
+          rightSliderRef.current.classList.remove('hide');
+        }
+
+        if(scrollBarRef.current.clientWidth === scrollBarRef.current.scrollWidth){
+          leftSliderRef.current.classList.add('hide');
+          rightSliderRef.current.classList.add('hide');
+      };
+    }
+
+    const moveLeft = ()=>{
+        scrollBarRef.current.scrollLeft -= 200
+    }
+
+    const moveRight = ()=>{
+        scrollBarRef.current.scrollLeft += 200;
+    }
+
+   
+
     return(
-        <>
-        <div className="page-manager-upper">
+        <div className="slider-container">
+         <div className="slide left-container" ref={leftSliderRef} onClick={moveLeft}>
+            <NavigateBackArrow/>
+        </div>
+        <div className="page-manager-upper" onScroll={handlescroll} ref={scrollBarRef}>
+       
         <div className="right-upper">
             <button className="left-upper" onClick={navigateBack}>
                 <NavigateBackArrow/>
@@ -219,34 +274,38 @@ export default function PageManagerUpper(){
           
             <button onClick={reloadData}><Refresh/> reload</button>
             
-            <div className="button-conainer">
-                <button className={`button-toggle dropdown ${editingWorker ? 'grey' : ''}`} onClick={toggleSortByBox}><SortBy/>  Sort by  <NavigateBackArrow/> </button>
+            <div>
+                <button title={`${editingWorker ? 'not active on this page' : ''}`} className={`button-toggle dropdown sortby ${editingWorker ? 'not-active' : ''}`} onClick={toggleSortByBox}><SortBy/>  Sort by  <NavigateBackArrow/> </button>
                 { openSortingBox && <SortByBox openSortingBox={openSortingBox}/>}
             </div>
             
-            <div  className="button-conainer">
-                <button className={`button-toggle dropdown ${editingWorker ? 'grey' : ''} ${sortOrder === 'ascending' ? 'ascending' : ''}`} onClick={toggleOrderByBox}><OrderBy/> Sort order <NavigateBackArrow/></button>
+            <div >
+                <button title={`${editingWorker ? 'not active on this page' : ''}`} className={`button-toggle dropdown orderby ${editingWorker ? 'not-active' : ''} ${sortOrder === 'ascending' ? 'ascending' : ''}`} onClick={toggleOrderByBox}><OrderBy/> Sort order <NavigateBackArrow/></button>
                 {openOrderBox && <OrderByBox openOrderBox={openOrderBox}/>}
             </div>
          
            
-            <button className={`${individualTable ? '' : 'not-active'}`} onClick={toggleAddingWorkerModal}><AddPerson/>  Add person</button>
+            <button className={`${individualTable ? '' : 'not-active'}`} onClick={toggleAddingWorkerModal} title={`${individualTable ? '' : 'not active on this page'}`}><AddPerson/>  Add person</button>
           
            
             
             </div>
             
-            <div className={`search-container ${editingWorker ? 'grey' : ''}`}>
+            <div className={`search-container ${editingWorker ? 'not-active' : ''}`}>
                 <Search/>
                 <input type="search" name="searchparams" placeholder="search table or person" onChange={handleChange}/>
                 
             </div>
+
+        </div>
+        <div className="slide right-container" ref={rightSliderRef} onClick={moveRight}>
+            <NavigateBackArrow/>
         </div>
         {addingWorker &&
         <AddingWorker toggleAddingWorkerModal={toggleAddingWorkerModal} addWorker={addWorker} isSubmitting={isSubmitting}/>
             }
 
 
-        </>
+        </div>
     )
 }

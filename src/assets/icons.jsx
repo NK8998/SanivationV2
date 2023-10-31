@@ -8,7 +8,7 @@ export const Burger = ()=>{
 
 export const NavigateBackArrow = () =>{
     return(
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="back">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="back" pointerEvents={'none'}>
             <path d="M560-253.847 333.847-480 560-706.153 602.153-664l-184 184 184 184L560-253.847Z"/>
         </svg>
     )
@@ -16,7 +16,7 @@ export const NavigateBackArrow = () =>{
 
 export const SortBy = ()=>{
     return(
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" pointerEvents={'none'}>
             <path d="M140.001-260.001V-320H355v59.999H140.001Zm0-190v-59.998h447.306v59.998H140.001Zm0-189.999v-59.999h679.998V-640H140.001Z"/>
         </svg>
     )
@@ -24,7 +24,7 @@ export const SortBy = ()=>{
 
 export const OrderBy = () =>{
     return(
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="order">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" className="order" pointerEvents={'none'}>
             <path d="M480-214.616 253.847-440.769 296-482.922l184 183.385 184-183.385 42.153 42.153L480-214.616Zm0-239.231L253.847-680 296-722.153l184 183.385 184-183.385L706.153-680 480-453.847Z"/>
         </svg>
     )

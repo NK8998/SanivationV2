@@ -68,7 +68,7 @@
     box-shadow: 0px 0px 8px 3px rgba(0, 0, 0, 0.233);
     overflow: hidden;
     width: 100%;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 30px);
 }
 
 .header-and-pages h1{
@@ -112,7 +112,7 @@
 }
 
 .page-rendered{
-    overflow-x: scroll;
+    /* overflow-x: scroll; */
 }
 
 .page-rendered::-webkit-scrollbar{
@@ -197,6 +197,7 @@
 @media(max-width:40em){
     .header-and-pages{
         padding: 30px 5px;
+        padding-top: 0px;
     }
     .route-renderer{
         padding-right: 0px;

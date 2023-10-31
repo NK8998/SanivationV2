@@ -101,7 +101,7 @@ export default function Worker(){
                 <div className="left">
                     <div className="worker-left general" onClick={startEditingName}>
                         <p className="title-of-worker">Name</p>
-                        <p className=" left editable-field" ><AccountCircle/>{workerData?.worker || workerData?.listworker}</p>
+                        <div className=" editable-field" ><AccountCircle/><p>{workerData?.worker || workerData?.listworker}</p></div>
                    
                     </div>
                     <div className="worker-middle general">

@@ -70,6 +70,7 @@ export default function PageManager(){
             <div className='header-and-pages'>
                 <div className='header-burger' onClick={toggleNav}>
                     <Burger/>
+                    <p>Show tools</p>
                 </div>
                 <div className='orders-and-summary'>
                   <h1>Orders</h1>
