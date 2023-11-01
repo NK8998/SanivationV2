@@ -261,3 +261,9 @@
     text-transform: capitalize;
     
 }
+
+@media(max-width:50em){
+    .secondary-modal-container{
+        gap: 0em;
+    }
+}
