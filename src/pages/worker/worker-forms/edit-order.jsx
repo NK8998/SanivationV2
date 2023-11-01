@@ -13,9 +13,9 @@ export default function EditOrder({workerID, startEditingOrders}){
     const {uid} = userData
     const dispatch = useDispatch()
 
-    const [mainDishes, setMainDishes] = useState([' Ugali', ' Chapati', ' Rice'])
-    const [supplementDishes, setSupplementDishes] = useState([' Matumbo', ' meat'])
-    const [greenDishes, setGreenDishes] = useState([' cabbage', ' managu', ' sukuma'])
+    const [mainDishes, setMainDishes] = useState([' Ugali', ' Chapati', ' Rice', ' Chips'])
+    const [supplementDishes, setSupplementDishes] = useState([' Matumbo', ' Meat', ' Maharagwe', ' Kamande'])
+    const [greenDishes, setGreenDishes] = useState([' Cabbage', ' Managu', ' Sukuma'])
     const [drinksDish, setDrinksDish] = useState([' milk'])
 
     const [main, setMain] = useState('')
