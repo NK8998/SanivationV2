@@ -10,7 +10,7 @@ const FilteringContext = createContext();
 const FilteredContentProvider = ({children})=>{
     //allows us to filter for specific page
     const pageRenderedRef = useRef()
-    const [bottomReached, setBottomReached] = useState()
+    const [bottomReached, setBottomReached] = useState('')
   
     const [individualTable, setIndividualTable] = useState(false)
 

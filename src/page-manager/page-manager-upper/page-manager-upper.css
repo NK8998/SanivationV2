@@ -272,9 +272,9 @@
 @media(max-width: 80em){
     .header-burger{
         display: flex;
-        gap: ..2em;
+        gap: 1em;
         align-items: center;
-        font-size: 16px;
+        font-size: 13px;
         font-weight: 500;
         color: rgb(80, 80, 80);
         padding-top: 10px;

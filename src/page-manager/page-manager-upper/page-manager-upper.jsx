@@ -258,7 +258,7 @@ export default function PageManagerUpper(){
 
     return(
         <div className="slider-container">
-         <div className="slide left-container" ref={leftSliderRef} onClick={moveLeft}>
+         <div className="slide left-container hide" ref={leftSliderRef} onClick={moveLeft}>
             <NavigateBackArrow/>
         </div>
         <div className="page-manager-upper" onScroll={handlescroll} ref={scrollBarRef}>

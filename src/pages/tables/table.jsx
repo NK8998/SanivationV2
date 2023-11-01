@@ -104,7 +104,16 @@ export default function Table(){
 
     return(
         <div className="chosen-table">
-           {loading ? <p>Loading...</p> : workersEl}
+           {loading ? 
+           <div className="table-skeletons">
+            <div className="loader-skeleton "></div> 
+            <div className="loader-skeleton "></div> 
+            <div className="loader-skeleton"></div> 
+            <div className="loader-skeleton"></div> 
+            <div className="loader-skeleton"></div> 
+           </div>
+           : 
+           workersEl}
 
         {removeWorkerModal && <RemoveWorkerModal setRemoveWorkerModal={setRemoveWorkerModal} removeWorker={removeWorker} currentWorker={currentWorker}/> }
         </div>

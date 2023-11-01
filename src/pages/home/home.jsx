@@ -11,7 +11,7 @@ export default function Home({}){
 
     const allTables = useSelector((state)=> state.home.alltables)
     const loading = useSelector((state)=> state.home.loading)
-    const {filterRouteData, bottomReached, sortBy, sortOrder, tableCluster} = useFilterContext()
+    const {filter, filterRouteData, bottomReached, sortBy, sortOrder, tableCluster} = useFilterContext()
 
     const dispatch = useDispatch()
     const userData = useSelector((state)=> state.auth.userData)
@@ -27,7 +27,9 @@ export default function Home({}){
 
     useEffect(()=>{
         // fetch tables dynamically
-    // dispatch(fetchDynamicData('', uid))
+        const fetchedTableIds = allTables.map((table)=> {return table.tableID})
+        dispatch(fetchDynamicData(filter, uid, fetchedTableIds))
+        console.log('reached')
     }, [bottomReached])
 
     useEffect(()=>{
@@ -285,7 +287,26 @@ export default function Home({}){
 
     return(
         <div className="home">
-            {loading ? <p>Loading...</p> : allTablesEl}
+            {loading ?
+            <>
+                <div className="loader-skeleton small"></div>
+                <div className="loader-skeleton"></div> 
+
+                <div className="loader-skeleton small"></div>
+                <div className="loader-skeleton"></div> 
+
+                <div className="loader-skeleton small"></div>
+                <div className="loader-skeleton"></div> 
+
+                <div className="loader-skeleton small"></div>
+                <div className="loader-skeleton"></div> 
+
+                <div className="loader-skeleton small"></div>
+                <div className="loader-skeleton"></div> 
+
+             </>
+             : 
+             allTablesEl}
             {
             !loading &&
 

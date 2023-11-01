@@ -1,6 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import { db } from "../authentication/config";
-import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, where, query } from "firebase/firestore"
+import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, where, query, limit, startAt, endAt, orderBy } from "firebase/firestore"
 import toast from "react-hot-toast";
 
 
@@ -52,67 +52,77 @@ export const fetchInitialData = (filter, uid) => {
     const allTablesRef = collection(userDocRef, 'tables');
 
     // Create a query that includes the filter criteria for document IDs
-    let q = allTablesRef;
+    let q = query(allTablesRef, limit(100));
 
-    if (filter) {
-      getDocs(q)
-        .then((querySnapshot) => {
-          if (!querySnapshot.empty) {
-            const tableData = querySnapshot.docs.map((doc) => doc.data());
-
-            const filteredTables = tableData.filter((table) =>
-              table.tableName.toLowerCase().includes(filter.toLowerCase())
-            );
-
-            dispatch(initialFetch(filteredTables));
-          } else {
-            dispatch(initialFetch([]));
-            console.log('No matching documents found.');
-          }
-          dispatch(revertLoading(false));
-        })
-        .catch((error) => {
-          console.error('Error fetching documents:', error);
-          dispatch(revertLoading(false));
-          toast.error(error.message)
-        });
-    } else {
-      // Fetch all documents if no filter is provided
-      getDocs(q)
-        .then((querySnapshot) => {
-          if (!querySnapshot.empty) {
-            const tableData = querySnapshot.docs.map((doc) => doc.data());
-            dispatch(initialFetch(tableData));
-          } else {
-            console.log('No matching documents found.');
-          }
-          dispatch(revertLoading(false));
-        })
-        .catch((error) => {
-          console.error('Error fetching documents:', error);
-          toast.error(error.message)
-          dispatch(revertLoading(false));
-        });
+    if(filter){
+      q = query(allTablesRef);
     }
+
+    getDocs(q)
+      .then((querySnapshot) => {
+        if (!querySnapshot.empty) {
+          let tableData = querySnapshot.docs.map((doc) => doc.data());
+
+          if(filter){
+            tableData = tableData.filter((table)=> table.tableName.toLowerCase().includes(filter.toLowerCase()))
+          }
+
+          dispatch(initialFetch(tableData));
+        } else {
+          dispatch(initialFetch([]));
+          console.log('No matching documents found.');
+        }
+        dispatch(revertLoading(false));
+      })
+      .catch((error) => {
+        console.error('Error fetching documents:', error);
+        dispatch(revertLoading(false));
+        toast.error(error.message);
+      });
   };
 };
 
 
 
 
+
   // Thunk action for dynamic data fetch
-export const fetchDynamicData = () => {
+export const fetchDynamicData = (filter, uid, fetchedTableIds) => {
     return async (dispatch) => {
-      try {
-        // Fetch dynamic data asynchronously
-        // const dynamicData = await fetchDynamicDataFromApi();
-        // const moreData = ['table-3', 'table-04']
-        // Dispatch the dynamicFetch action with fetched data
-        dispatch(dynamicFetch(moreData));
-      } catch (error) {
-        // Handle errors if necessary
-        toast.error(error.message)
-      }
+      
+        const userDocRef = doc(db, 'users', uid);
+        const allTablesRef = collection(userDocRef, 'tables');
+
+        // Create a query that includes the filter criteria for document IDs
+        let q = query(allTablesRef, where('tableID', 'not-in', fetchedTableIds), limit(50));
+
+        if(filter){
+          q = query(allTablesRef, where('tableID', 'not-in', fetchedTableIds));
+        }
+        getDocs(q)
+        .then((querySnapshot) => {
+          if (!querySnapshot.empty) {
+            let tableData = querySnapshot.docs.map((doc) => doc.data());
+  
+            if(filter){
+              tableData = tableData.filter((table)=> table.tableName.toLowerCase().includes(filter.toLowerCase()))
+            }
+  
+
+            dispatch(dynamicFetch(tableData));   
+          } else {
+            // dispatch(initialFetch([]));
+            console.log('No matching documents found.');
+          }
+        
+        })
+        .catch((error) => {
+          console.error('Error fetching documents:', error);
+          
+          toast.error(error.message);
+        });
+
+      
     };
   };
 
