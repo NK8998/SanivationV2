@@ -87,9 +87,10 @@ export const fetchInitialData = (filter, uid) => {
 
 
   // Thunk action for dynamic data fetch
-export const fetchDynamicData = (filter, uid, fetchedTableIds) => {
+export const fetchDynamicData = (filter, uid, fetchedTableIds, loading) => {
     return async (dispatch) => {
       
+        if(loading) return
         const userDocRef = doc(db, 'users', uid);
         const allTablesRef = collection(userDocRef, 'tables');
 

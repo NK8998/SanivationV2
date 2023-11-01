@@ -28,8 +28,8 @@ export default function Home({}){
     useEffect(()=>{
         // fetch tables dynamically
         const fetchedTableIds = allTables.map((table)=> {return table.tableID})
-        dispatch(fetchDynamicData(filter, uid, fetchedTableIds))
-        console.log('reached')
+        dispatch(fetchDynamicData(filter, uid, fetchedTableIds, loading))
+      
     }, [bottomReached])
 
     useEffect(()=>{
