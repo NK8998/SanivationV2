@@ -10,7 +10,7 @@ export default function FoodPicker({toggleFoodPicker}){
     const [supplementDishes, setSupplementDishes] = useState([' Matumbo', ' Meat', ' Maharagwe', ' Kamande', ' Ndengu'])
     const [greenDishes, setGreenDishes] = useState([' Cabbage', ' Managu', ' Sukuma'])
     const [drinksDish, setDrinksDish] = useState([' milk'])
-    const [extraDish, setEtraDish] = useState(' Viazi')
+    const [extraDish, setEtraDish] = useState([' Viazi'])
 
     const [main, setMain] = useState('')
     const [supplement, setSupplement] = useState('')
