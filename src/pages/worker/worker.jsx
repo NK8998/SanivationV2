@@ -78,6 +78,9 @@ export default function Worker(){
         }else if(index === 3){
             type = 'drink'
             icon = <DrinksIcon/>
+        }else if(index === 4){
+            type = 'extra'
+            icon = <MainFoodIcon/>
         }
       
         return(
