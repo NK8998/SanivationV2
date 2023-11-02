@@ -54,7 +54,7 @@ export default function AddingWorker({toggleAddingWorkerModal, addWorker, isSubm
 
     const extraEl =  extraDish.map((extraFood)=>{
         return(
-            <button key={extraFood} onClick={()=> extra === extraFood ? setExtra('') :  setExtra(extraFood)} className={`${extraFood === extra ? 'active' : ''}`}>{extraFood}</button>
+            <button type="button" key={extraFood} onClick={()=> extra === extraFood ? setExtra('') :  setExtra(extraFood)} className={`${extraFood === extra ? 'active' : ''}`}>{extraFood}</button>
         )
     })
 
