@@ -17,11 +17,14 @@ export default function EditOrder({workerID, startEditingOrders}){
     const [supplementDishes, setSupplementDishes] = useState([' Matumbo', ' Meat', ' Maharagwe', ' Kamande'])
     const [greenDishes, setGreenDishes] = useState([' Cabbage', ' Managu', ' Sukuma'])
     const [drinksDish, setDrinksDish] = useState([' milk'])
+    const [extraDish, setEtraDish] = useState([' Viazi'])
+
 
     const [main, setMain] = useState('')
     const [supplement, setSupplement] = useState('')
     const [greens, setGreens]  = useState('')
     const [drinks, setDrinks] = useState('')
+    const [extra, setExtra] = useState('')
     const [totalPackets, setTotalPackest] = useState(0)
 
 
@@ -43,6 +46,8 @@ export default function EditOrder({workerID, startEditingOrders}){
                 
               
            
+            }else if(index === 4){
+                setExtra(food)
             }
             
         })
@@ -90,7 +95,14 @@ export default function EditOrder({workerID, startEditingOrders}){
         )
     })
 
-    const foodOrdered = [main, supplement, greens, `${drinks} ${drinks.length > 0  ? `(${totalPackets})` : ''}`]
+    
+    const extraEl =  extraDish.map((extraFood)=>{
+        return(
+            <button key={extraFood} onClick={()=> extra === extraFood ? setExtra('') :  setExtra(extraFood)} className={`${extraFood === extra ? 'active' : ''}`}>{extraFood}</button>
+        )
+    })
+
+    const foodOrdered = [main, supplement, greens, `${drinks} ${drinks.length > 0  ? `(${totalPackets})` : ''}`, extra]
 
     useEffect(()=>{
 
@@ -141,6 +153,12 @@ export default function EditOrder({workerID, startEditingOrders}){
                         {drinksEl}  
                         </div>
                 
+                    </div>
+                    <div className="extra picker">
+                        <p>Extra</p>
+                        <div className="picker-container">
+                            {extraEl}
+                        </div>
                     </div>
                 </div>
             </div>
