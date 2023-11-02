@@ -10,11 +10,13 @@ export default function FoodPicker({toggleFoodPicker}){
     const [supplementDishes, setSupplementDishes] = useState([' Matumbo', ' Meat', ' Maharagwe', ' Kamande', ' Ndengu'])
     const [greenDishes, setGreenDishes] = useState([' Cabbage', ' Managu', ' Sukuma'])
     const [drinksDish, setDrinksDish] = useState([' milk'])
+    const [extraDish, setEtraDish] = useState(' Viazi')
 
     const [main, setMain] = useState('')
     const [supplement, setSupplement] = useState('')
     const [greens, setGreens]  = useState('')
     const [drinks, setDrinks] = useState('')
+    const [extra, setExtra] = useState('')
     const [totalPackets, setTotalPackest] = useState(0)
 
     const currentWorker = useSelector((state)=> state.autoTable.currentWorker)
@@ -36,6 +38,8 @@ export default function FoodPicker({toggleFoodPicker}){
                         setDrinks(` ${drink}`)
                     
                 
+                    }else if(index === 4){
+                        setExtra(food)
                     }
                     
                 })
@@ -46,6 +50,7 @@ export default function FoodPicker({toggleFoodPicker}){
             setSupplement('')
             setDrinks('')
             setTotalPackest(0)
+            setExtra('')
         }
     
     }, [currentWorker])
@@ -83,6 +88,12 @@ export default function FoodPicker({toggleFoodPicker}){
                 <button onClick={()=>{addDrink(drinkDish)}}>+</button>
             </div>
             </>
+        )
+    })
+
+    const extraEl =  extraDish.map((extraFood)=>{
+        return(
+            <button key={extraFood} onClick={()=> extra === extraFood ? setExtra('') :  setExtra(extraFood)} className={`${extraFood === extra ? 'active' : ''}`}>{extraFood}</button>
         )
     })
 
@@ -152,6 +163,12 @@ export default function FoodPicker({toggleFoodPicker}){
                       {drinksEl}  
                     </div>
                
+                </div>
+                <div className="extra picker">
+                    <p>Extra</p>
+                    <div className="picker-container">
+                        {extraEl}
+                    </div>
                 </div>
 
                 <div className="modal-bottom">
