@@ -368,4 +368,10 @@
     .filter-by{
         right: 20%;
     }
+    .upper-inputs{
+        flex-direction:column;
+    }
+    .flexy-input p{
+        width:60px;
+    }
 }
