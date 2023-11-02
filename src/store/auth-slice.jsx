@@ -16,6 +16,7 @@ const authSlice = createSlice({
       userLoggedOut: (state) => {
         state.isLoggedIn = false;
         state.userData = null; // Clear user data when logged out
+        sessionStorage.removeItem('userData')
       },
     },
   });

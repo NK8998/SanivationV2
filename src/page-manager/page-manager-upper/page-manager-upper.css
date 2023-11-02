@@ -269,6 +269,83 @@
 .search-container.not-active input{
     pointer-events: none;
 }
+.upper-inputs{
+    width: 100%;
+    display: flex;
+    gap: 2em;
+}
+.custom{
+    padding: 15px 0px;
+    padding-bottom: 2px;
+}
+
+.flexy-input{
+    display: flex;
+    gap: .5em;
+    padding: 10px 0px;
+    align-items: center;
+}
+
+.flexy-input input{
+    padding: 3px 10px;
+    border: 1px solid rgb(145, 210, 253);
+    border-radius: 8px;
+    outline: none;
+    
+}
+.flexy-input input:focus{
+    border: 1px solid rgba(8, 156, 255, 0);
+    box-shadow: inset 0px 0px 1px 1px rgb(8, 156, 255);
+
+}
+.excel{
+    display: flex;
+    align-items: center;
+    gap: .5em;
+    font-weight: 600;
+    color: rgb(68, 68, 68);
+}
+.orders-and-summary .excel svg{
+    fill: green;
+    scale: 1.1;
+}
+.orders-and-summary .log-out svg{
+    fill: black;
+}
+.summary-modal.leaving{
+    width: fit-content;
+    display: flex;
+    gap: 2em;
+    padding: 20px;
+    
+}
+.summary-modal.leaving button{
+    width: fit-content;
+    padding: 3px 20px;
+    height: 40px;
+    display: flex;
+    gap: .5em;
+    align-items: center;
+    border-radius: 20000px;
+    font-weight: 600;
+    color: rgb(255, 130, 130);
+}
+
+.summary-modal.leaving :nth-child(2){
+    border: 1px solid rgb(255, 130, 130);
+}
+.summary-modal.leaving :nth-child(2):hover,
+.summary-modal.leaving :nth-child(1):hover
+{
+    background-color: rgb(255, 130, 130);
+    color: white;
+}
+.summary-modal.leaving :nth-child(2):hover svg{
+    fill: white;
+}
+.summary-modal.leaving .modal-bottom{
+    margin-top: 0px;
+}
 @media(max-width: 80em){
     .header-burger{
         display: flex;

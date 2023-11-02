@@ -40,31 +40,22 @@ export const convertMonthDataToPdf = async (summarizedMonthData) => {
       doc.rect(45, y + 10, 35, 10); // Rectangle for the value
       doc.rect(80, y + 10, 35, 10);
       doc.rect(115, y + 10, 35, 10);
-      doc.rect(150, y + 10, 35, 20);
-    
-      doc.rect(10, y + 20, 35, 10); // Rectangle for 'Total Plates'
-      doc.rect(45, y + 20, 35, 10); // Rectangle for the value
-      doc.rect(80, y + 20, 35, 10);
-      doc.rect(115, y + 20, 35, 10);
+      doc.rect(150, y + 10, 35, 10);
     
       // Add labels and values inside the rectangles
-      doc.text('Total Packets', 15, y + 15);
-      doc.text(`${month.totalPackets}`, 50, y + 15);
+      doc.text('Total Plates', 15, y + 15);
+      doc.text(`${month.totalPlates}`, 50, y + 15);
     
       doc.text('Price per item', 85, y + 8);
       doc.text('200', 90, y + 15);
-      doc.text('200', 90, y + 25);
+      
     
-      doc.text('Total Plates', 15, y + 25);
-      doc.text(`${month.totalPlates}`, 50, y + 25);
     
       doc.text('Total Price', 120, y + 8);
-      doc.text(`${month.totalPlates} x 200 = ${month.totalPackets * 200}`, 123, y + 15);
-    
-      doc.text(`${month.totalPackets} x 200 = ${month.totalPlates * 200}`, 123, y + 25);
+      doc.text(`${month.totalPlates} x 200`, 123, y + 15);
     
       doc.text('Cumulative Price', 155, y + 8);
-      doc.text(`${(month.totalPlates * 200) + (month.totalPackets * 200)}`, 158, y + 20);
+      doc.text(`${month.totalPlates * 200}`, 158, y + 15);
     
       y += 70; // Increase vertical position for the next month
     });
