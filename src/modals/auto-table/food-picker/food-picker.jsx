@@ -101,7 +101,7 @@ export default function FoodPicker({toggleFoodPicker}){
         let newWorkerObj = {...currentWorker};
 
         
-        newWorkerObj.foodOrdered = [main, supplement, greens, `${drinks} ${drinks.trim().length > 0  ? `(${totalPackets})` : ''}`]
+        newWorkerObj.foodOrdered = [main, supplement, greens, `${drinks} ${drinks.trim().length > 0  ? `(${totalPackets})` : ''}`, extra]
 
         console.log(newWorkerObj.foodOrdered)
         let newChosenListObj = { ...chosenList };

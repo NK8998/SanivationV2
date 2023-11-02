@@ -68,6 +68,7 @@ export default function AutoTable(){
                             <p>Supplement</p>
                             <p>Greens</p>
                             <p>Drinks</p>
+                            <p>Extra</p>
                         </div>
                         <div className="food-picked-bottom">
                             {workerFoodOrderedEl}
