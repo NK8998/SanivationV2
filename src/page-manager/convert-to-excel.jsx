@@ -2,43 +2,99 @@ import toast from "react-hot-toast";
 import { utils, writeFile } from "xlsx";
 import { getCurrentMonthAndYear } from "../utilites/get-date";
 
-export const convertToExcel = async (tableData)=>{
+import ExcelJS from 'exceljs';
+export const convertToExcel = async (tableData) => {
     const workbook = utils.book_new();
+    
+    const totalTypes = {}; // Object to store type totals
 
-    const {month, year} = getCurrentMonthAndYear()
     tableData.forEach((table) => {
-        const monthYear = table.month + ' ' + table.year;
-        const tableName = table.tableName;
+      const createdAt = `${table.createdAt.split('-')[0]}-${table.month}-${table.year}`;
+      const worksheetData = [];
+  
+      // Create a map to store workers by type for each table
+      const groupedWorkers = new Map();
+  
+      // Iterate through workers
+      table.workers.forEach((worker) => {
+        const { type, listworker } = worker;
+  
+        if (!groupedWorkers.has(type)) {
+          groupedWorkers.set(type, []);
+        }
+  
+        groupedWorkers.get(type).push(listworker);
+      });
+  
+      const typesArray = Array.from(groupedWorkers.keys());
 
-        const worksheetData = [];
-        // worksheetData.push([monthYear]);
-        // worksheetData.push([tableName]);
-        // worksheetData.push([]);
-        worksheetData.push(['S/no', 'Worker', 'Main', 'Stew', 'Greens', 'Drinks', 'Extra']);
+      // Create a column that spans from 1 to maxWorkers
+      const maxWorkers = Math.max(...Array.from(groupedWorkers.values(), (workers) => workers.length));
+      const indexColumn = Array.from({ length: maxWorkers }, (_, i) => [i + 1]);
+        // Add the index column as a type with an empty string key
+      const newGroupedWorkers = new Map([[' ', indexColumn], ...groupedWorkers]);
 
-        // Create a format object for bold text
-        const boldStyle = { bold: true };
+      worksheetData.push([' ', ...typesArray]);
 
-        // Apply the bold style to the "Worker" and "Food Ordered" row
-        worksheetData[worksheetData[0]] = [
-        { v: 'sno', s: boldStyle }, { v: 'Worker', s: boldStyle }, { v: 'Main', s: boldStyle }, { v: 'Stew', s: boldStyle }, { v: 'Greens', s: boldStyle }, { v: 'Drinks', s: boldStyle }, { v: 'Extra', s: boldStyle }
-        ];
-
-        // Create rows for each worker with each food item in its own cell
-        table.workers.forEach((worker, index) => {
-        const workerRow = [(index + 1), worker.listworker, ...worker.foodOrdered];
-        worksheetData.push(workerRow);
+  
+      // Add workers under types in columns for each table
+      for (let i = 0; i < maxWorkers; i++) {
+        const workerRow = [];
+  
+        newGroupedWorkers.forEach((workers) => {
+          workerRow.push(workers[i] || '');
         });
+  
+        worksheetData.push(workerRow);
+      }
 
-        // Create the worksheet with data
-        const worksheet = utils.aoa_to_sheet(worksheetData);
+      
+    
 
-        // Add the worksheet to the workbook with a name based on tableName
-        utils.book_append_sheet(workbook, worksheet, tableName);
+      const totalsRow = []
+
+      typesArray.forEach((type, index) => {
+       
+      totalsRow.push([newGroupedWorkers.get(type).length]);
+     
+      });
+      worksheetData.push(['Total', ...totalsRow])
+      typesArray.forEach((type) => {
+        if (!totalTypes[type]) {
+          totalTypes[type] = 0;
+        }
+        totalTypes[type] += newGroupedWorkers.get(type).length;
+      });
+  
+      // Create the worksheet with the modified data
+      const worksheet = utils.aoa_to_sheet(worksheetData);
+  
+      // Add the worksheet to the workbook with a specific name
+      utils.book_append_sheet(workbook, worksheet, `${createdAt}-${table.tableID}`);
     });
 
-    // Save the workbook as an Excel file
-    writeFile(workbook, `ntp-${month + '-' + year}.xlsx`);
 
-    toast.success('excel sheet generated')
-}
+    const totalWorksheetData = [['Type', 'Total']];
+    Object.keys(totalTypes).forEach((type) => {
+    totalWorksheetData.push([type, totalTypes[type]]);
+    });
+
+    const totalWorksheet = utils.aoa_to_sheet(totalWorksheetData);
+    utils.book_append_sheet(workbook, totalWorksheet, 'TotalTypes');
+  
+    // Save the workbook as an Excel file
+    writeFile(workbook, 'ntp-workers.xlsx');
+  
+    toast.success('Excel sheet generated');
+};
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

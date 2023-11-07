@@ -31,7 +31,8 @@
 }
 
 .worker-dynamic{
-    display: flex;
+    display: grid;
+    grid-template-columns: 40% 40% 20%;
     align-items: center;
 
 }
@@ -42,6 +43,7 @@
     border-radius: 8px;
     outline: none;
     border: 1px solid rgb(255, 212, 212);
+    
 }
 .worker-dynamic svg{
     fill: grey;
@@ -53,4 +55,77 @@
     gap: 1em;
     padding: 10px 20px;
 
+}
+
+.drop-down-types{
+    position: absolute;
+    background-color: rgb(240, 240, 240);
+    padding: 5px 0px;
+    border-radius: 12px;
+    font-size: 13px;
+    right: 80px;
+    top: 35px;
+    width: 100px;
+    z-index: 10;
+    
+}
+.drop-down-types .type-options{
+    cursor: pointer;
+    text-align: center;
+    font-weight: 500;
+    padding: 5px;
+    
+}
+.drop-down-types .type-options:hover{
+    background-color: rgb(182, 182, 182);
+}
+.worker-dynamic-wrapper{
+    position: relative;
+}
+.worker-dynamic{
+    gap: .5em;
+    max-width: 100%;
+}
+.input-type-box{
+    display: flex;
+    align-items: center;
+    border: 1px solid rgb(230, 230, 230);
+    border-radius: 8px;
+    min-width: 110px;
+    padding: 0px 10px;
+    cursor: pointer;
+    padding-left: 0px;
+    overflow: hidden;
+}
+.input-type-box:hover{
+    background-color: rgb(236, 236, 236);
+}
+.input-type-box input{
+    outline: none;
+    border: none;
+    width: 50%;
+    cursor: pointer;
+    background-color: transparent;
+    padding: 0;
+    padding-left: 5px;
+}
+.input-type-box p{
+    padding-bottom: 0px;
+    font-weight: 400;
+    font-size: 13px;
+    max-width: fit-content;
+    min-width: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: rgb(235, 235, 235);
+    padding: 5px ;
+   
+}
+.input-type-box svg{
+    height: 24px;
+    min-width: 20px;
+}
+
+.input-type-box.dropdown-open svg{
+    transform: rotate(180deg);
 }

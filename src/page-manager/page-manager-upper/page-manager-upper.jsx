@@ -68,11 +68,16 @@ export default function PageManagerUpper(){
 
     const addWorker = (e, foodOrdered, totalPackets)=>{
         e.preventDefault()
-        const inputValue = document.querySelector('[name="addWorker"]').value;
+        const inputValueName = document.querySelector('[name="addWorker"]').value;
+        const inputValueType = document.querySelector('[name="type"]').value
 
-        if(inputValue.trim() === ''){
+        if(inputValueName.trim() === ''){
           toast.error('please add a name')
           return
+        }
+        if(inputValueType.trim() === ''){
+            toast.error('please select type')
+            return
         }
         const uniqueID = nanoid(6)
 
@@ -81,13 +86,16 @@ export default function PageManagerUpper(){
         const newWorkerObj = {
             ID:uniqueID,
             listworker: e.target.addWorker.value,
+            type: e.target.type.value,
             foodOrdered: foodOrdered,
             totalPackets: totalPackets,
             createdAt: getDate(),
             lastModified: getDate(),
         }
 
-       updateTableData(newWorkerObj)
+        console.log(newWorkerObj)
+
+        updateTableData(newWorkerObj)
     
 
     }

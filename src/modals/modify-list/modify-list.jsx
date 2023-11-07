@@ -8,9 +8,10 @@ import { toggleOpenListModifier } from "../../store/modals-slices/all-modals-con
 import { RemoveWorkerModal } from "./remove-worker/remove-worker"
 import AllListsModify from "./all-lists-modify/all-lists-modify"
 import { nanoid } from "nanoid"
-import { AccountCircle, AddPlusIcon, ToggleListsIcon, TrashIcon } from "../../assets/icons"
+import { AccountCircle, AddPlusIcon, MenuDropDown, ToggleListsIcon, TrashIcon } from "../../assets/icons"
 import toast from "react-hot-toast"
 import { useSearchParams } from "react-router-dom"
+import ListContent from "./list-content"
 
 export default function ModifyList(){
 
@@ -27,7 +28,11 @@ export default function ModifyList(){
     
 
     const [showLists, setShowLists] = useState(false)
+
     const [addingWorkersModal, setAddingWorkersModal] = useState(false)
+
+   
+
     useEffect(()=>{
 
         return()=>{
@@ -73,16 +78,28 @@ export default function ModifyList(){
         dispatch(updateChosenWorker(worker))
     }
 
+    const updateWorkerType = (chosenWorker, type)=>{
+
+      let newChosenListObj = {...chosenList}
+
+      newChosenListObj.workers = newChosenListObj.workers.map((worker)=>{
+        if(worker.ID === chosenWorker.ID){
+          return {...worker, type:type}
+        }
+        return worker
+      })
+
+      dispatch(updateChosenList(newChosenListObj))
+
+
+    }
+
+    
+
    
     const listContent = chosenList.workers?.map((worker)=>{
-    
         return(
-            <div className="worker-container" onClick={()=>{toggleRemovingWorker(worker.listworker)}} key={worker.ID}>
-              <p className="account-default"><AccountCircle/></p>
-              <p>{worker.listworker}</p>
-            
-              <p className="trash-remove"><TrashIcon/></p>
-            </div>
+          <ListContent worker={worker} updateWorkerType={updateWorkerType} toggleRemovingWorker={toggleRemovingWorker}/>
         )
         })
         
@@ -90,7 +107,7 @@ export default function ModifyList(){
     const removeWorker = (worker)=>{
 
         let newChosenListObj = {...chosenList}
-        newChosenListObj.workers = newChosenListObj.workers.filter((worker)=>worker.listworker !== chosenWorker)
+        newChosenListObj.workers = newChosenListObj.workers.filter((worker)=>worker.ID !== chosenWorker.ID)
  
         console.log(newChosenListObj)
  
@@ -103,6 +120,8 @@ export default function ModifyList(){
 
     const addWorkers = (e)=>{
       e.preventDefault()
+
+      const formData = new FormData(e.target);
 
       if(!chosenList || Object.entries(chosenList).length === 0){
         toast.error('please select a list ')
@@ -135,7 +154,7 @@ export default function ModifyList(){
             <div className="all-workers-container modifying">
                 <p className="top-p">Current Workers on list:</p>
                 {listContent} 
-                <form onSubmit={(e)=>{addWorkers(e)}}>
+                <form onSubmit={addWorkers}>
                   <div className="dynamic-container-modify">
                   {dynamicFieldsToBeRendered}
                   </div>

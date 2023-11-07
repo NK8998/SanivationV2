@@ -59,6 +59,7 @@ export default function AutoTable(){
 
         return (
             <div className={`worker-and-food-outer ${removedWorker ? 'removed' : ''}`}  key={worker.ID}>
+                <p className="add-plus"><AddPlusIcon/></p>
                 <div className={`worker-and-food-inner ${removedWorker ? 'removed' : ''}`} onClick={()=>{toggleFoodPicker(worker)}}>
                 <div className="left-side">
                     <p className="worker-name">{worker.listworker}:</p>  
@@ -75,7 +76,6 @@ export default function AutoTable(){
                         </div>
                     </div>
                 </div>
-                <p className="add-plus"><AddPlusIcon/></p>
                 </div>
 
                 {removedWorker ?

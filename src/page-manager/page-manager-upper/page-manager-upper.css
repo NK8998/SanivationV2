@@ -14,6 +14,15 @@
     
 
 }
+.input-type-box-adding.input-type-box{
+    width: 150px;
+    padding-right: 0px;
+}
+.input-div.adding{
+    display: flex;
+    gap: 1em;
+    padding-bottom: 10px;
+}
 .page-manager-upper::-webkit-scrollbar{
 
     display: none;

@@ -157,7 +157,7 @@ export default function PageManager(){
               </div>
 
               <div className='summary-buttons'>
-              <button className={`${(allMonthsExcel && !chosenMonth && !summaryYear) ? 'chosen': ''}`} onClick={()=>{setAllMonthsExcel(true); setChosenMonth(''); setSummaryYear('')}}>All months</button>
+              {/* <button className={`${(allMonthsExcel && !chosenMonth && !summaryYear) ? 'chosen': ''}`} onClick={()=>{setAllMonthsExcel(true); setChosenMonth(''); setSummaryYear('')}}>All months</button> */}
               <button className={`${(!allMonthsExcel && !chosenMonth && !summaryYear) ? 'chosen': ''}`} onClick={()=>{setAllMonthsExcel(false); setChosenMonth(''); setSummaryYear('')}}>Current month</button>
 
             </div>

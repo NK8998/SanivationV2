@@ -52,6 +52,7 @@ export default function AddList(){
     const handleSubmit = (e)=>{
         e.preventDefault()
       
+       
 
         const inputValue = document.querySelector('[name="listName-input"]').value;
         if(inputValue.trim() === ''){
@@ -61,11 +62,13 @@ export default function AddList(){
         setIsSubmitting(true)
         const listID = nanoid(6)
         const formData = new FormData(e.target);
+        console.log(formData)
+       
         let formDataObject = { workers: [] };
       
         formData.forEach((value, key) => {
-          const uniqueID = nanoid(6)
           const [field, dataIndex] = key.split('-'); // Split the name attribute to get field and dataIndex
+      
           if (field === "listName") {
             formDataObject[field] = value;
           } else if (field === "listworker") {
@@ -73,17 +76,21 @@ export default function AddList(){
               formDataObject.workers[dataIndex] = {};
             }
             formDataObject.workers[dataIndex][field] = value;
-  
-            formDataObject.workers[dataIndex].createdAt = getDate();
-            formDataObject.workers[dataIndex].lastModified = getDate();
-            formDataObject.workers[dataIndex].ID = uniqueID;
-            formDataObject.workers[dataIndex].foodOrdered = []
+      
+          }else if(field === "type"){
+            formDataObject.workers[dataIndex].type = value;
           }
         });
 
         formDataObject.workers = Object.values(formDataObject.workers);
 
         formDataObject = {...formDataObject, listId:listID}
+
+        formDataObject.workers =  formDataObject.workers.map((worker)=>{
+          const uniqueID = nanoid(6);
+
+          return {...worker, createdAt: getDate(), lastModified: getDate(), ID: uniqueID, foodOrdered: []}
+        })
 
         console.log(formDataObject)
         uploadList(formDataObject)

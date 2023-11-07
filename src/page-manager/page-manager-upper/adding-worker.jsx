@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { MenuDropDown } from "../../assets/icons"
 
 export default function AddingWorker({toggleAddingWorkerModal, addWorker, isSubmitting}){
 
@@ -65,14 +66,48 @@ export default function AddingWorker({toggleAddingWorkerModal, addWorker, isSubm
         totalPackets === 0 && setDrinks('')
     }, [totalPackets])
 
+    const [dropDownOpen, setDropdownOpen] = useState(false)
+    const [type, setType] = useState('')
+    const [typeOptions, setTypeOptions] = useState(['SGA', 'COGS', 'Casual', 'HQ'])
+
+    const typeEl = typeOptions.map((option)=>{
+        return (
+            <div className="type-options" key={option} onClick={()=>setType(option)}>{option}</div>
+        )
+    })
+
+    const toggleDropdown = ()=>{
+        setDropdownOpen((prevState)=> !prevState)
+
+        document.addEventListener('click', (e)=>{
+
+            if(!e.target.closest(`.drop-down-types-adding`) && !e.target.closest(`.input-type-box-adding`)){
+
+                setDropdownOpen(false)
+
+            }
+        })
+    }
+
     return(
         <>
         <div className="bg-black-adding" onClick={toggleAddingWorkerModal}></div>
         <div className="adding-worker-modal">
             <form onSubmit={(e)=>addWorker(e, foodOrdered, totalPackets)}>
                 <p className="top-p">Add worker</p>
-                <div className="input-div">
+                <div className="worker-dynamic-wrapper">
+                <div className="input-div adding">
                     <input type="text" name="addWorker" placeholder="add worker" />
+                    <div className={`input-type-box-adding input-type-box ${dropDownOpen ? 'dropdown-open' : ''}`} onClick={toggleDropdown}>
+                        <p>Type:</p>
+                        <input type="text" className={`types-input`} name={`type`}   value={type} readOnly />
+                        <MenuDropDown />
+                    </div>
+                    {dropDownOpen &&
+                    <div className={`drop-down-types-adding drop-down-types`}>
+                    {typeEl}
+                    </div>}
+                </div>
                 </div>
                 <div className="adding-worker-picker">
                     <div className="Main picker">

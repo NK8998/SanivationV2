@@ -121,4 +121,23 @@
     display: none;
 }
 
+.worker-container .list-worker{
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
+.worker-dynamic.modify {
+    width: calc(100% - 20px);
+    grid-template-columns: 40% 47% 13%;
+    padding: 10px 0px ;
+}
+.worker-dynamic.modify .addplus{
+    min-width: 24px;
+    padding: 0;
+    padding-left: 25px;
+}
+
+.worker-dynamic-wrapper.modifying svg{
+    margin-left: auto;
+}

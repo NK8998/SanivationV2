@@ -104,7 +104,6 @@ const modifyList = async (dispatch, uid, formData)=>{
 
      const tableData ={
         ...formData,
-        createdAt: getDate(),
         lastModified: getDate(),
       }
 
@@ -135,28 +134,36 @@ export const addWorkerThunk = (e, chosenList, uid)=>{
         let formDataObject = { workers: [] };
       
         formData.forEach((value, key) => {
+          console.log(value)
           const [field, dataIndex] = key.split('-'); // Split the name attribute to get field and dataIndex
-          if (field === "listworker") {
+      
+          if (field === "listName") {
+            formDataObject[field] = value;
+          } else if (field === "listworker") {
             if (!formDataObject.workers[dataIndex]) {
-              formDataObject.workers[dataIndex] = {}; // Initialize worker object if it doesn't exist
+              formDataObject.workers[dataIndex] = {};
             }
-            // Add worker properties directly to the worker object
-            formDataObject.workers[dataIndex].listworker = value;
-            formDataObject.workers[dataIndex].createdAt = getDate();
-            formDataObject.workers[dataIndex].lastModified = getDate();
-            formDataObject.workers[dataIndex].ID = nanoid(6); // Generate random ID
-            formDataObject.workers[dataIndex].foodOrdered = [];
+            formDataObject.workers[dataIndex][field] = value;
+      
+          }else if(field === "type"){
+            formDataObject.workers[dataIndex].type = value;
           }
         });
-      
+
         formDataObject.workers = Object.values(formDataObject.workers);
+
+        formDataObject.workers =  formDataObject.workers.map((worker)=>{
+          const uniqueID = nanoid(6);
+
+          return {...worker, createdAt: getDate(), lastModified: getDate(), ID: uniqueID, foodOrdered: []}
+        })
+
+        console.log(formDataObject)
       
         let newChosenListObj = {...chosenList};
         newChosenListObj.workers = [...newChosenListObj.workers, ...formDataObject.workers]
 
         console.log(newChosenListObj)
-
-     
 
         modifyList(dispatch, uid, newChosenListObj)
 
