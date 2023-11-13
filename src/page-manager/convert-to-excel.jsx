@@ -1,9 +1,9 @@
 import toast from "react-hot-toast";
-import { utils, writeFile } from "xlsx";
+import { utils, writeFile, writeFileXLSX } from "xlsx";
 import { getCurrentMonthAndYear } from "../utilites/get-date";
-
-import ExcelJS from 'exceljs';
+import { writeXLSX } from "xlsx-js-style";
 export const convertToExcel = async (tableData) => {
+ 
     const workbook = utils.book_new();
     
     const totalTypes = {}; // Object to store type totals
@@ -48,7 +48,7 @@ export const convertToExcel = async (tableData) => {
         worksheetData.push(workerRow);
       }
 
-      
+     
     
 
       const totalsRow = []
@@ -65,9 +65,36 @@ export const convertToExcel = async (tableData) => {
         }
         totalTypes[type] += newGroupedWorkers.get(type).length;
       });
+     
   
       // Create the worksheet with the modified data
       const worksheet = utils.aoa_to_sheet(worksheetData);
+      // console.log(worksheet)
+
+      // const newWorkSheet = {
+      //   '!ref': "A1:D5",
+      //   A1: {v: ' ', t: 's'},
+      //   A2: {v: 1, f: undefined, t: 'n', s: { font: { name: "Courier", sz: 24 } }},
+      //   A3: {v: 2, f: undefined, t: 'n', s:{ font: { name: "Courier", sz: 24 } }},
+      //   A4: {v: 3, f: undefined, t: 'n'},
+      //   A5: {v: 'Total', t: 's', s:{ font: { name: "Courier", sz: 24 } }},
+      //   B1: {v: 'COGS', t: 's', s:{ font: { name: "Courier", sz: 24 } }},
+      //   B2: {v: 'jackson', t: 's', s:{ font: { name: "Courier", sz: 24 } }},
+      //   B3: {v: 'Jack', t: 's', s:{ font: { name: "Courier", sz: 24 } }},
+      //   B4: {v: '', t: 's'},
+      //   B5: {v: 2, f: undefined, t: 'n'},
+      //   C1: {v: 'Casual', t: 's', s:{ font: { name: "Courier", sz: 24 } }},
+      //   C2: {v: 'Neil', t: 's', s:{ font: { name: "Courier", sz: 24 } }},
+      //   C3: {v: 'Michale', t: 's', s:{ font: { name: "Courier", sz: 24 } }},
+      //   C4: {v: 'Jonathan', t: 's', s:{ font: { name: "Courier", sz: 24 } }},
+      //   C5: {v: 3, f: undefined, t: 'n', s:{ font: { name: "Courier", sz: 24 } }},
+      //   D1: {v: 'HQ', t: 's'},
+      //   D2: {v: 'Mike', t: 's'},
+      //   D3: {v: '', t: 's'},
+      //   D4: {v: '', t: 's'},
+      //   D5: {v: 1, f: undefined, t: 'n'}
+      // };
+      
   
       // Add the worksheet to the workbook with a specific name
       utils.book_append_sheet(workbook, worksheet, `${createdAt}-${table.tableID}`);

@@ -181,32 +181,33 @@ export default function PageManagerUpper(){
 
     }
 
-    const toggleOrderByBox = ()=>{
-        if(editingWorker) return
-        setOpeningOrderBox((prevState)=> !prevState)
-        document.addEventListener('click', (e)=>{
+    const handleDocumentClickOrderBy = (e) => {
+        if (!e.target.closest('.filter-by.second') &&  !e.target.matches('.orderby')) {
+            setOpeningOrderBox(false);
+            document.removeEventListener('click', handleDocumentClickOrderBy);
+        }
+    };
 
-            if(!e.target.closest('.filter-by.second') && !e.target.matches('.orderby')){
-
-                setOpeningOrderBox(false)
-
-            }
-        })
-        setOpeningSortingBox(false)
+    const handleDocumentClickSortBy = (e)=>{
+        if (!e.target.closest('.filter-by.first') && !e.target.matches('.sortby')) {
+            setOpeningSortingBox(false);
+            document.removeEventListener('click', handleDocumentClickSortBy);
+        }
     }
-    const toggleSortByBox = ()=>{
-        if(editingWorker) return
-        setOpeningSortingBox((prevState)=> !prevState)
-        document.addEventListener('click', (e)=>{
-
-            if(!e.target.closest('.filter-by.first') && !e.target.matches('.sortby')){
-
-                setOpeningSortingBox(false)
-
-            }
-        })
-        setOpeningOrderBox(false)
-    }
+    
+    const toggleOrderByBox = () => {
+        if (editingWorker) return;
+        
+        setOpeningOrderBox((prevState) => !prevState);
+        document.addEventListener('click', handleDocumentClickOrderBy);
+    };
+    
+    const toggleSortByBox = () => {
+        if (editingWorker) return;
+        
+        setOpeningSortingBox((prevState) => !prevState);
+        document.addEventListener('click', handleDocumentClickSortBy);
+    };
 
     const handleChange = (e)=>{
         if(editingWorker) return

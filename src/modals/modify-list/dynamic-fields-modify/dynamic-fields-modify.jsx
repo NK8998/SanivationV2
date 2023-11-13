@@ -14,17 +14,18 @@ export function DynamicFieldsMoify({removeFields, dataindex}){
         )
     })
 
+    const closeDropdown = (e) =>{
+        if(!e.target.closest(`.drop-down-types-${dataindex}`) && !e.target.closest(`.input-type-box-${dataindex}`)){
+
+            setDropdownOpen(false)
+            document.removeEventListener('click', closeDropdown)
+        }
+    }
+
     const toggleDropdown = ()=>{
         setDropdownOpen((prevState)=> !prevState)
 
-        document.addEventListener('click', (e)=>{
-
-            if(!e.target.closest(`.drop-down-types-${dataindex}`) && !e.target.closest(`.input-type-box-${dataindex}`)){
-
-                setDropdownOpen(false)
-
-            }
-        })
+        document.addEventListener('click', closeDropdown)
     }
     return(
 

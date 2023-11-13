@@ -27,20 +27,20 @@ export function SignIn(){
     }, [])
    
         
-        const handleClick = ()=>{
-            signInWithPopup(auth, provider)
-            .then((result) => {
-                const user = result.user;
-                
-                dispatch(userLoggedIn(result.user))
-                sessionStorage.setItem('userData', JSON.stringify(result.user))
-           
+    const handleClick = ()=>{
+        signInWithPopup(auth, provider)
+        .then((result) => {
+            const user = result.user;
             
-            })
-            .catch((error) => {
-                console.error('Error signing in:', error.message);
-            });
-        }
+            dispatch(userLoggedIn(result.user))
+            sessionStorage.setItem('userData', JSON.stringify(result.user))
+        
+        
+        })
+        .catch((error) => {
+            console.error('Error signing in:', error.message);
+        });
+    }
 
 
 
